@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,8 +58,8 @@
     border-radius: 5px;
     padding: 20px;
     max-width: 400px; /* 최대 너비 설정 */
-    margin: 100px auto 0; /* 상단 여백 추가 */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+    margin: 70px auto 0; /* 상단 여백 추가 */ 
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
     background-color: white; /* 배경색 추가 */
 }
 /* 로그인 폼 내부 요소들의 스타일 */
@@ -82,6 +81,7 @@
     border: 1px solid #ccc;
     border-radius: 3px;
     font-size: 14px;
+    margin-bottom:15px;
 }
 
 
@@ -106,6 +106,8 @@
     display: flex;
     justify-content: space-between;
     margin-top: 15px;
+    text-align:center;
+    
 }
 
 .login-sub-item {
@@ -134,6 +136,8 @@
 
 .input-group label {
 	margin-right: 10px;
+	font-weight:bold;
+	margin-bottom:5px;
 }
 
 .input-group input {
@@ -149,72 +153,113 @@
 	margin: 0 auto;
 	/* 로그인 버튼 테두리 제거 */
 	border: none;
+	
 }
 
-/* 로그인api 버튼 */
+/* 로그인api 버튼 
 .btn-icon {
     height: 52px;
     width: 270px;
     margin-right: 5px;
     vertical-align: middle;
-}
+}*/
 
 /* 하나의 큰 입력 칸 스타일 */
 .large-input {
 	padding: 5px;
 	width: 300px; /* 큰 입력 칸의 너비 조절 */
 }
+
+
+.login-container h2{
+	font-style:italic;
+	letter-spacing: 20px;
+	font-family:fantasy;
+	text-align:center;
+    font-size: 50px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 20px;
+}
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+input[type="submit"]{
+	font-family: 'NanumSquareNeo-Variable';
+	width: 100%;
+	font-weight:bold;
+	cursor:pointer;
+    color: #fff;
+    font-size: 20px;
+    background-color: #000;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    border:none;
+    text-align:center;
+    border-radius:5px;
+    padding:5px;
+	
+}
+
+.login-sub{
+	
+	text-align:center;
+	padding:10px;
+	
+}
+.login-sub a{
+	color:inherit;
+	text-decoration: none;
+	padding-right:10px;
+	padding-right:15px;
+}
+.login-sub a:hover{
+
+	text-decoration:underline;
+}
+
+.login-button a{
+	width: 100%;
+	border:1px solid lightgray;
+	margin-top:10px;
+}
+
 </style>
 </head>
 <body>
 	<jsp:include page="../header.jsp" />
 	<div class="login-container">
-		<h1>로그인</h1>
-		 <form action="<%=request.getContextPath()%>/login" method="post" >
+		<h2>NUBE</h2>
+		 <form action="<%=request.getContextPath()%>/" method="post" onsubmit="loginEvent();">
             <!-- 로그인 폼 내용 -->
                 <div class="input-group">
-                    <label for="id">아이디:</label> 
-                    <input type="text" id="id" name="id" placeholder="아이디를 입력하거라" required>
+                    <label for="id">이메일</label>
+                    <input type="text" id="id" name="id" placeholder="예) nube@nube.com" required>
                 </div>
                 <div class="input-group">
-                    <label for="pw">비밀번호:</label> 
-                    <input type="password" id="pw" name="pw" placeholder="비밀번호를 입력하거라" required>
+                    <label for="pw">비밀번호</label> 
+                    <input type="password" id="pw" name="pw" placeholder="Password" required>
                 </div>
-                <button type="submit">로그인</button><hr>
+                <input type="submit" value="로그인"><hr>
+                
+                
                 <div class="login-button">
-                   
-						<c:if test="${msg == false}">
-							<p style="color: #f00;">로그인에 실패했습니다.</p>
-						</c:if>
-                
-                
-                
     			<a href="" class="btn btn_login_naver" onclick="openNaver()">
-        			<img src="<%=request.getContextPath()%>/resources/img/icon/naverLogin_white.png" 
-        			class="btn-icon" alt="네이버 로그인"></a>
+        			<img src="<%=request.getContextPath()%>/resources/img/icon/naverlogo01.png" 
+        			class="btn-icon" id="btn01" alt="네이버 로그인" width="25px">&nbsp;네이버로 로그인</a>
         			<br>
         		<a href="" class="btn btn_login_kakao" onclick="openKakao()">
-					<img src="<%=request.getContextPath()%>/resources/img/icon/kakao_login_medium_wide.png" 
-					class="btn-icon" alt="카카오 로그인"></a>
+					<img src="<%=request.getContextPath()%>/resources/img/icon/kakao.png" 
+					class="btn-icon" id="btn02" alt="카카오 로그인" width="20px"> &nbsp;카카오로 로그인</a>
 				</div>
 
-                <ul class="login-sub">
-                	<li class="login-sub-item">
-                		<a class="login-link" href="choiceRegister">회원가입</a>
-                	</li>
-                	<li class="login-sub-item">
-                    	<span class="login-sub-divider">|</span>
-                	</li>
-                	<li class="login-sub-item">
-                		<a class="login-link" href="#">아이디 찾기</a>
-                	</li>
-                	<li class="login-sub-item">
-                    	<span class="login-sub-divider">|</span>
-                	</li>
-                	<li class="login-sub-item">
-                		<a class="login-link" href="#">비밀번호 찾기</a>
-                	</li>
-                </ul>
+                <div class="login-sub">
+                &nbsp;<a href="#">회원가입</a>|&nbsp;&nbsp;<a href="#">이메일 찾기</a>|&nbsp;&nbsp;<a href="#">비밀번호 찾기</a></div>
+                
+                
         </form>
 	</div>
 	<br><br><br>
