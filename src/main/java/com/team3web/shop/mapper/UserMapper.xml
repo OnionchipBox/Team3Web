@@ -3,128 +3,71 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 	<mapper namespace="com.team3web.shop.mapper.UserMapper">
-	
-<!-- 	<insert id="insertUser" parameterType="User">
-	</insert> -->
-
-	<!--  회원가입 -->
-
-	<insert id = "signup">
-	insert into shop_user(id , pw ,name,gender,phone,email,nickname,address,birthday,joinDate)
-		values(#{id,jdbcType=VARCHAR}, #{pw,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{nickname,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{birthday,jdbcType=VARCHAR},#{joinDate,jdbcType=VARCHAR})
-	</insert>
-
-
-
-
-		<!--  로그인 -->
-	<select id ="signin"  resultType = "com.team3web.shop.vo.UserVO">
-	select id , pw , name, gender , phone, email, nickname, address, birthday, joinDate ,  VERIFY
-	from shop_user 
-	where id = #{id}
-
-	</select>
-	
-	
-	<update id ="memberUpdate">
-	update shop_user set
-	
-	pw = #{pw},
-	name = #{name},
-	gender = #{gender},
-	nickname = #{nickname},
-	address = #{address},
-	birthday  = #{birthday}
-	where id = #{id}
-	
-	</update>
-<!-- 	<select id="loginUser" parameterType="User" resultType="User">
-	SELECT 
-		ID
-	 	,PW
-	 	,NAME
-	 	,GENDER
-	 	,PHONE
-	 	,EMAIL
-	 	,NICKNAME
-	 	,ADDRESS
-	 	,BIRTHDAY
-	 	,JOINDATE
-	 FROM
-	 	USER
-	 WHERE
-	 	ID=#{id} AND
-	 	PW=#{pw}
-
-
-	</select> -->
-	</mapper>
-	
-
 
 	<!-- 저장하기 : 회원 가입 -->
-	<!-- <insert id="insert" parameterType="UserVO">
-		insert into user
-		(id,
-		password,name,gender,phone,email,nickname,address,birthday)
-		values
-		(shop_user.nextval, #{id}, #{password}, #{name}, #{gender}, #{phone},
-		#{email}, #{nickname}, #{address}, #{birthday},
-		0,SYSDATE)
-	</insert> -->
+	<insert id="insertUser" parameterType="UserVO">
+   		insert into shop_user
+      		(id, password, name, gender, phone, email, nickname, zipcode, address, birthday, joindate)
+   		values 
+      		(#{id}, #{password}, #{name}, #{gender}, #{phone}, #{email}, #{nickname}, #{zipcode}, #{address}, #{birthday}, to_char(sysdate, 'YYYYMMDD HH24:MI:SS'))
+	</insert>
+
+	
 	<!-- 수정하기 : 회원 정보 수정 -->
-	<!-- <update id="update" parameterType="UserVO">
+	<update id="updateUser" parameterType="UserVO">
 		update
 		shop_user
 		set
 		phone = #{phone},
 		email = #{email},
 		nickname = #{nickname},
+		zipcode = #{zipcode},
 		address = #{address},
 		birthday = #{birthday},
 		where
 		id=#{id}
 	</update>
-	삭제하기 : 회원 탈퇴
-	<delete id="delete" parameterType="String">
+	
+	<!-- 삭제하기 : 회원 탈퇴 -->
+	<delete id="deleteUser" parameterType="String">
 		delete from shop_user where
 		id=#{id}
 	</delete>
 
-	1개얻기하기 : 수정/삭제/로그인
+	<!-- 1개얻기하기 : 수정/삭제/로그인 -->
 	<select id="selectById" parameterType="String" resultType="UserVO">
 		select *
 		from shop_user where id=#{id}
 	</select>
 
-	동일한 아이디 개수세기 : 아이디 중복 확인
+	<!-- 동일한 아이디 개수세기 : 아이디 중복 확인 -->
 	<select id="selectCountByid" parameterType="String"
 		resultType="String">
 		select count(*) from shop_user where id=#{id}
 	</select>
 
-	아이디로 찾기
+	<!-- 아이디로 찾기 -->
 	<select id="selectByid" parameterType="String"
 		resultType="UserVO">
 		select * from shop_user where id=#{id}
-	</select> -->
+	</select>
 
 	<!-- 이름으로 찾기 -->
-	<!-- <select id="selectByname" parameterType="String"
+	<select id="selectByname" parameterType="String"
 		resultType="UserVO">
 		select * from shop_user where name=#{name}
 	</select>
- -->
+
 	<!-- 사용여부 변경하기 -->
-	<!-- <update id="updateEnabled" parameterType="hashmap">
+	<update id="updateEnabled" parameterType="hashmap">
 		update shop_user set
 		enabled = #{enabled} where id=#{id}
-	</update> -->
+	</update>
 	<!-- 비밀번호 변경하기 -->
-<!-- 	<update id="updatePassword" parameterType="hashmap">
+	<update id="updatePassword" parameterType="hashmap">
 		update shop_user set
 		password = #{password} where id=#{id} and name=#{name}
-	</update> -->
+	</update>
 	
 	<!-- 개수 얻기 : 관리자모드 -->
 	<!-- select id="selectCount" resultType="int">
@@ -137,5 +80,4 @@
 		idx desc
 	</select-->
 	
-<!-- 	</mapper> -->
-
+	</mapper>

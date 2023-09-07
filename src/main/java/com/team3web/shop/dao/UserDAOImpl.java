@@ -1,52 +1,42 @@
 package com.team3web.shop.dao;
 
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.team3web.shop.mapper.UserMapper;
 import com.team3web.shop.vo.UserVO;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.mybatis.spring.SqlSessionTemplate;
+import java.util.List;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
-
+	
     @Autowired
-    private SqlSession sqlSession;
-	private static String namespace = "com.team3web.shop.mapper.UserMapper";
-    @Override
-    public UserVO getUserById(String id) {
-        return sqlSession.selectOne("userMapper.getUserById", id);
-    }
+    private SqlSessionTemplate sqlSession;
 
     @Override
     public void insertUser(UserVO user) {
-        sqlSession.insert("userMapper.insertUser", user);
+    	sqlSession.getMapper(UserMapper.class).insertUser(user);
     }
 
     @Override
     public void updateUser(UserVO user) {
-        sqlSession.update("userMapper.updateUser", user);
+        sqlSession.update("UserMapper.updateUser", user);
     }
 
     @Override
-    public void deleteUser(String id) {
-        sqlSession.delete("userMapper.deleteUser", id);
+    public void deleteUser(String userId) {
+        sqlSession.delete("UserMapper.deleteUser", userId);
     }
 
-	@Override
-	public UserVO signin(UserVO vo) throws Exception {
-		return sqlSession.selectOne(namespace +".signin",vo);
-	}
+    @Override
+    public UserVO getUserById(String userId) {
+        return sqlSession.selectOne("UserMapper.getUserById", userId);
+    }
 
-	@Override
-	public void signup(UserVO vo) throws Exception {
-		sqlSession.insert(namespace + ".signup", vo);
-	}
-
-	@Override
-	public void memberUpdate(UserVO vo) throws Exception {
-		sqlSession.update(namespace+".memberUpdate",vo);
-		
-	}
-	
+    @Override
+    public List<UserVO> getAllUsers() {
+        return sqlSession.selectList("UserMapper.getAllUsers");
+    }
 }
-

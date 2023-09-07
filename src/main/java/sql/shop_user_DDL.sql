@@ -12,7 +12,7 @@ create table shop_user
   PHONE     VARCHAR2(20)                ,
   EMAIL     VARCHAR2(30)                 ,
   NICKNAME VARCHAR2(30)                ,
-
+  ZIPCODE VARCHAR2(10)	,
   ADDRESS   VARCHAR2(20)                  ,
   BIRTHDAY  DATE                  ,
   JOINDATE  VARCHAR2(20)                  ,

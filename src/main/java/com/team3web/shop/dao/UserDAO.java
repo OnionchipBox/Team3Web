@@ -1,16 +1,13 @@
 package com.team3web.shop.dao;
 
+import java.util.List;
+
 import com.team3web.shop.vo.UserVO;
 
 public interface UserDAO {
-    UserVO getUserById(String id);
-    void insertUser(UserVO user);
-    void updateUser(UserVO user);
-    void deleteUser(String id);
-    //회원가입
-    public void signup(UserVO vo)throws Exception;
-    //일반 웹사이트 로그인 
-    public UserVO signin(UserVO vo) throws Exception;
-    
-    public void memberUpdate(UserVO vo)throws Exception;
+	public void insertUser(UserVO user); // 사용자 삽입
+	public void updateUser(UserVO user); // 사용자 업데이트
+	public void deleteUser(String userId); // 사용자 삭제
+	public UserVO getUserById(String userId); // 아이디로 사용자 조회
+	public List<UserVO> getAllUsers(); // 모든 사용자 조회
 }
