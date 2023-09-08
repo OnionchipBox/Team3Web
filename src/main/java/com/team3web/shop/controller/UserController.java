@@ -33,7 +33,7 @@ public class UserController {
 	private KakaoLoginBO kakaoLoginBO;
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
-	@Inject
+	@Autowired
 	UserService service;
 	
 	@Autowired

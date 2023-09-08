@@ -2,21 +2,31 @@ package com.team3web.shop.controller;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.team3web.shop.api.KakaoLoginBO;
 import com.team3web.shop.api.NaverLoginBO;
+import com.team3web.shop.service.LoginService;
+import com.team3web.shop.vo.UserRoleVO;
+import com.team3web.shop.vo.UserVO;
 
 
 @Controller
@@ -24,6 +34,9 @@ public class LoginController {
 	
 	private NaverLoginBO naverLoginBO;
 	private KakaoLoginBO kakaoLoginBO;
+	
+	@Inject
+	LoginService loginService;
 	
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
@@ -94,17 +107,54 @@ public class LoginController {
 	        session.setAttribute("sessionId", nickname);
 	        model.addAttribute("result", apiResult);
 	    } else {
-	    	System.out.println("移댁뭅�삤 濡쒓렇�씤 泥섎━以� AccessToken �쉷�뱷 �떎�뙣");
+	    	System.out.println(" AccessToken ");
 	    }
 	    
 	    return "login";
 	}
 	
-	@RequestMapping(value = "/", method = RequestMethod.POST)	
-	public String loginCheck(@RequestParam String id, @RequestParam String pw) {
-		return "index";
+	// 로그인 처리
+	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
+	public ModelAndView login(@ModelAttribute UserVO user, @RequestParam("num") int num, HttpSession session) {
+	    ModelAndView mv = new ModelAndView();
+	    mv.setViewName("login");
+
+	    try {
+	        int result = loginService.loginCheck(user, session);
+	        if (result == 1) {
+	            // 로그인 성공
+	            SecurityContext context = SecurityContextHolder.getContext();
+	            Authentication authentication = context.getAuthentication();
+	            if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+	                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	                String id = userDetails.getUsername();
+	                session.setAttribute("userId", id);
+	                UserRoleVO role = loginService.viewUserRole(id);
+	                session.setAttribute("role", role);
+
+	                if (num == 1 && "ROLE_ADMIN".equals(role.getRole())) {
+	                    mv.setViewName("/shop/admin");
+	                } else if (num == 2 && "ROLE_SELLER".equals(role.getRole())) {
+	                    mv.setViewName("/shop/seller");
+	                } else if (num == 3 && "ROLE_USER".equals(role.getRole())) {
+	                    mv.setViewName("/shop");
+	                } else {
+	                    mv.setViewName("index");
+	                }
+	            }
+	        } else {
+	            // 로그인 실패
+	            mv.addObject("loginResult", "아이디 또는 비밀번호가 일치하지 않습니다.");
+	        }
+	    } catch (Exception e) {
+	        // 로그인 오류
+	        mv.addObject("loginResult", "로그인 중 오류가 발생했습니다.");
+	    }
+	    mv.addObject("num", num);
+	    return mv;
 	}
-	
+
+
 	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
 	public String logout(HttpSession session)throws IOException {
 		session.invalidate();

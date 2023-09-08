@@ -7,19 +7,19 @@ import java.util.List;
 
 public interface UserMapper {
 	
-    public void insertUser(UserVO user);
-
-    public void updateUser(UserVO user);
-
-    public void deleteUser(String id);
-
-    public UserVO selectById(String id);
-
-    public String selectCountById(String id);
-
-    public List<UserVO> selectByName(String name);
-
-    public void updateEnabled(HashMap<String, Object> map);
-
-    public void updatePassword(HashMap<String, Object> map);
+	void insertUser(UserVO user);
+	
+    void updateUser(UserVO user);
+    
+    void deleteUser(String id);
+    
+    UserVO selectById(String id);
+    
+    String selectCountById(String id);
+    
+    List<UserVO> selectByName(String name);
+    
+    void updateEnabled(HashMap<String, Object> map);
+    
+    void updatePassword(HashMap<String, Object> map);
 }

@@ -174,11 +174,11 @@
             <!-- 로그인 폼 내용 -->
                 <div class="input-group">
                     <label for="id">아이디:</label> 
-                    <input type="text" id="id" name="id" placeholder="아이디를 입력하거라" required>
+                    <input type="text" id="username" name="username" placeholder="아이디를 입력하거라" required>
                 </div>
                 <div class="input-group">
                     <label for="pw">비밀번호:</label> 
-                    <input type="password" id="pw" name="pw" placeholder="비밀번호를 입력하거라" required>
+                    <input type="password" id="password" name="password" placeholder="비밀번호를 입력하거라" required>
                 </div>
                 <button type="submit">로그인</button><hr>
                 <div class="login-button">

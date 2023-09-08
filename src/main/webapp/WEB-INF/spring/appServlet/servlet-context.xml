@@ -23,6 +23,7 @@
 	
 	<context:component-scan base-package="com.team3web.shop" />
 	
+	
 	<beans:bean id="naverLoginBO" class="com.team3web.shop.api.NaverLoginBO" />
 	<beans:bean id="kakaoLoginBO" class="com.team3web.shop.api.KakaoLoginBO" />
 	

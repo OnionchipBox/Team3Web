@@ -22,12 +22,12 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void updateUser(UserVO user) {
-        sqlSession.update("UserMapper.updateUser", user);
+    	sqlSession.getMapper(UserMapper.class).updateUser(user);
     }
 
     @Override
     public void deleteUser(String userId) {
-        sqlSession.delete("UserMapper.deleteUser", userId);
+    	sqlSession.getMapper(UserMapper.class).deleteUser(userId);
     }
 
     @Override

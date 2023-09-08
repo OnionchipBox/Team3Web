@@ -13,16 +13,11 @@ create table shop_user
   EMAIL     VARCHAR2(30)                 ,
   NICKNAME VARCHAR2(30)                ,
   ZIPCODE VARCHAR2(10)	,
-  ADDRESS   VARCHAR2(20)                  ,
+  ADDRESS   VARCHAR2(400)                  ,
   BIRTHDAY  DATE                  ,
   JOINDATE  VARCHAR2(20)                  ,
   UPDATEDATE VARCHAR2(20),
     verify      number          default 0
-
-  ADDRESS   VARCHAR2(50)                  ,
-  BIRTHDAY  VARCHAR2(30)                 ,
-  JOINDATE  DATE                  ,
-  UPDATEDATE DATE
 
 );
 
