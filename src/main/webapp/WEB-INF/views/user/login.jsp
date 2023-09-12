@@ -12,13 +12,6 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <script>
-	 function loginEvent() {
-		 	var userID = document.getElementById("id").value;
-		    var userPW = document.getElementById("pw").value;
-	        alert("=== 이것은 테스트라네 ===\n아이디: " + userID + "\n비밀번호: " + userPW);
-	        window.location.href = "/index";
-	 }
-	 
 	 function openNaver() {
 		  // 팝업 창 열기
 		  var popup = window.open('${naverUrl}', '카카오톡 로그인', 'width=600,height=400');
@@ -233,24 +226,15 @@ input[type="submit"]{
 	<jsp:include page="../header.jsp" />
 	<div class="login-container">
 		<h2>NUBE</h2>
-		 <form action="<%=request.getContextPath()%>/" method="post" onsubmit="loginEvent();">
+		 <form action="<%=request.getContextPath()%>/login" method="post" onsubmit="loginEvent();">
             <!-- 로그인 폼 내용 -->
                 <div class="input-group">
-<<<<<<< HEAD
                     <label for="id">아이디:</label> 
-                    <input type="text" id="username" name="username" placeholder="아이디를 입력하거라" required>
+                    <input type="text" id="id" name="id" placeholder="예) nube@nube.com" required>
                 </div>
                 <div class="input-group">
                     <label for="pw">비밀번호:</label> 
                     <input type="password" id="password" name="password" placeholder="비밀번호를 입력하거라" required>
-=======
-                    <label for="id">이메일</label>
-                    <input type="text" id="id" name="id" placeholder="예) nube@nube.com" required>
-                </div>
-                <div class="input-group">
-                    <label for="pw">비밀번호</label> 
-                    <input type="password" id="pw" name="pw" placeholder="Password" required>
->>>>>>> 31c4b236a85caa13708006fbb28c10326b9fa345
                 </div>
                 <input type="submit" value="로그인"><hr>
                 
@@ -266,7 +250,7 @@ input[type="submit"]{
 				</div>
 
                 <div class="login-sub">
-                &nbsp;<a href="#">회원가입</a>|&nbsp;&nbsp;<a href="#">이메일 찾기</a>|&nbsp;&nbsp;<a href="#">비밀번호 찾기</a></div>
+                &nbsp;<a href="register">회원가입</a>|&nbsp;&nbsp;<a href="#">이메일 찾기</a>|&nbsp;&nbsp;<a href="#">비밀번호 찾기</a></div>
                 
                 
         </form>

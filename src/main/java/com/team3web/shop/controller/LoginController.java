@@ -9,23 +9,17 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.team3web.shop.api.KakaoLoginBO;
 import com.team3web.shop.api.NaverLoginBO;
 import com.team3web.shop.service.LoginService;
-import com.team3web.shop.vo.UserRoleVO;
 import com.team3web.shop.vo.UserVO;
 
 
@@ -48,7 +42,7 @@ public class LoginController {
 		this.kakaoLoginBO = kakaoLoginBO;
 	}
 	
-	@RequestMapping(value = "/login" , method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/login" , method = RequestMethod.GET)
     public String login(Model model, HttpSession session) {
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
 		System.out.println("네이버: " + naverAuthUrl);
@@ -113,50 +107,43 @@ public class LoginController {
 	    return "login";
 	}
 	
-	// 로그인 처리
-	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
-	public ModelAndView login(@ModelAttribute UserVO user, @RequestParam("num") int num, HttpSession session) {
-	    ModelAndView mv = new ModelAndView();
-	    mv.setViewName("login");
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(
+	        @RequestParam("id") String id,
+	        @RequestParam("password") String password,
+	        HttpSession session,
+	        Model model,
+	        RedirectAttributes redirectAttributes) {
 
-	    try {
-	        int result = loginService.loginCheck(user, session);
-	        if (result == 1) {
-	            // 로그인 성공
-	            SecurityContext context = SecurityContextHolder.getContext();
-	            Authentication authentication = context.getAuthentication();
-	            if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-	                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-	                String id = userDetails.getUsername();
-	                session.setAttribute("userId", id);
-	                UserRoleVO role = loginService.viewUserRole(id);
-	                session.setAttribute("role", role);
+	    UserVO userVO = new UserVO();
+	    userVO.setId(id);
+	    userVO.setPassword(password);
 
-	                if (num == 1 && "ROLE_ADMIN".equals(role.getRole())) {
-	                    mv.setViewName("/shop/admin");
-	                } else if (num == 2 && "ROLE_SELLER".equals(role.getRole())) {
-	                    mv.setViewName("/shop/seller");
-	                } else if (num == 3 && "ROLE_USER".equals(role.getRole())) {
-	                    mv.setViewName("/shop");
-	                } else {
-	                    mv.setViewName("index");
-	                }
-	            }
+	    int loginResult = loginService.loginCheck(userVO, session);
+
+	    if (loginResult == 1) {
+	        int role = loginService.getUserRole(id);
+	        String name = loginService.getUserName(id);
+	        session.setAttribute("loggedInUserName", name);
+	        System.out.println("로그인 성공 "+name);
+	        if (role == 0 || role == 1) {
+	            return "index";
+	        } else if (role == 2) {
+	            return "/shop/admin";
 	        } else {
-	            // 로그인 실패
-	            mv.addObject("loginResult", "아이디 또는 비밀번호가 일치하지 않습니다.");
+	            return "index";
 	        }
-	    } catch (Exception e) {
-	        // 로그인 오류
-	        mv.addObject("loginResult", "로그인 중 오류가 발생했습니다.");
+	    } else {
+	        model.addAttribute("loginResult", "아이디 또는 비밀번호가 일치하지 않습니다.");
+	        System.out.println("로그인 실패");
+	        return "/user/login";
 	    }
-	    mv.addObject("num", num);
-	    return mv;
 	}
 
 
 	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
 	public String logout(HttpSession session)throws IOException {
+		session.removeAttribute("loggedInUserName");
 		session.invalidate();
 	 
 		return "index";

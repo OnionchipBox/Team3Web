@@ -7,7 +7,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.team3web.shop.mapper.LoginMapper;
-import com.team3web.shop.vo.UserRoleVO;
 import com.team3web.shop.vo.UserVO;
 
 @Repository
@@ -52,7 +51,24 @@ public class LoginDAOImpl implements LoginDAO {
 	}
 
 	@Override
-	public UserRoleVO viewUserRole(String id) {
-		return sqlSession.getMapper(LoginMapper.class).viewUserRole(id);
+	public String getPasswordById(String id) {
+		String password = sqlSession.selectOne("com.team3web.shop.mapper.LoginMapper.getPasswordById", id);
+		return password;
 	}
+	
+	@Override
+    public UserVO getUserById(String id) {
+        UserVO user = sqlSession.selectOne("com.team3web.shop.mapper.LoginMapper.getUserById", id);
+        return user;
+    }
+
+	@Override
+	public int getUserRole(String id) {
+	    return sqlSession.getMapper(LoginMapper.class).getUserRole(id);
+	}
+	
+	@Override
+    public String getUserName(String id) {
+        return sqlSession.selectOne("com.team3web.shop.mapper.LoginMapper.getUserName", id);
+    }
 }

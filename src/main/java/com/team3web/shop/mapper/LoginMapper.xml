@@ -35,7 +35,7 @@
 	</select>
 	
 	<!-- 회원 등급 상세보기 -->
-	<select id="viewUserRole" resultType="UserRoleVO" parameterType="String">
+	<select id="viewUserRole" resultType="UserVO" parameterType="String">
 		SELECT 
 			id_count,id,role 
 		FROM shop_user_role
@@ -43,6 +43,31 @@
 			id = #{id}
 	</select>
 	
+	<!-- 사용자 아이디에 해당하는 비밀번호 조회 -->
+    <select id="getPasswordById" parameterType="string" resultType="string">
+        SELECT password
+        FROM shop_user
+        WHERE id = #{id}
+    </select>
+    
+    <select id="getUserById" parameterType="string" resultType="UserVO">
+    	SELECT *
+    	FROM shop_user
+    	WHERE id = #{id}
+	</select>
+	
+	<select id="getUserName" resultType="string" parameterType="string">
+    	SELECT name
+    	FROM shop_user
+    	WHERE id = #{Id}
+	</select>
+	
+	<select id="getUserRole" parameterType="string" resultType="int">
+    	SELECT VERIFY
+    	FROM shop_user
+    	WHERE id = #{id}
+	</select>
+
 	<!-- 비밀번호 바꾸기 -->
 	<update id="updatePw" parameterType="UserVO">
 		UPDATE shop_user 

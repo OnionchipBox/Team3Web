@@ -7,9 +7,9 @@
 	<!-- 저장하기 : 회원 가입 -->
 	<insert id="insertUser" parameterType="UserVO">
    		insert into shop_user
-      		(id, password, name, gender, phone, email, nickname, zipcode, address, birthday, joindate)
+      		(id, password, name, gender, phone, nickname, zipcode, address, birthday, joindate)
    		values 
-      		(#{id}, #{password}, #{name}, #{gender}, #{phone}, #{email}, #{nickname}, #{zipcode}, #{address}, #{birthday}, to_char(sysdate, 'YYYYMMDD HH24:MI:SS'))
+      		(#{id}, #{password}, #{name}, #{gender}, #{phone}, #{nickname}, #{zipcode}, #{address}, #{birthday}, to_char(sysdate, 'YYYYMMDD HH24:MI:SS'))
 	</insert>
 
 	
@@ -19,7 +19,6 @@
 		shop_user
 		set
 		phone = #{phone},
-		email = #{email},
 		nickname = #{nickname},
 		zipcode = #{zipcode},
 		address = #{address},
@@ -56,6 +55,25 @@
 	<select id="selectByname" parameterType="String"
 		resultType="UserVO">
 		select * from shop_user where name=#{name}
+	</select>
+	
+	<!-- 닉네임으로 사용자 조회 -->
+	<select id="getUserByNickname" parameterType="String" resultType="UserVO">
+    	select *
+   		from shop_user
+    	where nickname = #{nickname}
+	</select>
+	
+	<!-- 사용자의 등급(VERIFY) 가져오기 -->
+	<select id="getUserRole" parameterType="String" resultType="int">
+    	SELECT VERIFY FROM shop_user WHERE id = #{id}
+	</select>
+	
+	<!-- 사용자 아이디로 사용자 정보 가져오기 -->
+	<select id="getUserById" parameterType="String" resultType="UserVO">
+    	SELECT *
+    	FROM shop_user
+    	WHERE id = #{id}
 	</select>
 
 	<!-- 사용여부 변경하기 -->

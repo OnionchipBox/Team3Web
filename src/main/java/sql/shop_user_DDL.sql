@@ -10,7 +10,6 @@ create table shop_user
   NAME      VARCHAR2(30)                  ,
   GENDER      VARCHAR2(10)                  ,
   PHONE     VARCHAR2(20)                ,
-  EMAIL     VARCHAR2(30)                 ,
   NICKNAME VARCHAR2(30)                ,
   ZIPCODE VARCHAR2(10)	,
   ADDRESS   VARCHAR2(400)                  ,

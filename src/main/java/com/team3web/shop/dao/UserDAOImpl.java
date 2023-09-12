@@ -39,4 +39,9 @@ public class UserDAOImpl implements UserDAO {
     public List<UserVO> getAllUsers() {
         return sqlSession.selectList("UserMapper.getAllUsers");
     }
+
+	@Override
+	public int getUserRole(int verify) {
+		return sqlSession.selectOne("UserMapper.getUserRole", verify);
+	}
 }

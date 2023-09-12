@@ -22,4 +22,11 @@ public interface UserMapper {
     void updateEnabled(HashMap<String, Object> map);
     
     void updatePassword(HashMap<String, Object> map);
+    
+    UserVO getUserByNickname(String nickname);
+    
+    int getUserRole(int verify);
+    
+    UserVO getUserById(String id);
+
 }

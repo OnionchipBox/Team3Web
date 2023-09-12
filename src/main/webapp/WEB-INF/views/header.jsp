@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,6 +79,94 @@
 }
 
 </style>
+<script>
+	
+document.addEventListener("DOMContentLoaded", function() {
+    const categoryLinkMapping = {
+             "남성": {
+                 "path": "<%=request.getContextPath()%>/mens",
+                 "셔츠": "<%=request.getContextPath()%>/mens/shirts",
+                 "바지": "<%=request.getContextPath()%>/mens/pants"
+             },
+             "여성": {
+                 "path": "<%=request.getContextPath()%>/womens",
+                 "드레스": "<%=request.getContextPath()%>/womens/dresses",
+                 "스커트": "<%=request.getContextPath()%>/womens/skirts"
+             },
+             "액세서리": {
+                 "path": "<%=request.getContextPath()%>/accessories",
+                 "시계": "<%=request.getContextPath()%>/accessories/watches",
+                 "목걸이": "<%=request.getContextPath()%>/accessories/necklaces"
+             },
+             "고객센터": {
+                 "path": "<%=request.getContextPath()%>/help",
+                 "FAQ": "<%=request.getContextPath()%>/help/faq",
+                 "문의하기": "<%=request.getContextPath()%>/help/contact"
+             }
+         };
+
+
+         function closeSearchForm() {
+             const searchForm = document.getElementById('dynamicSearchForm');
+             if (searchForm) {
+                 searchForm.remove();
+             }
+         }
+
+         function closeOffcanvas() {
+             const offcanvasInstance = new bootstrap.Offcanvas(document.getElementById("offcanvasTop"));
+             offcanvasInstance.hide();
+         }
+
+         const navItems = document.querySelectorAll(".nav-underline .nav-item a");
+         navItems.forEach(item => {
+             // "about" 항목을 제외하고 이벤트 리스너를 추가합니다.
+             if (item.textContent.trim().toLowerCase() !== "about") {
+                 item.addEventListener("click", function(event) {
+                     event.preventDefault();
+
+                     const offcanvasBody = document.querySelector("#offcanvasTop .offcanvas-body");
+                     offcanvasBody.innerHTML = '<div class="row"></div>';
+
+                     const rowElement = offcanvasBody.querySelector(".row");
+
+                     for (const [mainCategory, subCategoriesLinks] of Object.entries(categoryLinkMapping)) {
+                         const columnElement = document.createElement("div");
+                         columnElement.classList.add("col");
+
+                         const mainCategoryElem = document.createElement("a");
+                         mainCategoryElem.textContent = mainCategory;
+                         mainCategoryElem.href = categoryLinkMapping[mainCategory].path;
+                         mainCategoryElem.className = "main-category";  
+                         columnElement.appendChild(mainCategoryElem);
+
+                         Object.entries(subCategoriesLinks).forEach(([subCategory, link]) => {
+                             // "path"는 추가하지 않습니다.
+                             if (subCategory !== "path") {
+                                 const subCategoryElem = document.createElement("a");
+                                 subCategoryElem.textContent = subCategory;
+                                 subCategoryElem.href = link;
+                                 subCategoryElem.className = "sub-category";
+                                 columnElement.appendChild(subCategoryElem);
+                             }
+                         });
+
+                         rowElement.appendChild(columnElement);
+                     }
+
+                     closeSearchForm(); 
+
+                     const offcanvasInstance = new bootstrap.Offcanvas(document.getElementById("offcanvasTop"));
+                     offcanvasInstance.show();
+                 });
+             }
+         });
+
+         document.getElementById('searchIcon').addEventListener('click', function() {
+             closeOffcanvas();
+         });
+     });
+	    </script>
 </head>
 <body>
 	<div>
@@ -87,24 +176,53 @@
 					href="<%=request.getContextPath()%>/">Team3Web</a>
 			</h1>
 			<ul class="navbar-nav ms-auto me-2 flex-row align-items-center">
+			<c:choose>
+            	<c:when test="${empty sessionScope.loggedInUserName}">
+                	<span onclick="linkLogin()" style="cursor: pointer;">로그인</span>
+            	</c:when>
+            	<c:otherwise>
+                	<div class="user-info">
+                    	<p>이름 : ${sessionScope.loggedInUserName}&nbsp;&nbsp;
+                    	<span onclick="logout()" style="cursor: pointer;">로그아웃</span>
+                	</div>
+            	</c:otherwise>
+        	</c:choose>
 				<li class="nav-item">
 					<button class="icon-button" id="searchIcon">
 						<i class="bi bi-search"></i>
 					</button>
 				</li>
 				<li class="nav-item px-lg-2">
-					<button class="icon-button" id="loginIcon"
-						onclick="linkLogin('<%=request.getContextPath()%>/login')">
-						<i class="bi bi-person-circle"></i>
-					</button>
+				<c:choose>
+            		<c:when test="${empty sessionScope.loggedInUserName}">
+    					<button class="icon-button" id="userIcon" onclick="linkLogin()">
+    					<i class="bi bi-person-circle"></i>
+        				<span id="userName"></span>
+        				</button>
+    				</c:when>
+    				<c:otherwise>
+    					<button class="icon-button" id="userIcon" onclick="linkMyinfo()">
+    					<i class="bi bi-person-circle"></i>
+        				<span id="userName"></span>
+    				</button>
+    				</c:otherwise>
+        		</c:choose>
 				</li>
 
-				<li class="nav-item"><button class="icon-button" id="cartButton" onclick ="linkCart('<%=request.getContextPath()%>/user/cart')"> 
-				<i class="bi bi-bag"></i>
-				</button></li>
-
-			
-
+				<li class="nav-item">
+				<c:choose>
+            		<c:when test="${empty sessionScope.loggedInUserName}">
+						<button class="icon-button" id="cartButton" onclick ="linkLogin()">
+						<i class="bi bi-bag"></i>
+						</button>
+					</c:when> 
+				<c:otherwise>
+						<button class="icon-button" id="cartButton" onclick ="linkCart('<%=request.getContextPath()%>/user/cart')">
+						<i class="bi bi-bag"></i>
+						</button>
+				</c:otherwise>
+        		</c:choose>
+				</li>
 			</ul>
 		</nav>
 	</div>
@@ -195,109 +313,27 @@
 	//});
 	
 	// 로그인 아이콘 클릭 시 로그인 페이지로 이동
-		function linkLogin(url) {
-			window.location.href = url;
+		function linkLogin() {
+			window.location.href = "login";
 			
 		}
-
+		
+		function linkMyinfo() {
+			window.location.href = "myinfo";
+			
+		}
 		
 		function linkCart(url) {
 		    // 지정된 URL로 페이지 이동
 		    window.location.href = url;
 		}
+		
+		function logout() {
+    		alert("로그아웃 되었습니다");
+			window.location.href = "logout";
+		}
 	
 	</script>
 </body>
 </html>
-
-<script>
-	
-document.addEventListener("DOMContentLoaded", function() {
-    const categoryLinkMapping = {
-             "남성": {
-                 "path": "<%=request.getContextPath()%>/mens",
-                 "셔츠": "<%=request.getContextPath()%>/mens/shirts",
-                 "바지": "<%=request.getContextPath()%>/mens/pants"
-             },
-             "여성": {
-                 "path": "<%=request.getContextPath()%>/womens",
-                 "드레스": "<%=request.getContextPath()%>/womens/dresses",
-                 "스커트": "<%=request.getContextPath()%>/womens/skirts"
-             },
-             "액세서리": {
-                 "path": "<%=request.getContextPath()%>/accessories",
-                 "시계": "<%=request.getContextPath()%>/accessories/watches",
-                 "목걸이": "<%=request.getContextPath()%>/accessories/necklaces"
-             },
-             "고객센터": {
-                 "path": "<%=request.getContextPath()%>/help",
-                 "FAQ": "<%=request.getContextPath()%>/help/faq",
-                 "문의하기": "<%=request.getContextPath()%>/help/contact"
-             }
-         };
-
-
-         function closeSearchForm() {
-             const searchForm = document.getElementById('dynamicSearchForm');
-             if (searchForm) {
-                 searchForm.remove();
-             }
-         }
-
-         function closeOffcanvas() {
-             const offcanvasInstance = new bootstrap.Offcanvas(document.getElementById("offcanvasTop"));
-             offcanvasInstance.hide();
-         }
-
-         const navItems = document.querySelectorAll(".nav-underline .nav-item a");
-         navItems.forEach(item => {
-             // "about" 항목을 제외하고 이벤트 리스너를 추가합니다.
-             if (item.textContent.trim().toLowerCase() !== "about") {
-                 item.addEventListener("click", function(event) {
-                     event.preventDefault();
-
-                     const offcanvasBody = document.querySelector("#offcanvasTop .offcanvas-body");
-                     offcanvasBody.innerHTML = '<div class="row"></div>';
-
-                     const rowElement = offcanvasBody.querySelector(".row");
-
-                     for (const [mainCategory, subCategoriesLinks] of Object.entries(categoryLinkMapping)) {
-                         const columnElement = document.createElement("div");
-                         columnElement.classList.add("col");
-
-                         const mainCategoryElem = document.createElement("a");
-                         mainCategoryElem.textContent = mainCategory;
-                         mainCategoryElem.href = categoryLinkMapping[mainCategory].path;
-                         mainCategoryElem.className = "main-category";  
-                         columnElement.appendChild(mainCategoryElem);
-
-                         Object.entries(subCategoriesLinks).forEach(([subCategory, link]) => {
-                             // "path"는 추가하지 않습니다.
-                             if (subCategory !== "path") {
-                                 const subCategoryElem = document.createElement("a");
-                                 subCategoryElem.textContent = subCategory;
-                                 subCategoryElem.href = link;
-                                 subCategoryElem.className = "sub-category";
-                                 columnElement.appendChild(subCategoryElem);
-                             }
-                         });
-
-                         rowElement.appendChild(columnElement);
-                     }
-
-                     closeSearchForm(); 
-
-                     const offcanvasInstance = new bootstrap.Offcanvas(document.getElementById("offcanvasTop"));
-                     offcanvasInstance.show();
-                 });
-             }
-         });
-
-         document.getElementById('searchIcon').addEventListener('click', function() {
-             closeOffcanvas();
-         });
-     });
-	    </script>
-	</body>
-	</html>
 

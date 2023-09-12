@@ -1,6 +1,5 @@
 package com.team3web.shop.mapper;
 
-import com.team3web.shop.vo.UserRoleVO;
 import com.team3web.shop.vo.UserVO;
 
 public interface LoginMapper {
@@ -14,10 +13,13 @@ public interface LoginMapper {
 	public String pwFind(UserVO user);
 
 	public void updatePw(UserVO user);
-
-	public UserRoleVO viewUserRole(String id);
 	
-	
+	public String getPasswordById(String id);
 
+	public UserVO getUserById(String id);
+	
+	public int getUserRole(String id);
+	
+	public String getUserName(String id);
 
 }

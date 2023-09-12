@@ -22,6 +22,7 @@ public class UserResultVO {
     private String birthday;
     private Date joinDate;
     private Date updateDate;
+    private int verify;
 
    
 }

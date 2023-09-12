@@ -58,6 +58,7 @@ function showRegisterEvent() {
  	var NickName = document.getElementById("nickname").value;
     alert(Name + "님 회원가입을 축하합니다!\n닉네임 : "+ NickName);
 }
+
 </script>
 <style>
 /* 주소 검색 버튼 스타일 */
@@ -152,10 +153,6 @@ function showRegisterEvent() {
                     <label for="password">비밀번호:</label>
                     <input type="password" id="password" name="password" class="form-control" placeholder="영문,숫자,특수문자 조합 8-16자" required>
                 </div>
-                <div class="form-group">
-        		<label for="email">이메일:</label>
-        			<input type="email" id="email" name="email" class="form-control" required><br>
-               	</div>
                	<div class="form-group">
                	<label for="name">이름:</label>
         			<input type="text" id="name" name="name" class="form-control" required><br>

@@ -21,7 +21,9 @@ import lombok.Setter;
 @Setter
 public class UserVO {
 	
-	@Size(min = 8, max = 20, message = "아이디는 8~20자 입니다.")
+	@NotNull
+	@Pattern(regexp = "[a-z0-9_+.-]+@([a-z0-9-]+\\.)+[a-z0-9]{2,4}",
+			message = "이메일이 올바른 형식이 아닙니다.")
 	private String id;
 	
 	@NotNull
@@ -34,11 +36,6 @@ public class UserVO {
 	@NotNull
 	@Size(min = 2, max = 50, message = "이름은 2자 이상 입니다.")
 	private String name;
-	
-	@NotNull
-	@Pattern(regexp = "[a-z0-9_+.-]+@([a-z0-9-]+\\.)+[a-z0-9]{2,4}",
-			message = "이메일이 올바른 형식이 아닙니다.")
-	private String email;
 	
 	@NotNull(message="필수 사항은 반드시 입력하세요")
 	private String gender;
@@ -72,6 +69,7 @@ public class UserVO {
 
 	private String joindate;
 	private String updatedate;
+	private int verify;
 	
 	public UserVO() {}
 
@@ -79,7 +77,6 @@ public class UserVO {
 		this.id = user.getId();
 		this.password = user.getPassword();
 		this.name = user.getName();
-		this.email = user.getEmail();
 		this.gender = user.getGender();
 		this.nickname = user.getNickname();
 		this.phone = user.getPhone();
@@ -90,6 +87,7 @@ public class UserVO {
 		this.birthday = user.getBirthday();
 		this.joindate = user.getJoindate();
 		this.updatedate = user.getUpdatedate();
+		this.verify = user.getVerify();
 	}
 	
 	// map 형식 생성자
@@ -109,7 +107,6 @@ public class UserVO {
 				this.gender = map.get("gender")[0];
 				this.nickname = map.get("nickname")[0];
 				this.phone = map.get("phone")[0];
-				this.email = map.get("email")[0];
 				// 우편번호
 				this.zipcode = map.get("zipcode")[0];
 				this.roadAddr1 = map.get("roadAddr1")[0]; // 기본 주소

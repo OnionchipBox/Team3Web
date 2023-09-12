@@ -45,4 +45,9 @@ public class UserServiceImpl implements UserService {
     public List<UserVO> getAllUsers() {
         return userDAO.getAllUsers();
     }
+	
+	@Override
+    public int getUserRole(int verify) {
+        return userDAO.getUserRole(verify);
+    }
 }

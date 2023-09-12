@@ -16,10 +16,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team3web.shop.api.KakaoLoginBO;
 import com.team3web.shop.api.NaverLoginBO;
-import com.team3web.shop.vo.UserVO;
 import com.team3web.shop.service.UserService;
+import com.team3web.shop.vo.UserVO;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -59,9 +58,13 @@ public class UserController {
         return "/user/choiceRegister";
     }
     
+    @RequestMapping(value = "/myinfo", method = RequestMethod.GET)
+    public String myinfo(Model model, HttpSession session) {
+    	return "/user/myinfo";
+    }
+    
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String register(Model model, HttpSession session) {
-    	
     	return "/user/register";
     }
 
@@ -155,6 +158,4 @@ public class UserController {
         return loginController.kakaoCallback(model, code, state, session);
     }
     
-    
-
 }
