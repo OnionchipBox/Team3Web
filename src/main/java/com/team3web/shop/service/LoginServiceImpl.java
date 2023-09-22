@@ -4,7 +4,11 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+=======
+import org.springframework.security.crypto.password.PasswordEncoder;
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 import org.springframework.stereotype.Service;
 
 import com.team3web.shop.dao.LoginDAO;
@@ -16,12 +20,21 @@ public class LoginServiceImpl implements LoginService {
 	@Inject
 	LoginDAO LoginDAO;
 	
+<<<<<<< HEAD
 	@Autowired
     private BCryptPasswordEncoder BCryptPasswordEncoder;
 
     @Autowired
     public LoginServiceImpl(LoginDAO LoginDAO) {
         this.LoginDAO = LoginDAO;
+=======
+	private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public LoginServiceImpl(LoginDAO LoginDAO, PasswordEncoder passwordEncoder) {
+        this.LoginDAO = LoginDAO;
+        this.passwordEncoder = passwordEncoder;
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
     }
 
     @Override
@@ -29,12 +42,17 @@ public class LoginServiceImpl implements LoginService {
 		UserVO dbUser = LoginDAO.getUserById(user.getId());
 
         if (dbUser != null) {
+<<<<<<< HEAD
             if (BCryptPasswordEncoder.matches(user.getPassword(), dbUser.getPassword())) {
+=======
+            if (passwordEncoder.matches(user.getPassword(), dbUser.getPassword())) {
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
                 return 1;
             }
         }
         return 0;
     }
+<<<<<<< HEAD
     @Override
     public boolean changePassword(String userId, String oldPassword, String newPassword) {
     	UserVO dbUser = LoginDAO.getUserById(userId);
@@ -49,6 +67,8 @@ public class LoginServiceImpl implements LoginService {
     	return false;
     	
     }
+=======
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 
 	@Override
 	public UserVO viewUser(UserVO user) {
@@ -84,7 +104,11 @@ public class LoginServiceImpl implements LoginService {
 
 	@Override
 	public UserVO getUserById(String id) {
+<<<<<<< HEAD
 		return LoginDAO.getUserById(id);
+=======
+		return null;
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 	}
 
 	@Override
@@ -97,6 +121,7 @@ public class LoginServiceImpl implements LoginService {
     public String getUserName(String id) {
         return LoginDAO.getUserName(id);
     }
+<<<<<<< HEAD
 
 	@Override
 	public void updateUser(UserVO user) {
@@ -107,4 +132,6 @@ public class LoginServiceImpl implements LoginService {
 	public void insertUser(UserVO user) {
 		LoginDAO.insertUser(user);
 	}
+=======
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 }

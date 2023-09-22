@@ -21,8 +21,13 @@
 		phone = #{phone},
 		nickname = #{nickname},
 		zipcode = #{zipcode},
+<<<<<<< HEAD
 		address = #{address}
 	    password = #{password}
+=======
+		address = #{address},
+		birthday = #{birthday},
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 		where
 		id=#{id}
 	</update>

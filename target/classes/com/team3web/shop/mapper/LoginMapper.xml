@@ -4,17 +4,21 @@
 
 	<mapper namespace="com.team3web.shop.mapper.LoginMapper">
 	
+<<<<<<< HEAD
 		<insert id="insertUser" parameterType="UserVO">
    		insert into shop_user
       		(id, password, name, gender, phone, nickname, zipcode, address, birthday, joindate)
    		values 
       		(#{id}, #{password}, #{name}, #{gender}, #{phone}, #{nickname}, #{zipcode}, #{address}, #{birthday}, to_char(sysdate, 'YYYYMMDD HH24:MI:SS'))
 	</insert>
+=======
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 	<select id="loginCheck" parameterType="UserVO" resultType="int">
 		SELECT COUNT(*) FROM shop_user
 		WHERE id = #{id} AND password = #{password}
 	</select>
 	
+<<<<<<< HEAD
 	<select id="loadUserByUsername" parameterType="String" resultType="UserVO">
     	SELECT id AS username, password, verify AS role FROM shop_user WHERE id = #{id}
 	</select>
@@ -23,6 +27,8 @@
     	SELECT verify FROM shop_user WHERE id = #{id}
 	</select>
 
+=======
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 	<!-- 아이디 찾기 -->
 	<select id="idFind" parameterType="UserVO" resultType="String">
 		SELECT id
@@ -90,6 +96,7 @@
 		WHERE
 			id=#{id}
 	</update>
+<<<<<<< HEAD
 	<update id="updateUser" parameterType="UserVO">
 		update
 		shop_user
@@ -104,4 +111,6 @@
 	</update>
 	
 	
+=======
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 </mapper>

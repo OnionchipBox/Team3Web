@@ -1,16 +1,22 @@
 package com.team3web.shop.controller;
 
 import java.io.IOException;
+<<<<<<< HEAD
 import java.io.PrintWriter;
 import java.util.Collection;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+=======
+
+import javax.inject.Inject;
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+<<<<<<< HEAD
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +28,18 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+=======
+import org.springframework.beans.factory.annotation.Autowired;
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+<<<<<<< HEAD
+=======
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.team3web.shop.api.KakaoLoginBO;
@@ -37,7 +50,11 @@ import com.team3web.shop.vo.UserVO;
 
 @Controller
 public class LoginController {
+<<<<<<< HEAD
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+=======
+	
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 	private NaverLoginBO naverLoginBO;
 	private KakaoLoginBO kakaoLoginBO;
 	
@@ -54,10 +71,13 @@ public class LoginController {
 		this.kakaoLoginBO = kakaoLoginBO;
 	}
 	
+<<<<<<< HEAD
 	@Autowired
 	@Qualifier("AuthenticationManager")
 	private AuthenticationManager authenticationManager;
 	
+=======
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 	@RequestMapping(value = "/login" , method = RequestMethod.GET)
     public String login(Model model, HttpSession session) {
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
@@ -127,6 +147,7 @@ public class LoginController {
 	public String login(
 	        @RequestParam("id") String id,
 	        @RequestParam("password") String password,
+<<<<<<< HEAD
 	        Model model) {
 
 	    Authentication authentication = new UsernamePasswordAuthenticationToken(id, password);
@@ -150,10 +171,38 @@ public class LoginController {
 	        model.addAttribute("loginResult", "아이디 또는 비밀번호가 일치하지 않습니다.");
 	        System.out.println("로그인 실패: " + e.getMessage());
 	        e.printStackTrace();
+=======
+	        HttpSession session,
+	        Model model,
+	        RedirectAttributes redirectAttributes) {
+
+	    UserVO userVO = new UserVO();
+	    userVO.setId(id);
+	    userVO.setPassword(password);
+
+	    int loginResult = loginService.loginCheck(userVO, session);
+
+	    if (loginResult == 1) {
+	        int role = loginService.getUserRole(id);
+	        String name = loginService.getUserName(id);
+	        session.setAttribute("loggedInUserName", name);
+	        System.out.println("로그인 성공 "+name);
+	        if (role == 0 || role == 1) {
+	            return "index";
+	        } else if (role == 2) {
+	            return "/shop/admin";
+	        } else {
+	            return "index";
+	        }
+	    } else {
+	        model.addAttribute("loginResult", "아이디 또는 비밀번호가 일치하지 않습니다.");
+	        System.out.println("로그인 실패");
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 	        return "/user/login";
 	    }
 	}
 
+<<<<<<< HEAD
 	
 	@RequestMapping(value = "/userUpdate", method = RequestMethod.GET)
 	public String update(Model model, HttpSession session,
@@ -215,6 +264,8 @@ public class LoginController {
 //		  }else
 //		return userId;
 //	}
+=======
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 
 	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
 	public String logout(HttpSession session)throws IOException {

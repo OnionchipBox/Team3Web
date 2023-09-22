@@ -3,7 +3,11 @@ package com.team3web.shop.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+=======
+import org.springframework.security.crypto.password.PasswordEncoder;
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 import org.springframework.stereotype.Service;
 import com.team3web.shop.dao.UserDAO;
 import com.team3web.shop.vo.UserVO;
@@ -12,6 +16,7 @@ import com.team3web.shop.vo.UserVO;
 public class UserServiceImpl implements UserService {
 	
 	private final UserDAO userDAO;
+<<<<<<< HEAD
 	
 	@Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -19,6 +24,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public UserServiceImpl(UserDAO userDAO) {
         this.userDAO = userDAO;
+=======
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserServiceImpl(UserDAO userDAO, PasswordEncoder passwordEncoder) {
+        this.userDAO = userDAO;
+        this.passwordEncoder = passwordEncoder;
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
     }
 
     @Override
@@ -50,6 +63,9 @@ public class UserServiceImpl implements UserService {
 	@Override
     public int getUserRole(int verify) {
         return userDAO.getUserRole(verify);
+<<<<<<< HEAD
         
+=======
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
     }
 }

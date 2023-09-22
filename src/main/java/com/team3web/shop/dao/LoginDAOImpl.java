@@ -1,8 +1,11 @@
 package com.team3web.shop.dao;
 
+<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.Map;
 
+=======
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -73,6 +76,7 @@ public class LoginDAOImpl implements LoginDAO {
 	@Override
     public String getUserName(String id) {
         return sqlSession.selectOne("com.team3web.shop.mapper.LoginMapper.getUserName", id);
+<<<<<<< HEAD
        
     }
 
@@ -108,4 +112,7 @@ public class LoginDAOImpl implements LoginDAO {
 	}
 
 
+=======
+    }
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 }

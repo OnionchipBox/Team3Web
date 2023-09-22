@@ -140,7 +140,10 @@ document.addEventListener("DOMContentLoaded", function() {
                          mainCategoryElem.className = "main-category";  
                          columnElement.appendChild(mainCategoryElem);
 
+<<<<<<< HEAD
                          
+=======
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
                          Object.entries(subCategoriesLinks).forEach(([subCategory, link]) => {
                              // "path"는 추가하지 않습니다.
                              if (subCategory !== "path") {
@@ -320,7 +323,11 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 		
 		function linkMyinfo() {
+<<<<<<< HEAD
 			window.location.href = "userUpdate";
+=======
+			window.location.href = "myinfo";
+>>>>>>> 6a3530dc46bcab8f96a465db2171416df037c414
 			
 		}
 		
