@@ -130,10 +130,10 @@ public class LoginController {
 	        @RequestParam("id") String id,
 	        @RequestParam("password") String password,
 	        Model model) {
-
-	    Authentication authentication = new UsernamePasswordAuthenticationToken(id, password);
-
-	    try {
+		
+	    try {  	
+	    	Authentication authentication = new UsernamePasswordAuthenticationToken(id, password);
+	    	
 	        Authentication authenticatedUser = authenticationManager.authenticate(authentication);
 	        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
 

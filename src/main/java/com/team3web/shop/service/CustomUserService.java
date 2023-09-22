@@ -45,20 +45,24 @@ public class CustomUserService implements UserDetailsService {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_" + userRole));
         
-        System.out.println("비밀번호 대조 실행\n DB에 저장된 암호 : " + encodedPassword + "\n 사용자가 입력한 암호 : "
-        		+ password + "\n 로그인할려는 사용자 : " +username);
-        System.out.println("사용자 등급 : "+ authorities);
+        System.out.println("비밀번호 대조 실행\n DB에 저장된 암호 : " + encodedPassword + "\n 입력 암호 : " + password +
+        		"\n 사용자가 입력한 암호 : " + password + "\n 로그인할려는 사용자 : " + username + "\n 사용자 등급 : "+ authorities);
 
         if (!passwordEncoder.matches(password, encodedPassword)) {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
         
-        System.out.println("최종 인증 정보 : "+ userVO.getId() + encodedPassword + authorities);
-
+        userVO.setId(username);
+        
+        System.out.println("최종 인증 정보 -> \n 아이디: "+ username + "\nDB암호 : "
+        + encodedPassword + "\n 입력 암호 : " + password + "\n사용자 등급 : " + authorities);
+        
+        System.out.println("\n null체크 : " + userVO.getId() + "\n" + encodedPassword + "\n" + authorities);
         return new User(
         	    userVO.getId(),
         	    encodedPassword,
                 authorities
         	);
     }
+    
 }

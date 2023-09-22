@@ -40,7 +40,7 @@ function searchAddress() {
             document.getElementById("roadAddr1").value = roadAddr; //도로명 주소
             //document.getElementById("NOaddress").value = data.jibunAddress; //일반 주소
             
-         	// 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+         	// 참고항목 문자열이 있을 경우
             if(roadAddr !== ''){
                 document.getElementById("sample4_extraAddress").value = extraRoadAddr;
             } else {
