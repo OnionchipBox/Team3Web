@@ -69,7 +69,7 @@ public class UserVO {
 
 	private String joindate;
 	private String updatedate;
-	private int verify;
+	private String verify;
 	
 	public UserVO() {}
 

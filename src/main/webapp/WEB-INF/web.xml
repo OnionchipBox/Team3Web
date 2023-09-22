@@ -7,15 +7,6 @@
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
-
-<security:http> <!-- 스프링 시큐리티가 http에서 알수 있게 하는 시작 지점 설정 -->
-<security:form-login /> <!-- 시큐리티 폼 로그인 설정 -->
-</security:http>
-<security:authentication-manager><!-- 스프링 시큐리티가 동작하기 위해서는
-authentication-manager
-설정 -->
-</security:authentication-manager>
-
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -26,6 +17,9 @@ authentication-manager
 	</context-param>
 	
 	<!-- 스프링 시큐리티 -->
+	<listener>
+    	<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+	</listener> <!-- 동시 로그인 제한 -->
 	<filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>

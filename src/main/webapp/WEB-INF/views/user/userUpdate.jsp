@@ -4,7 +4,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Team3Web</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 function searchAddress() {
@@ -44,6 +50,8 @@ function searchAddress() {
 </script>
 </head>
 <body>
+	<jsp:include page="../header.jsp" />
+	<br><br><br><br>
 <div class="container">
 		<div class="row">
 			<h1>회원 정보 수정하기</h1>
@@ -53,7 +61,7 @@ function searchAddress() {
 				<div class="form-group">
 					<label for="inputId" class="col-sm-2 control-label">ID</label>
 					<div class="col-sm-10">
-						<input class="form-control" id="inputId" value="${user.id}" name="id" readonly>
+						<input class="form-control" id="inputId" value="${user.id}" name="id" required readonly>
 					</div>
 				</div>
 				<div class="form-group">
@@ -69,30 +77,30 @@ function searchAddress() {
 					</div>
 				</div>				
 				<div class="form-group">
-					<label for="inputName" class="col-sm-2 control-label">Name</label>
+					<label for="inputName" class="col-sm-2 control-label">이름</label>
 					<div class="col-sm-10">
-						<input class="form-control" id="inputName" value="${user.name}" name="name">
+						<input class="form-control" id="inputName" value="${user.name}" name="name" readonly>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="inputAdd" class="col-sm-2 control-label">Address</label>
+					<label for="inputAdd" class="col-sm-2 control-label">주소</label>
 					<div class="col-sm-10">
-						<input type="text" id="zipcode" name="zipcode" value="${user.zipcode}" onclick="searchAddress()">&nbsp;
+						<input type="text" id="zipcode" name="zipcode" value="${user.zipcode}" onclick="searchAddress()" readonly>&nbsp;
 						<input type="button" class="btn btn-default btn-sm" id="searchAdd" value="우편번호 찾기" onclick="searchAddress()"><br>
-						<input class="form-control" type="text" id="address" name="address" value="${user.address}">
+						<input class="form-control" type="text" id="address" name="address" value="${user.address}" readonly>
 						<input class="form-control" type="text" id="detailAddress" name="detailAddress" placeholder="상세주소">
 						
 					</div>
 				</div>
 	
 				<div class="form-group">
-					<label for="inputTel" class="col-sm-2 control-label">Tel</label>
+					<label for="inputTel" class="col-sm-2 control-label">전화번호</label>
 					<div class="col-sm-10">
 						<input type="tel" class="form-control" id="inputTel" value="${user.phone}" name="phone">
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="inputBirth" class="col-sm-2 control-label">Bitrh</label>
+					<label for="inputBirth" class="col-sm-2 control-label">생일</label>
 					<div class="col-sm-10">
 						<input type="date" class="form-control" id="inputBirth" value="${user.birthday}" name="birthday">
 					</div>
@@ -108,6 +116,7 @@ function searchAddress() {
 			<a href="/shop" class="btn btn-default"><button class="btn btn-default" id="back_to_myPage">마이페이지로 돌아가기</button></a>
 		</div><!-- class=row -->
 	</div><!-- class=container -->
-
+	<br><br><br>
+	<jsp:include page="../footer.jsp" />
 </body>
 </html>

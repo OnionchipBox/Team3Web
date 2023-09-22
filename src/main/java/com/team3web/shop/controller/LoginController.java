@@ -2,9 +2,9 @@ package com.team3web.shop.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -14,13 +14,19 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.team3web.shop.api.KakaoLoginBO;
@@ -47,6 +53,10 @@ public class LoginController {
 	private void setKakaoLoginBO(KakaoLoginBO kakaoLoginBO) {
 		this.kakaoLoginBO = kakaoLoginBO;
 	}
+	
+	@Autowired
+	@Qualifier("AuthenticationManager")
+	private AuthenticationManager authenticationManager;
 	
 	@RequestMapping(value = "/login" , method = RequestMethod.GET)
     public String login(Model model, HttpSession session) {
@@ -117,38 +127,34 @@ public class LoginController {
 	public String login(
 	        @RequestParam("id") String id,
 	        @RequestParam("password") String password,
-	        HttpSession session,
-	        Model model,
-	        RedirectAttributes redirectAttributes) {
+	        Model model) {
 
-	    UserVO userVO = new UserVO();
-	    userVO.setId(id);
-	    userVO.setPassword(password);
+	    Authentication authentication = new UsernamePasswordAuthenticationToken(id, password);
 
-	    int loginResult = loginService.loginCheck(userVO, session);
+	    try {
+	        Authentication authenticatedUser = authenticationManager.authenticate(authentication);
+	        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
 
-	    if (loginResult == 1) {
-	        int role = loginService.getUserRole(id);
-	        String name = loginService.getUserName(id);
-	        String pw = loginService.getPasswordById(password);
-	        session.setAttribute("loggedInUserName", name);
-	        session.setAttribute("id",id);	 
-	      session.setAttribute("pw", pw);
-	        System.out.println("로그인 성공 "+name);
+	        Collection<? extends GrantedAuthority> authorities = authenticatedUser.getAuthorities();
 	        
-	        if (role == 0 || role == 1  ) {
+	        if (authorities.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
 	            return "index";
-	        } else if (role == 2) {
-	            return "/shop/admin";
-	        } else {
+	        } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_SELLER"))) {
+	            return "index";
+	        } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+	        	return "/shop/admin";
+	    	}else {
 	            return "index";
 	        }
-	    } else {
+	    } catch (AuthenticationException e) {
 	        model.addAttribute("loginResult", "아이디 또는 비밀번호가 일치하지 않습니다.");
-	        System.out.println("로그인 실패");
+	        System.out.println("로그인 실패: " + e.getMessage());
+	        e.printStackTrace();
 	        return "/user/login";
 	    }
 	}
+
+	
 	@RequestMapping(value = "/userUpdate", method = RequestMethod.GET)
 	public String update(Model model, HttpSession session,
 			HttpServletResponse response) throws Exception {

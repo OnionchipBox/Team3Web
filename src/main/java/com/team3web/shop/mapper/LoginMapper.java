@@ -6,6 +6,10 @@ public interface LoginMapper {
 	
 	public int loginCheck(UserVO user);
 	
+	public UserVO loadUserByUsername(String username);
+	
+	public String getUserRoleById(String id);
+	
 	public UserVO viewUser(UserVO user);
 	
 	public String idFind(UserVO user);

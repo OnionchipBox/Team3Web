@@ -4,7 +4,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.team3web.shop.dao.LoginDAO;
@@ -16,12 +16,12 @@ public class LoginServiceImpl implements LoginService {
 	@Inject
 	LoginDAO LoginDAO;
 	
-	private final PasswordEncoder passwordEncoder;
+	@Autowired
+    private BCryptPasswordEncoder BCryptPasswordEncoder;
 
     @Autowired
-    public LoginServiceImpl(LoginDAO LoginDAO, PasswordEncoder passwordEncoder) {
+    public LoginServiceImpl(LoginDAO LoginDAO) {
         this.LoginDAO = LoginDAO;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class LoginServiceImpl implements LoginService {
 		UserVO dbUser = LoginDAO.getUserById(user.getId());
 
         if (dbUser != null) {
-            if (passwordEncoder.matches(user.getPassword(), dbUser.getPassword())) {
+            if (BCryptPasswordEncoder.matches(user.getPassword(), dbUser.getPassword())) {
                 return 1;
             }
         }
@@ -39,8 +39,8 @@ public class LoginServiceImpl implements LoginService {
     public boolean changePassword(String userId, String oldPassword, String newPassword) {
     	UserVO dbUser = LoginDAO.getUserById(userId);
     	if(dbUser!=null) {
-    		if(passwordEncoder.matches(oldPassword, dbUser.getPassword())) {
-    			String encodedNewPassword = passwordEncoder.encode(newPassword);
+    		if(BCryptPasswordEncoder.matches(oldPassword, dbUser.getPassword())) {
+    			String encodedNewPassword = BCryptPasswordEncoder.encode(newPassword);
     		dbUser.setPassword(encodedNewPassword);
     		LoginDAO.updateUser(dbUser);
     		return true;

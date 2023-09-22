@@ -7,6 +7,10 @@ import com.team3web.shop.vo.UserVO;
 public interface LoginDAO {
 
 	public int loginCheck(UserVO user);
+	
+	public UserVO loadUserByUsername(String username);
+	
+	public String getUserRoleById(String id);
 			
 	public UserVO viewUser(UserVO user);
 			
