@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -175,37 +176,32 @@ document.addEventListener("DOMContentLoaded", function() {
 					href="<%=request.getContextPath()%>/">Team3Web</a>
 			</h1>
 			<ul class="navbar-nav ms-auto me-2 flex-row align-items-center">
-			<c:choose>
-            	<c:when test="${empty sessionScope.loggedInUserName}">
-                	<span onclick="linkLogin()" style="cursor: pointer;">로그인</span>
-            	</c:when>
-            	<c:otherwise>
-                	<div class="user-info">
-                    	<p>이름 : ${sessionScope.loggedInUserName}&nbsp;&nbsp;
-                    	<span onclick="logout()" style="cursor: pointer;">로그아웃</span>
-                	</div>
-            	</c:otherwise>
-        	</c:choose>
+				<sec:authorize access="isAnonymous()">
+					<span onclick="linkLogin()" style="cursor: pointer;">로그인</span>
+				</sec:authorize>
+				<sec:authorize access="isAuthenticated()">
+					<div class="user-info">
+						<p>
+							닉네임 :
+							<sec:authentication property="principal.nickName" />
+							&nbsp;&nbsp; <a href="<c:url value="/logout" />">로그아웃</a>
+					</div>
+				</sec:authorize>
 				<li class="nav-item">
 					<button class="icon-button" id="searchIcon">
 						<i class="bi bi-search"></i>
 					</button>
 				</li>
 				<li class="nav-item px-lg-2">
-				<c:choose>
-            		<c:when test="${empty sessionScope.loggedInUserName}">
-    					<button class="icon-button" id="userIcon" onclick="linkLogin()">
-    					<i class="bi bi-person-circle"></i>
-        				<span id="userName"></span>
-        				</button>
-    				</c:when>
-    				<c:otherwise>
-    					<button class="icon-button" id="userIcon" onclick="linkMyinfo()">
-    					<i class="bi bi-person-circle"></i>
-        				<span id="userName"></span>
-    				</button>
-    				</c:otherwise>
-        		</c:choose>
+				<sec:authorize access="isAnonymous()">
+						<button class="icon-button" id="userIcon" onclick="linkLogin()">
+							<i class="bi bi-person-circle"></i> <span id="userName"></span>
+						</button>
+					</sec:authorize> <sec:authorize access="isAuthenticated()">
+						<button class="icon-button" id="userIcon" onclick="linkMyinfo()">
+							<i class="bi bi-person-circle"></i> <span id="userName"></span>
+						</button>
+					</sec:authorize>
 				</li>
 
 				<li class="nav-item">
@@ -318,7 +314,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 		
 		function linkMyinfo() {
-			window.location.href = "userUpdate";
+			window.location.href = "updateLogin";
 			
 		}
 		

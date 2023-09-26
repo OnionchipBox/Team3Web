@@ -34,6 +34,10 @@
         <intercept-url pattern="/userUpdate/**" access="hasAnyRole('USER','SELLER','ADMIN')" />
         <form-login login-page="/login" default-target-url="/shop" authentication-failure-url="/login?error=true"
                     username-parameter="id" password-parameter="password" />
-        <logout logout-success-url="/shop" />
+        <logout
+    		logout-url="/logout"
+    		logout-success-url="/"
+    		invalidate-session="true"
+    		delete-cookies="JSESSIONID" />
     </http>
 </beans:beans>

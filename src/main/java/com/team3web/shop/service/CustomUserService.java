@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -42,6 +44,10 @@ public class CustomUserService implements UserDetailsService {
         String password = request.getParameter("password");
         String encodedPassword = userVO.getPassword();
         String userRole = loginDAO.getUserRoleById(username);
+        String name = userVO.getName();
+        String phone = userVO.getPhone();
+        String address = userVO.getAddress();
+        String userNickname = userVO.getNickname();
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_" + userRole));
         
@@ -56,13 +62,28 @@ public class CustomUserService implements UserDetailsService {
         
         System.out.println("최종 인증 정보 -> \n 아이디: "+ username + "\nDB암호 : "
         + encodedPassword + "\n 입력 암호 : " + password + "\n사용자 등급 : " + authorities);
-        
+        System.out.println("닉네임 : "+userNickname+"\n 사용자 이름 : "+name);
         System.out.println("\n null체크 : " + userVO.getId() + "\n" + encodedPassword + "\n" + authorities);
-        return new User(
-        	    userVO.getId(),
-        	    encodedPassword,
-                authorities
-        	);
+        
+        CustomUserDetails userDetails = new CustomUserDetails(
+                username,
+                encodedPassword,
+                authorities,
+                userNickname,
+                name,
+                phone,
+                address
+            );    
+        
+        return new CustomUserDetails(
+                userVO.getId(),
+                encodedPassword,
+                authorities,
+                userDetails.getNickName(),
+                userDetails.getName(),
+                userDetails.getPhone(),
+                userDetails.getAddress()
+            );
     }
     
 }

@@ -167,7 +167,7 @@ function showRegisterEvent() {
 				 <div class="form-group">
                     <label for="birthdate">생년월일:</label>
                     <div id="birthGroup">
-                        <input type="text" id="birthday" name="birthday" class="form-control" placeholder="ex)20001231" required>
+                        <input type="text" id="birthday" name="birthday" class="form-control" placeholder="ex)2000-12-31" required>
                     </div>
                 </div>
 				<div class="form-group">

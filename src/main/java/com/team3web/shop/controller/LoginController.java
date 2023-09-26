@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.Collection;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -23,8 +24,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +35,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.team3web.shop.api.KakaoLoginBO;
 import com.team3web.shop.api.NaverLoginBO;
+import com.team3web.shop.dao.LoginDAO;
+import com.team3web.shop.service.CustomUserDetails;
 import com.team3web.shop.service.LoginService;
+import com.team3web.shop.service.UserServiceImpl;
 import com.team3web.shop.vo.UserVO;
 
 
@@ -47,6 +53,12 @@ public class LoginController {
 	LoginService loginService;
 	
 	@Autowired
+	private LoginDAO loginDAO;
+	
+	@Autowired
+	private UserServiceImpl userService;
+	
+	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
 		this.naverLoginBO = naverLoginBO;
 	}
@@ -59,6 +71,12 @@ public class LoginController {
 	@Autowired
 	@Qualifier("AuthenticationManager")
 	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+    private HttpServletRequest request;
 
 	@RequestMapping(value = "/login" , method = RequestMethod.GET)
     public String login(Model model, HttpSession session) {
@@ -129,21 +147,31 @@ public class LoginController {
 	public String login(
 	        @RequestParam("id") String id,
 	        @RequestParam("password") String password,
-	        Model model) {
+	        Model model, HttpSession session) {
 		
 	    try {  	
 	    	Authentication authentication = new UsernamePasswordAuthenticationToken(id, password);
 	    	
 	        Authentication authenticatedUser = authenticationManager.authenticate(authentication);
-	        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-
+	        SecurityContextHolder.getContext().setAuthentication(authenticatedUser); // 세션에 사용자정보 저장
 	        Collection<? extends GrantedAuthority> authorities = authenticatedUser.getAuthorities();
+	        CustomUserDetails customUserDetails = (CustomUserDetails) authenticatedUser.getPrincipal();
+
+	        session.setAttribute("loggedInUserName", customUserDetails.getName());
+	        session.setAttribute("loggedInUserNickName", customUserDetails.getNickName());
+	        session.setAttribute("loggedInUserPhone", customUserDetails.getPhone());
 	        
 	        if (authorities.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
+	        	session.setAttribute("loggedInUserId", id);
+	            session.setAttribute("loggedInUserRole", "ROLE_USER");
 	            return "index";
 	        } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_SELLER"))) {
+	        	session.setAttribute("loggedInUserId", id);
+	            session.setAttribute("loggedInUserRole", "ROLE_SELLER");
 	            return "index";
 	        } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+	        	session.setAttribute("loggedInUserId", id);
+	            session.setAttribute("loggedInUserRole", "ROLE_ADMIN");
 	        	return "/shop/admin";
 	    	}else {
 	            return "index";
@@ -156,53 +184,128 @@ public class LoginController {
 	    }
 	}
 	
-	@RequestMapping(value = "/userUpdate", method = RequestMethod.GET)
-	public String update(Model model, HttpSession session,
-			HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/updateLogin", method = RequestMethod.GET)
+    public String showUpdateLoginPage(HttpSession session, HttpServletResponse response) throws Exception {
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out=response.getWriter();
-
-		String id=(String)session.getAttribute("id");//세션 아이디를 구함
-		String password=(String)session.getAttribute("pw");
-		logger.info("C: 회원정보보기 GET의 아이디 "+id);
-		logger.info("C: 회원정보보기 GET의 비밀번호 "+password);
-		
+        String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+        if (loggedInUserId == null) {
+        	out.println("<script>");
+	        out.println("alert('로그인 이후에 이용 가능하십니다');");
+	        out.println("</script>");
+            return "/user/login";
+        }
+        return "/user/updateLogin";
+    }
 	
-		if(id == null) {
-          out.println("<script>");
-          out.println("alert('다시 로그인 하세요!');");
-          out.println("</script>");
-		}else {
-			
-			UserVO user=loginService.getUserById(id);
-			String pw=loginService.getPasswordById(password);
-			  model.addAttribute("user", user);
-			  model.addAttribute("pw",pw);
-			    logger.info(" 회원정보보기 GET의 VO " + id);
-			    logger.info("vo pw:" + pw);
-			  return "/user/userUpdate";
-		}
-		return null;
+	@RequestMapping(value = "/updateLogin", method = RequestMethod.POST)
+    public String checkLogin(HttpSession session, HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out=response.getWriter();
+        String password = request.getParameter("password");
+        
+        System.out.println("1차 체크");
+        
+        String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+        UserVO userVO = loginDAO.loadUserByUsername(loggedInUserId);
+
+        String encodedPassword = userVO.getPassword();
+        
+        System.out.println("null 체크  -> \n" + encodedPassword + "\n" + password);
+
+        if (!passwordEncoder.matches(password, encodedPassword)) {
+        	out.println("<script>");
+	        out.println("alert('비밀번호가 다릅니다!');");
+	        out.println("</script>");
+            return "/user/updateLogin";
+        }
+
+        session = request.getSession();
+        session.setAttribute("loggedInUserPassword", encodedPassword);
+
+        return "/user/userUpdate";
+    }
+
+	@RequestMapping(value = "/userUpdate", method = RequestMethod.GET)
+	public String showUpdateForm(Model model, HttpSession session, HttpServletResponse response) throws Exception {
+	    response.setContentType("text/html;charset=UTF-8");
+	    PrintWriter out = response.getWriter();
+
+	    String id = (String) session.getAttribute("loggedInUserId");
+	    String password = (String) session.getAttribute("loggedInUserPassword");
+	    logger.info("C: 회원정보보기 GET의 아이디 " + id);
+	    logger.info("C: 회원정보보기 GET의 비밀번호 " + password);
+
+	    if (id == null) {
+	        out.println("<script>");
+	        out.println("alert('다시 로그인 하세요!');");
+	        out.println("</script>");
+	    } else {
+	        UserVO user = loginService.getUserById(id);
+	        String pw = loginService.getPasswordById(password);
+	        model.addAttribute("user", user);
+	        model.addAttribute("pw", pw);
+	        logger.info(" 회원정보보기 GET의 VO " + id);
+	        logger.info("vo pw:" + pw);
+	        return "/user/userUpdate";
+	    }
+	    return null;
 	}
 
-	@RequestMapping(value = "/userUp", method = RequestMethod.POST)
-	public String updateUser( Model model, HttpSession session ,UserVO userVO) throws Exception {
-		model.addAttribute("userVO",loginService.getUserById((String)session.getAttribute("id")));
-		
-		
-		
-	    // 여기에서 updatedUser를 이용하여 데이터베이스 업데이트 또는 다른 작업을 수행합니다.
-		logger.info("C: 회원정보수정 입력페이지 POST");
-		loginService.updateUser(userVO);
-		   session.setAttribute("userVO", userVO);
-			System.out.println("userVO:"+userVO);
-		    // 세션에 수정된 사용자 정보를 업데이트합니다.
-		
-		
-	    // 수정이 완료된 후에 메인 화면으로 리다이렉트 또는 포워딩합니다.
-	    return "redirect:/userUpdate"; // 메인 화면으로 리다이렉트 예시
+	@RequestMapping(value = "/userUpdate", method = RequestMethod.POST)
+	public String updateUser(@ModelAttribute("user") UserVO user, Model model,
+	        HttpServletResponse response) throws Exception {
+	    response.setContentType("text/html;charset=UTF-8");
+	    PrintWriter out = response.getWriter();
+
+	    try {
+	        UserVO existingUser = userService.getUserById(user.getId());
+
+	        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+	            existingUser.setPassword(user.getPassword());
+	        }
+	        if (user.getName() != null && !user.getName().isEmpty()) {
+	            existingUser.setName(user.getName());
+	        }
+	        if (user.getZipcode() != null && !user.getZipcode().isEmpty()) {
+	            existingUser.setZipcode(user.getZipcode());
+	        }
+
+	        if (user.getRoadAddr1() != null && !user.getRoadAddr1().isEmpty() &&
+	                user.getRoadAddr2() != null && !user.getRoadAddr2().isEmpty()) {
+	            existingUser.setRoadAddr1(user.getRoadAddr1());
+	            existingUser.setRoadAddr2(user.getRoadAddr2());
+
+	            String fullAddress = user.getRoadAddr1() + "*" + user.getRoadAddr2();
+	            existingUser.setAddress(fullAddress);
+	        }
+
+	        if (user.getAddress() != null && !user.getAddress().isEmpty()) {
+	            existingUser.setAddress(user.getAddress());
+	        }
+
+	        if (user.getPhone() != null && !user.getPhone().isEmpty()) {
+	            existingUser.setPhone(user.getPhone());
+	        }
+	        if (user.getBirthday() != null) {
+	            existingUser.setBirthday(user.getBirthday());
+	        }
+
+	        userService.updateUser(existingUser);
+
+	        out.println("<script>");
+	        out.println("alert('회원정보가 수정되었습니다');");
+	        out.println("</script>");
+	        return "index";
+	    } catch (Exception e) {
+	        out.println("<script>");
+	        out.println("alert('회원정보 수정실패');");
+	        out.println("</script>");
+	        return "/user/userUpdate";
+	    }
 	}
-	// 
+
+
 //	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
 //	public String changePassword(@RequestParam("oldPassword")String oldPassword,@RequestParam("newPassword") String newPassword, Model model, HttpSession session) throws Exception {
 //	    // 여기에서 updatedUser를 이용하여 데이터베이스 업데이트 또는 다른 작업을 수행합니다.
@@ -218,8 +321,7 @@ public class LoginController {
 //	}
 
 	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
-	public String logout(HttpSession session)throws IOException {
-		session.removeAttribute("loggedInUserName");
+	public String logout(HttpSession session) {
 		session.invalidate();
 	 
 		return "index";

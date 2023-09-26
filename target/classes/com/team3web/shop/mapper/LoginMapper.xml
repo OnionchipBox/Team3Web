@@ -16,8 +16,10 @@
 		WHERE id = #{id} AND password = #{password}
 	</select>
 
-	<select id="loadUserByUsername" parameterType="String" resultType="UserVO">
-    	SELECT id AS username, password, verify AS role FROM shop_user WHERE id = #{id}
+	<select id="loadUserByUsername" parameterType="String" resultType="com.team3web.shop.vo.UserVO">
+    	SELECT id AS username, password, nickname, name, verify AS role
+    	FROM shop_user
+    	WHERE id = #{id}
 	</select>
 
 	<select id="loadUserRoleByUsername" parameterType="String" resultType="String">
