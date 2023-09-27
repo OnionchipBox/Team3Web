@@ -31,8 +31,8 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public UserVO getUserById(String userId) {
-        return sqlSession.selectOne("UserMapper.getUserById", userId);
+    public UserVO getUserById(String id) {
+        return sqlSession.selectOne("UserMapper.getUserById", id);
     }
 
     @Override

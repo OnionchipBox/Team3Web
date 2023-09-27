@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserVO getUserById(String userId) {
-        return userDAO.getUserById(userId);
+    public UserVO getUserById(String id) {
+        return userDAO.getUserById(id);
     }
 
     @Override

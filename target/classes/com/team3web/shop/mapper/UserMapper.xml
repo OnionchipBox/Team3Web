@@ -21,12 +21,10 @@
 		phone = #{phone},
 		nickname = #{nickname},
 		zipcode = #{zipcode},
-		address = #{address}
-	    password = #{password}
 		address = #{address},
+	    password = #{password},
 		birthday = #{birthday},
-		address = #{address},
-		birthday = #{birthday},
+		UPDATEDATE = to_char(sysdate, 'YYYYMMDD HH24:MI:SS')
 		where
 		id=#{id}
 	</update>
@@ -75,10 +73,11 @@
 	
 	<!-- 사용자 아이디로 사용자 정보 가져오기 -->
 	<select id="getUserById" parameterType="String" resultType="UserVO">
-    	SELECT *
-    	FROM shop_user
-    	WHERE id = #{id}
+		SELECT *
+		FROM shop_user
+		WHERE id = #{id}
 	</select>
+
 
 	<!-- 사용여부 변경하기 -->
 	<update id="updateEnabled" parameterType="hashmap">

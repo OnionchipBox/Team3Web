@@ -60,25 +60,31 @@ function searchAddress() {
             <div class="form-group">
                <label for="inputId" class="col-sm-2 control-label">ID</label>
                <div class="col-sm-10">
-                  <input class="form-control" id="inputId" value="${user.id}" name="id" placeholder="${loggedInUserId}" readonly>
+                  <input class="form-control" id="inputId" value="${loggedInUserId}" name="id" placeholder="${loggedInUserId}" readonly>
                </div>
             </div>
             <div class="form-group">
                <label for="inputPassword" class="col-sm-2 control-label">Password</label>
                <div class="col-sm-10">
-                  <input type="password" class="form-control" id="inputPassword"  name="password">
+                  <input type="password" class="form-control" id="inputPassword" value="" name="password1">
                </div>
             </div>
             <div class="form-group">
                <label for="inputPassword2" class="col-sm-2 control-label">Confirm Password</label>
                <div class="col-sm-10">
-                  <input type="password" class="form-control" id="inputPassword2" >
+                  <input type="password" class="form-control" id="inputPassword2" value="" name="password2" >
                </div>
             </div>            
             <div class="form-group">
                <label for="inputName" class="col-sm-2 control-label">Name</label>
                <div class="col-sm-10">
-                  <input class="form-control" id="inputName" value="${user.name}" name="name" placeholder="${loggedInUserName}"  readonly>
+                  <input class="form-control" id="inputName" value="" name="name" placeholder="${loggedInUserName}"  readonly>
+               </div>
+            </div>
+            <div class="form-group">
+               <label for="inputNickName" class="col-sm-2 control-label">NickName</label>
+               <div class="col-sm-10">
+                  <input class="form-control" id="inputNickName" value="" name="nickname" placeholder="${loggedInUserNickName}" >
                </div>
             </div>
 				<div class="form-group">
@@ -86,22 +92,22 @@ function searchAddress() {
 					<div class="col-sm-10">
 						<input type="text" id="zipcode" name="zipcode"
 							value="${user.zipcode}" onclick="searchAddress()">&nbsp;
-						<input type="button" class="btn btn-default btn-sm" id="searchAdd" value="우편번호 찾기" onclick="searchAddress()"><br> 
-							<input class="form-control" type="text" id="roadAddr1" name="roadAddr1" onclick="searchAddress()">
-							 <input class="form-control" type="text" id="roadAddr2" name="roadAddr2" placeholder="상세주소">
+						<input type="button" class="btn btn-default btn-sm" id="searchAdd" value="" onclick="searchAddress()"><br> 
+							<input class="form-control" type="text" id="roadAddr1" value="" name="roadAddr1" onclick="searchAddress()">
+							 <input class="form-control" type="text" id="roadAddr2" value="" name="roadAddr2" placeholder="상세주소">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="inputTel" class="col-sm-2 control-label">Tel</label>
 					<div class="col-sm-10">
 						<input type="tel" class="form-control" id="inputTel"
-							value="${user.phone}" name="phone" placeholder="${loggedInUserPhone}">
+							value="" name="phone" placeholder="${loggedInUserPhone}">
 					</div>
 				</div>
 				<div class="form-group">
                <label for="inputBirth" class="col-sm-2 control-label">Bitrh</label>
                <div class="col-sm-10">
-                  <input type="date" class="form-control" id="inputBirth" value="${user.birthday}" name="birthday">
+                  <input type="date" class="form-control" id="inputBirth" value="" name="birthday">
                </div>
             </div>            
             <div class="form-group">

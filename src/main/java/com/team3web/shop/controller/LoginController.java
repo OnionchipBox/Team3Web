@@ -3,6 +3,7 @@ package com.team3web.shop.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +26,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +41,7 @@ import com.team3web.shop.api.NaverLoginBO;
 import com.team3web.shop.dao.LoginDAO;
 import com.team3web.shop.service.CustomUserDetails;
 import com.team3web.shop.service.LoginService;
-import com.team3web.shop.service.UserServiceImpl;
+import com.team3web.shop.service.UserService;
 import com.team3web.shop.vo.UserVO;
 
 
@@ -56,7 +59,7 @@ public class LoginController {
 	private LoginDAO loginDAO;
 	
 	@Autowired
-	private UserServiceImpl userService;
+	private UserService userService;
 	
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
@@ -253,58 +256,75 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/userUpdate", method = RequestMethod.POST)
-	public String updateUser(@ModelAttribute("user") UserVO user, Model model,
-	        HttpServletResponse response) throws Exception {
+	public String updateUser(@ModelAttribute("user") UserVO user,
+	                         @RequestParam(required = false) String password1,
+	                         @RequestParam(required = false) String password2,
+	                         @RequestParam(required = false) String name,
+	                         @RequestParam(required = false) String nickname,
+	                         @RequestParam(required = false) String zipcode,
+	                         @RequestParam(required = false) String roadAddr1,
+	                         @RequestParam(required = false) String roadAddr2,
+	                         @RequestParam(required = false) String phone,
+	                         @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date birthday,
+	                         HttpSession session, HttpServletResponse response) throws Exception {
 	    response.setContentType("text/html;charset=UTF-8");
 	    PrintWriter out = response.getWriter();
 
 	    try {
-	        UserVO existingUser = userService.getUserById(user.getId());
+	        String userId = (String) session.getAttribute("loggedInUserId");
+	        System.out.println("세션에 저장된 사용자 ID : "+ session.getAttribute("loggedInUserId") + "\n 인식Id : " + userId);
 
-	        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-	            existingUser.setPassword(user.getPassword());
+	        UserVO existingUser = loginService.getUserById(userId);
+	        System.out.println("ID 체크 : " + existingUser);
+	        
+//	        if (password != null && !password.isEmpty()) {
+//	            existingUser.setPassword(password);
+//	        }
+	        if (name != null && !name.isEmpty()) {
+	            existingUser.setName(name);
 	        }
-	        if (user.getName() != null && !user.getName().isEmpty()) {
-	            existingUser.setName(user.getName());
+	        if (nickname != null && !nickname.isEmpty()) {
+	            existingUser.setNickname(nickname);
 	        }
-	        if (user.getZipcode() != null && !user.getZipcode().isEmpty()) {
-	            existingUser.setZipcode(user.getZipcode());
+	        if (zipcode != null && !zipcode.isEmpty()) {
+	            existingUser.setZipcode(zipcode);
 	        }
-
-	        if (user.getRoadAddr1() != null && !user.getRoadAddr1().isEmpty() &&
-	                user.getRoadAddr2() != null && !user.getRoadAddr2().isEmpty()) {
-	            existingUser.setRoadAddr1(user.getRoadAddr1());
-	            existingUser.setRoadAddr2(user.getRoadAddr2());
-
-	            String fullAddress = user.getRoadAddr1() + "*" + user.getRoadAddr2();
+	        if (roadAddr1 != null && !roadAddr1.isEmpty() && roadAddr2 != null && !roadAddr2.isEmpty()) {
+	            String fullAddress = roadAddr1 + "*" + roadAddr2;
 	            existingUser.setAddress(fullAddress);
 	        }
-
-	        if (user.getAddress() != null && !user.getAddress().isEmpty()) {
-	            existingUser.setAddress(user.getAddress());
+	        if (phone != null && !phone.isEmpty()) {
+	            existingUser.setPhone(phone);
 	        }
-
-	        if (user.getPhone() != null && !user.getPhone().isEmpty()) {
-	            existingUser.setPhone(user.getPhone());
-	        }
-	        if (user.getBirthday() != null) {
-	            existingUser.setBirthday(user.getBirthday());
+	        if (birthday != null) {
+	            existingUser.setBirthday(birthday);
 	        }
 
 	        userService.updateUser(existingUser);
+	        
+	        session.setAttribute("loggedInUserNickName", existingUser.getNickname());
+	        session.setAttribute("loggedInUserPhone", existingUser.getPhone());
+	        
+	        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+	        userDetails.setNickName(nickname);
+	        userDetails.setPhone(phone);
 
+	        
+	        
+	        System.out.println("수정사항이 반영되었습니다");
 	        out.println("<script>");
 	        out.println("alert('회원정보가 수정되었습니다');");
 	        out.println("</script>");
 	        return "index";
 	    } catch (Exception e) {
+	        System.out.println("회원정보 수정실패" + e);
 	        out.println("<script>");
 	        out.println("alert('회원정보 수정실패');");
 	        out.println("</script>");
-	        return "/user/userUpdate";
+	        return "user/userUpdate";
 	    }
 	}
-
 
 //	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
 //	public String changePassword(@RequestParam("oldPassword")String oldPassword,@RequestParam("newPassword") String newPassword, Model model, HttpSession session) throws Exception {
