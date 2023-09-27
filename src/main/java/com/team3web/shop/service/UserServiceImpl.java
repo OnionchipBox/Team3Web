@@ -1,5 +1,6 @@
 package com.team3web.shop.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String userId) {
         userDAO.deleteUser(userId);
+    }
+    
+    @Override
+    public String findUserId(HashMap<String, Object> map) {
+        return userDAO.findUserId(map);
+    }
+
+    @Override
+    public String findPassword(HashMap<String, Object> map) {
+        return userDAO.findPassword(map);
     }
 
     @Override

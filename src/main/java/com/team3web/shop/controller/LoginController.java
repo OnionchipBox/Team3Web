@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -277,9 +277,26 @@ public class LoginController {
 	        UserVO existingUser = loginService.getUserById(userId);
 	        System.out.println("ID 체크 : " + existingUser);
 	        
-//	        if (password != null && !password.isEmpty()) {
-//	            existingUser.setPassword(password);
-//	        }
+	        if (password1 != null && !password1.isEmpty() && password2 != null && !password2.isEmpty()) {
+	            String newPassword = passwordEncoder.encode(password1);
+	            String existingPassword = existingUser.getPassword();
+
+	            if (!passwordEncoder.matches(password1, existingPassword)) {
+	                if (password1.equals(password2)) {
+	                    existingUser.setPassword(newPassword);
+	                } else {
+	                    out.println("<script>");
+	                    out.println("alert('비밀번호가 일치하지 않습니다.');");
+	                    out.println("</script>");
+	                    return "user/userUpdate";
+	                }
+	            } else {
+	                out.println("<script>");
+	                out.println("alert('기존 비밀번호와 다르게 작성하세요');");
+	                out.println("</script>");
+	                return "user/userUpdate";
+	            }
+	        }
 	        if (name != null && !name.isEmpty()) {
 	            existingUser.setName(name);
 	        }
@@ -304,7 +321,7 @@ public class LoginController {
 	        
 	        session.setAttribute("loggedInUserNickName", existingUser.getNickname());
 	        session.setAttribute("loggedInUserPhone", existingUser.getPhone());
-	        
+
 	        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 	        userDetails.setNickName(nickname);
@@ -326,24 +343,85 @@ public class LoginController {
 	    }
 	}
 
-//	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-//	public String changePassword(@RequestParam("oldPassword")String oldPassword,@RequestParam("newPassword") String newPassword, Model model, HttpSession session) throws Exception {
-//	    // 여기에서 updatedUser를 이용하여 데이터베이스 업데이트 또는 다른 작업을 수행합니다.
-//		 String userId = (String) session.getAttribute("id");
-//		  boolean passwordChanged = loginService.changePassword(userId, oldPassword, newPassword);
-//		  if (passwordChanged) {
-//				model.addAttribute("userVO",loginService.getUserById((String)session.getAttribute("id")));
-//		        return "redirect:/";
-//	    // 세션에 수정된 사용자 정보를 업데이트합니다.
-//	
-//		  }else
-//		return userId;
-//	}
-
 	@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
 	public String logout(HttpSession session) {
 		session.invalidate();
 	 
 		return "index";
+	}
+	
+	@RequestMapping(value = "/selectId", method = RequestMethod.GET)
+	public String selectIdJoin(HttpServletRequest request, Model model, UserVO searchVO) {
+		return "user/selectId";
+	}
+	
+	@RequestMapping(value = "/selectPassword", method = RequestMethod.GET)
+	public String selectPwJoin(HttpServletRequest request, Model model, UserVO searchVO) {
+		return "user/selectPassword";
+	}
+	
+	@RequestMapping(value = "/selectId", method = RequestMethod.POST)
+	public String selectId(HttpServletRequest request, Model model, UserVO searchVO,
+            @RequestParam String name,
+            @RequestParam String phone, HttpServletResponse response) throws IOException {
+		response.setContentType("text/html;charset=UTF-8");
+	    PrintWriter out = response.getWriter();
+		
+		try {
+			HashMap<String, Object> idMap = new HashMap<String, Object>();
+			idMap.put("name", name);
+			idMap.put("phone", phone);
+
+			String userId = userService.findUserId(idMap);
+
+	        
+	        if (userId != null) {
+	        	out.println("<script>");
+		        out.println("alert(userId);");
+		        out.println("</script>");
+	        } else {
+	        	out.println("<script>");
+		        out.println("alert('존재하지 않는 아이디입니다');");
+		        out.println("</script>");
+	        }
+	        
+	        return "user/selectId";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        model.addAttribute("error", "오류가 발생했습니다.");
+	        return "user/selectId";
+	    }
+	}
+	
+	@RequestMapping(value = "/selectPassword", method = RequestMethod.POST)
+	public String selectPw(HttpServletRequest request, Model model, UserVO searchVO,
+			@RequestParam String id,
+            @RequestParam String name,
+            @RequestParam String phone, HttpServletResponse response) throws IOException {
+		response.setContentType("text/html;charset=UTF-8");
+	    PrintWriter out = response.getWriter();
+		
+		try {
+			HashMap<String, Object> pwMap = new HashMap<String, Object>();
+			pwMap.put("id", id);
+			pwMap.put("name", name);
+			pwMap.put("phone", phone);
+
+			String newPassword = userService.findPassword(pwMap);
+	        
+	        if (newPassword != null) {
+	            model.addAttribute("foundPassword", newPassword);
+	        } else {
+	        	out.println("<script>");
+		        out.println("alert('비밀번호를 찾을 수 없습니다');");
+		        out.println("</script>");
+	        }
+	        
+	        return "user/selectPassword";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        model.addAttribute("error", "오류가 발생했습니다.");
+	        return "user/selectPassword";
+	    }
 	}
 }

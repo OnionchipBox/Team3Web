@@ -250,7 +250,7 @@ input[type="submit"]{
 				</div>
 
                 <div class="login-sub">
-                &nbsp;<a href="register">회원가입</a>|&nbsp;&nbsp;<a href="#">이메일 찾기</a>|&nbsp;&nbsp;<a href="#">비밀번호 찾기</a></div>
+                &nbsp;<a href="register">회원가입</a>|&nbsp;&nbsp;<a href="selectId">이메일 찾기</a>|&nbsp;&nbsp;<a href="selectPassword">비밀번호 찾기</a></div>
                 
                 
         </form>

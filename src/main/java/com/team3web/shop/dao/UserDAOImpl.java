@@ -7,6 +7,8 @@ import com.team3web.shop.vo.UserVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.mybatis.spring.SqlSessionTemplate;
+
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -30,6 +32,16 @@ public class UserDAOImpl implements UserDAO {
     	sqlSession.getMapper(UserMapper.class).deleteUser(userId);
     }
 
+    @Override
+    public String findUserId(HashMap<String, Object> map) {
+        return sqlSession.selectOne("UserMapper.findUserId", map);
+    }
+
+    @Override
+    public String findPassword(HashMap<String, Object> map) {
+        return sqlSession.selectOne("UserMapper.findPassword", map);
+    }
+    
     @Override
     public UserVO getUserById(String id) {
         return sqlSession.selectOne("UserMapper.getUserById", id);

@@ -73,6 +73,8 @@ function searchAddress() {
                <label for="inputPassword2" class="col-sm-2 control-label">Confirm Password</label>
                <div class="col-sm-10">
                   <input type="password" class="form-control" id="inputPassword2" value="" name="password2" >
+                  <button type="button" id="checkPasswordButton" class="btn btn-primary">비밀번호 확인</button>
+                  <span id="passwordMatchStatus" style="color: blue;"></span>
                </div>
             </div>            
             <div class="form-group">
@@ -91,7 +93,7 @@ function searchAddress() {
 					<label for="inputAdd" class="col-sm-2 control-label">Address</label>
 					<div class="col-sm-10">
 						<input type="text" id="zipcode" name="zipcode"
-							value="${user.zipcode}" onclick="searchAddress()">&nbsp;
+							value="" onclick="searchAddress()">&nbsp;
 						<input type="button" class="btn btn-default btn-sm" id="searchAdd" value="" onclick="searchAddress()"><br> 
 							<input class="form-control" type="text" id="roadAddr1" value="" name="roadAddr1" onclick="searchAddress()">
 							 <input class="form-control" type="text" id="roadAddr2" value="" name="roadAddr2" placeholder="상세주소">
@@ -100,8 +102,7 @@ function searchAddress() {
 				<div class="form-group">
 					<label for="inputTel" class="col-sm-2 control-label">Tel</label>
 					<div class="col-sm-10">
-						<input type="tel" class="form-control" id="inputTel"
-							value="" name="phone" placeholder="${loggedInUserPhone}">
+						<input class="form-control" id="inputTel" name="phone" placeholder="${loggedInUserPhone}">
 					</div>
 				</div>
 				<div class="form-group">
@@ -129,5 +130,19 @@ function searchAddress() {
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/script.js"></script>
+	<script>
+	document.getElementById("checkPasswordButton").addEventListener("click", function() {
+	    var password1 = document.getElementById("inputPassword").value;
+	    var password2 = document.getElementById("inputPassword2").value;
+	    
+	    if (password1 === password2) {
+	        alert("비밀번호가 일치합니다.");
+	        passwordMatchStatus.textContent = "체크 완료";
+	        passwordMatchStatus.style.color = "blue";
+	    } else {
+	        alert("비밀번호가 일치하지 않습니다.");
+	    }
+	});
+	</script>
 </body>
 </html>
