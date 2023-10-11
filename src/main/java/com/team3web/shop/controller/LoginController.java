@@ -366,36 +366,29 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value = "/selectId", method = RequestMethod.POST)
-	public String selectId(HttpServletRequest request, Model model, UserVO searchVO,
-            @RequestParam String name,
-            @RequestParam String phone, HttpServletResponse response) throws IOException {
-		response.setContentType("text/html;charset=UTF-8");
+	public String selectId(HttpServletRequest request, Model model,
+			UserVO user, HttpServletResponse response) throws IOException {
+	    response.setContentType("text/html;charset=UTF-8");
 	    PrintWriter out = response.getWriter();
-		
-		try {
-			HashMap<String, Object> idMap = new HashMap<String, Object>();
-			idMap.put("name", name);
-			idMap.put("phone", phone);
+	    
+	    UserVO userId = userService.findUserId(user);
 
-			String userId = userService.findUserId(idMap);
-
-	        
-	        if (userId != null) {
-	        	out.println("<script>");
-		        out.println("alert(userId);");
-		        out.println("</script>");
-		        out.flush();
+	    try {
+	    	
+	        if (userId == null) {
+	        	model.addAttribute("check", 1);
+	            return "user/login";
 	        } else {
-	        	out.println("<script>");
-		        out.println("alert('존재하지 않는 아이디입니다');");
-		        out.println("</script>");
-		        out.flush();
+	        	model.addAttribute("check", 0);
+				model.addAttribute("id", userId.getId());
+	            return "user/selectId";
 	        }
-	        
-	        return "user/selectId";
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        model.addAttribute("error", "오류가 발생했습니다.");
+	        out.println("<script>");
+	        out.println("alert('에러 발생');");
+	        out.println("</script>");
+	        out.flush();
 	        return "user/selectId";
 	    }
 	}
@@ -428,7 +421,10 @@ public class LoginController {
 	        return "user/selectPassword";
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        model.addAttribute("error", "오류가 발생했습니다.");
+	        out.println("<script>");
+	        out.println("alert('에러 발생');");
+	        out.println("</script>");
+	        out.flush();
 	        return "user/selectPassword";
 	    }
 	}

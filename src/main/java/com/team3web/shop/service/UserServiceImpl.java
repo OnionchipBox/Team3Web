@@ -39,8 +39,8 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public String findUserId(HashMap<String, Object> map) {
-        return userDAO.findUserId(map);
+    public UserVO findUserId(UserVO userId) {
+        return userDAO.findUserId(userId);
     }
 
     @Override

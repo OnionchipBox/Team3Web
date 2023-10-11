@@ -36,11 +36,11 @@
 	</delete>
 	
 	<!-- 아이디 찾기 -->
-    <select id="findUserId" parameterType="map" resultType="String">
-        SELECT id
-        FROM shop_user
-        WHERE name = #{name} AND phone = #{phone}
-    </select>
+	<select id="findUserId" resultType="UserVO">
+	    SELECT *
+	    FROM shop_user
+	    WHERE name = #{name} AND phone = #{phone}
+	</select>
     
     <!-- 비밀번호 찾기 -->
     <select id="findPassword" parameterType="map" resultType="String">

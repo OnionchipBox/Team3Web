@@ -13,7 +13,7 @@ public interface UserMapper {
     
     void deleteUser(String id);
 
-    String findUserId(HashMap<String, Object> map);
+    UserVO findUserId(UserVO userId);
 
     String findPassword(HashMap<String, Object> map);
     

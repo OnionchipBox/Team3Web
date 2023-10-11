@@ -12,7 +12,7 @@ public interface UserService {
 	
 	public void deleteUser(String userId); // 사용자 삭제
 
-	public String findUserId(HashMap<String, Object> map);
+	public UserVO findUserId(UserVO userId);
 
 	public String findPassword(HashMap<String, Object> map);
 	

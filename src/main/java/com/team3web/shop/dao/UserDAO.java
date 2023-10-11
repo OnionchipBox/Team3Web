@@ -15,7 +15,7 @@ public interface UserDAO {
     
     void deleteUser(String userId); // 사용자 삭제
 
-    String findUserId(HashMap<String, Object> map);
+    UserVO findUserId(UserVO userId);
 
     String findPassword(HashMap<String, Object> map);
     

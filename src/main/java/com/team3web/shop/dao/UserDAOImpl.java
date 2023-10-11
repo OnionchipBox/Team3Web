@@ -33,8 +33,8 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public String findUserId(HashMap<String, Object> map) {
-        return sqlSession.selectOne("UserMapper.findUserId", map);
+    public UserVO findUserId(UserVO userId) {
+        return sqlSession.selectOne("UserMapper.findUserId", userId);
     }
 
     @Override
