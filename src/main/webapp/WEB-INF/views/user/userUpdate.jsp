@@ -86,7 +86,7 @@ function searchAddress() {
             <div class="form-group">
                <label for="inputNickName" class="col-sm-2 control-label">NickName</label>
                <div class="col-sm-10">
-                  <input class="form-control" id="inputNickName" value="" name="nickname" placeholder="${loggedInUserNickName}" >
+                  <input class="form-control" id="inputNickName" value="${loggedInUserNickName}" name="nickname" placeholder="${loggedInUserNickName}" >
                </div>
             </div>
 				<div class="form-group">

@@ -150,7 +150,9 @@ public class LoginController {
 	public String login(
 	        @RequestParam("id") String id,
 	        @RequestParam("password") String password,
-	        Model model, HttpSession session) {
+	        Model model, HttpSession session, HttpServletResponse response) throws IOException {
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out=response.getWriter();
 		
 	    try {  	
 	    	Authentication authentication = new UsernamePasswordAuthenticationToken(id, password);
@@ -175,14 +177,15 @@ public class LoginController {
 	        } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
 	        	session.setAttribute("loggedInUserId", id);
 	            session.setAttribute("loggedInUserRole", "ROLE_ADMIN");
-	        	return "/shop/admin";
+	        	return "index";
 	    	}else {
 	            return "index";
 	        }
 	    } catch (AuthenticationException e) {
-	        model.addAttribute("loginResult", "아이디 또는 비밀번호가 일치하지 않습니다.");
 	        System.out.println("로그인 실패: " + e.getMessage());
 	        e.printStackTrace(); 
+	        out.println("<script> alert('아이디 또는 비밀번호가 일치하지 않습니다');</script>");
+	        out.flush();
 	        return "/user/login";
 	    }
 	}
@@ -196,6 +199,7 @@ public class LoginController {
         	out.println("<script>");
 	        out.println("alert('로그인 이후에 이용 가능하십니다');");
 	        out.println("</script>");
+	        out.flush();
             return "/user/login";
         }
         return "/user/updateLogin";
@@ -217,9 +221,8 @@ public class LoginController {
         System.out.println("null 체크  -> \n" + encodedPassword + "\n" + password);
 
         if (!passwordEncoder.matches(password, encodedPassword)) {
-        	out.println("<script>");
-	        out.println("alert('비밀번호가 다릅니다!');");
-	        out.println("</script>");
+	        out.println("<script> alert('비밀번호가 다릅니다!'); location.href='/user/updateLogin'; </script>");
+	        out.flush();
             return "/user/updateLogin";
         }
 
@@ -243,6 +246,7 @@ public class LoginController {
 	        out.println("<script>");
 	        out.println("alert('다시 로그인 하세요!');");
 	        out.println("</script>");
+	        out.flush();
 	    } else {
 	        UserVO user = loginService.getUserById(id);
 	        String pw = loginService.getPasswordById(password);
@@ -288,12 +292,14 @@ public class LoginController {
 	                    out.println("<script>");
 	                    out.println("alert('비밀번호가 일치하지 않습니다.');");
 	                    out.println("</script>");
+	                    out.flush();
 	                    return "user/userUpdate";
 	                }
 	            } else {
 	                out.println("<script>");
 	                out.println("alert('기존 비밀번호와 다르게 작성하세요');");
 	                out.println("</script>");
+	                out.flush();
 	                return "user/userUpdate";
 	            }
 	        }
@@ -327,18 +333,17 @@ public class LoginController {
 	        userDetails.setNickName(nickname);
 	        userDetails.setPhone(phone);
 
-	        
-	        
-	        System.out.println("수정사항이 반영되었습니다");
 	        out.println("<script>");
 	        out.println("alert('회원정보가 수정되었습니다');");
 	        out.println("</script>");
+	        out.flush();
 	        return "index";
 	    } catch (Exception e) {
 	        System.out.println("회원정보 수정실패" + e);
 	        out.println("<script>");
 	        out.println("alert('회원정보 수정실패');");
 	        out.println("</script>");
+	        out.flush();
 	        return "user/userUpdate";
 	    }
 	}
@@ -379,10 +384,12 @@ public class LoginController {
 	        	out.println("<script>");
 		        out.println("alert(userId);");
 		        out.println("</script>");
+		        out.flush();
 	        } else {
 	        	out.println("<script>");
 		        out.println("alert('존재하지 않는 아이디입니다');");
 		        out.println("</script>");
+		        out.flush();
 	        }
 	        
 	        return "user/selectId";
@@ -415,6 +422,7 @@ public class LoginController {
 	        	out.println("<script>");
 		        out.println("alert('비밀번호를 찾을 수 없습니다');");
 		        out.println("</script>");
+		        out.flush();
 	        }
 	        
 	        return "user/selectPassword";

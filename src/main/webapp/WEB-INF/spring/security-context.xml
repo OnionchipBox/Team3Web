@@ -20,7 +20,7 @@
     <authentication-manager alias="AuthenticationManager">
         <authentication-provider user-service-ref="customUserService">
             <password-encoder ref="passwordEncoder">
-                <!-- salt-source user-property="username" /-->
+                <!-- salt-source user-property="username" / -->
             </password-encoder>
         </authentication-provider>
     </authentication-manager>
@@ -29,9 +29,12 @@
     <context:component-scan base-package="com.team3web.shop.dao" />
 
     <http auto-config="true" use-expressions="true">
-        <intercept-url pattern="/**" access="permitAll" />
         <intercept-url pattern="/products/**" access="permitAll" />
-        <intercept-url pattern="/userUpdate/**" access="hasAnyRole('USER','SELLER','ADMIN')" />
+        <intercept-url pattern="/userUpdate/**" access="hasAnyRole('ROLE_USER','ROLE_SELLER','ROLE_ADMIN')" />
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/seller/registration" access="hasRole('ROLE_USER')" />
+        <intercept-url pattern="/seller/**" access="hasAnyRole('ROLE_SELLER','ROLE_ADMIN')" />
+        <intercept-url pattern="/**" access="permitAll" />
         <form-login login-page="/login" default-target-url="/shop" authentication-failure-url="/login?error=true"
                     username-parameter="id" password-parameter="password" />
         <logout

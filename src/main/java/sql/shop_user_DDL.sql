@@ -13,7 +13,20 @@ create table shop_user
   BIRTHDAY  DATE                  ,
   JOINDATE  VARCHAR2(20)                  ,
   UPDATEDATE VARCHAR2(20)   ,
-    verify      VARCHAR2(30)          DEFAULT 'USER'
+    VERIFY    VARCHAR2(30) DEFAULT 'USER' CHECK (VERIFY IN ('USER', 'SELLER', 'ADMIN')) ,
+    BALANCE NUMBER(10, 0) DEFAULT 0 ,
+    POINT NUMBER(10, 0) DEFAULT 1000
 );
+
+ALTER TABLE shop_user
+ADD BALANCE NUMBER(10, 0) DEFAULT 0;
+
+ALTER TABLE shop_user
+ADD POINT NUMBER(10, 0) DEFAULT 1000;
+
+ALTER TABLE shop_user
+ADD CONSTRAINT fk_user_seller FOREIGN KEY (ID) REFERENCES shop_seller (ID);
+
+
 
 -------------------------------------------------------------------------------- 

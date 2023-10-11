@@ -144,9 +144,6 @@ public class UserController {
 		return "/user/register";
 	}
 
-	
-	
-
 	@RequestMapping(value = "/naver/user/callback", method = { RequestMethod.GET, RequestMethod.POST })
 	public String userNaverCallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
 		return loginController.naverCallback(model, code, state, session);
@@ -156,4 +153,5 @@ public class UserController {
 	public String userKakaoCallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
 		return loginController.kakaoCallback(model, code, state, session);
 	}
+
 }

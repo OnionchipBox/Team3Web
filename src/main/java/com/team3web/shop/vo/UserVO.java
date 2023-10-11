@@ -73,6 +73,9 @@ public class UserVO {
 	private String updatedate;
 	private String verify;
 	
+	private int balance;
+	private int point;
+	
 	public UserVO() {}
 
 	public UserVO(UserVO user) {
