@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,19 +19,30 @@
     <form action="/shop/selectPassword" method="post">
         <div>
             <label for="inputId">아이디:</label>
-            <input type="text" id="inputId" name="id" required>
+            <input type="text" id="id" name="id" required>
         </div>
         <div>
             <label for="inputName">이름:</label>
-            <input type="text" id="inputName" name="name" required>
-        </div>
-        <div>
-            <label for="inputPhone">전화번호:</label>
-            <input type="text" id="inputPhone" name="phone" required>
+            <input type="text" id="name" name="name" required>
         </div>
         <div>
             <button type="submit">비밀번호 찾기</button>
         </div>
+        
+        <c:if test="${check == 1}">
+			<script>
+				opener.document.findform.id.value = "";
+				opener.document.findform.name.value = "";
+			</script>
+			<label>일치하는 정보가 존재하지 않습니다.</label>
+		</c:if>
+		<c:if test="${check == 0 }">
+			<div class="form-label-group">
+				<input class="btn btn-lg btn-secondary btn-block text-uppercase"
+					type="button" value="OK" onclick="linkUpdatePw()">
+			</div>
+		</c:if>
+        
     </form>
     <a href="/shop/login" class="btn btn-default"><button class="btn btn-default" id="back_to_myPage">로그인으로 돌아가기</button></a>
     <br><br><br>
@@ -41,5 +53,10 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/script.js"></script>
+	<script>
+		function linkUpdatePw(){
+			window.location.href = "user/updatePw";
+		}
+	</script>
 </body>
 </html>

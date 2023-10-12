@@ -1,6 +1,5 @@
 package com.team3web.shop.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.team3web.shop.vo.UserVO;
@@ -12,9 +11,11 @@ public interface UserService {
 	
 	public void deleteUser(String userId); // 사용자 삭제
 
-	public UserVO findUserId(UserVO userId);
+	public String findUserId(UserVO userId);
 
-	public String findPassword(HashMap<String, Object> map);
+    public String findPassword(UserVO userPw);
+    
+    public void updatePassword(UserVO user);
 	
 	public UserVO getUserById(String id); // 아이디로 사용자 조회
 	

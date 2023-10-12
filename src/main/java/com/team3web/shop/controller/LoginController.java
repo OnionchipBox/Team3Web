@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -356,31 +355,30 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value = "/selectId", method = RequestMethod.GET)
-	public String selectIdJoin(HttpServletRequest request, Model model, UserVO searchVO) {
+	public String selectIdJoin(HttpServletRequest request, Model model) {
 		return "user/selectId";
 	}
 	
 	@RequestMapping(value = "/selectPassword", method = RequestMethod.GET)
-	public String selectPwJoin(HttpServletRequest request, Model model, UserVO searchVO) {
+	public String selectPwJoin(HttpServletRequest request, Model model) {
 		return "user/selectPassword";
 	}
 	
 	@RequestMapping(value = "/selectId", method = RequestMethod.POST)
-	public String selectId(HttpServletRequest request, Model model,
-			UserVO user, HttpServletResponse response) throws IOException {
+	public String selectId(Model model, @ModelAttribute UserVO user, 
+			HttpServletResponse response) throws IOException {
 	    response.setContentType("text/html;charset=UTF-8");
 	    PrintWriter out = response.getWriter();
 	    
-	    UserVO userId = userService.findUserId(user);
+	    String userId = userService.findUserId(user);
 
 	    try {
 	    	
 	        if (userId == null) {
 	        	model.addAttribute("check", 1);
-	            return "user/login";
 	        } else {
 	        	model.addAttribute("check", 0);
-				model.addAttribute("id", userId.getId());
+				model.addAttribute("id", userId);
 	            return "user/selectId";
 	        }
 	    } catch (Exception e) {
@@ -391,31 +389,25 @@ public class LoginController {
 	        out.flush();
 	        return "user/selectId";
 	    }
+	    return "user/selectId";
 	}
 	
 	@RequestMapping(value = "/selectPassword", method = RequestMethod.POST)
-	public String selectPw(HttpServletRequest request, Model model, UserVO searchVO,
-			@RequestParam String id,
-            @RequestParam String name,
-            @RequestParam String phone, HttpServletResponse response) throws IOException {
+	public String selectPw(Model model, @ModelAttribute UserVO user, @RequestParam("id") String id,
+			HttpServletResponse response) throws IOException {
 		response.setContentType("text/html;charset=UTF-8");
 	    PrintWriter out = response.getWriter();
+	    
+	    String userPw = userService.findPassword(user);
 		
 		try {
-			HashMap<String, Object> pwMap = new HashMap<String, Object>();
-			pwMap.put("id", id);
-			pwMap.put("name", name);
-			pwMap.put("phone", phone);
-
-			String newPassword = userService.findPassword(pwMap);
-	        
-	        if (newPassword != null) {
-	            model.addAttribute("foundPassword", newPassword);
+ 
+	        if (userPw == null) {
+	        	model.addAttribute("check", 1);
 	        } else {
-	        	out.println("<script>");
-		        out.println("alert('비밀번호를 찾을 수 없습니다');");
-		        out.println("</script>");
-		        out.flush();
+	        	model.addAttribute("check", 0);
+	        	user.setId(id);
+	        	return "user/updatePw";
 	        }
 	        
 	        return "user/selectPassword";
@@ -427,5 +419,13 @@ public class LoginController {
 	        out.flush();
 	        return "user/selectPassword";
 	    }
+	}
+	
+	@RequestMapping(value = "/updatePw", method = RequestMethod.POST)
+	public String updatePw(Model model, @ModelAttribute UserVO user) {
+		
+		loginService.updatePw(user);
+		
+		return "user/login";
 	}
 }

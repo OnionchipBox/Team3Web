@@ -1,6 +1,5 @@
 package com.team3web.shop.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,14 +38,20 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public UserVO findUserId(UserVO userId) {
+    public String findUserId(UserVO userId) {
         return userDAO.findUserId(userId);
     }
 
     @Override
-    public String findPassword(HashMap<String, Object> map) {
-        return userDAO.findPassword(map);
+    public String findPassword(UserVO userPw) {
+        return userDAO.findPassword(userPw);
     }
+    
+    @Override
+	public void updatePassword(UserVO user) {
+    	user.setPassword(passwordEncoder.encode(user.getPassword()));
+    	userDAO.updatePassword(user);
+	}
 
     @Override
     public UserVO getUserById(String id) {
@@ -62,4 +67,5 @@ public class UserServiceImpl implements UserService {
     public int getUserRole(int verify) {
         return userDAO.getUserRole(verify);
     }
+
 }

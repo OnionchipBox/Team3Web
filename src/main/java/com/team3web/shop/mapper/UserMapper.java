@@ -13,9 +13,11 @@ public interface UserMapper {
     
     void deleteUser(String id);
 
-    UserVO findUserId(UserVO userId);
+    String findUserId(UserVO userId);
 
-    String findPassword(HashMap<String, Object> map);
+    String findPassword(UserVO userPw);
+    
+    void updatePassword(UserVO user);
     
     UserVO selectById(String id);
     
@@ -24,8 +26,6 @@ public interface UserMapper {
     List<UserVO> selectByName(String name);
     
     void updateEnabled(HashMap<String, Object> map);
-    
-    void updatePassword(HashMap<String, Object> map);
     
     UserVO getUserByNickname(String nickname);
     

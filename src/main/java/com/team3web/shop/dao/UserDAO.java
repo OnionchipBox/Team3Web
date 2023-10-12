@@ -1,6 +1,5 @@
 package com.team3web.shop.dao;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -15,9 +14,11 @@ public interface UserDAO {
     
     void deleteUser(String userId); // 사용자 삭제
 
-    UserVO findUserId(UserVO userId);
+    String findUserId(UserVO userId);
 
-    String findPassword(HashMap<String, Object> map);
+    String findPassword(UserVO userPw);
+    
+    void updatePassword(UserVO user);
     
     UserVO getUserById(String id); // 아이디로 사용자 조회
     

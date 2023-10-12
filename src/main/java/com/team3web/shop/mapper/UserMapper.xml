@@ -36,18 +36,24 @@
 	</delete>
 	
 	<!-- 아이디 찾기 -->
-	<select id="findUserId" resultType="UserVO">
-	    SELECT *
+	<select id="findUserId" parameterType="UserVO" resultType="String">
+	    SELECT id
 	    FROM shop_user
 	    WHERE name = #{name} AND phone = #{phone}
 	</select>
     
     <!-- 비밀번호 찾기 -->
-    <select id="findPassword" parameterType="map" resultType="String">
+    <select id="findPassword" parameterType="UserVO" resultType="String">
         SELECT password
         FROM shop_user
-        WHERE id = #{id} AND name = #{name} AND phone = #{phone}
+        WHERE id = #{id} AND name = #{name}
     </select>
+    
+    <!-- 비밀번호 변경하기 -->
+	<update id="updatePassword" parameterType="UserVO">
+		update shop_user set
+		password = #{password} where id=#{id}
+	</update>
 
 	<!-- 1개얻기하기 : 수정/삭제/로그인 -->
 	<select id="selectById" parameterType="String" resultType="UserVO">
@@ -97,11 +103,6 @@
 	<update id="updateEnabled" parameterType="hashmap">
 		update shop_user set
 		enabled = #{enabled} where id=#{id}
-	</update>
-	<!-- 비밀번호 변경하기 -->
-	<update id="updatePassword" parameterType="hashmap">
-		update shop_user set
-		password = #{password} where id=#{id} and name=#{name}
 	</update>
 	
 	<!-- 개수 얻기 : 관리자모드 -->

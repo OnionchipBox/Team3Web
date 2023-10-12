@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function() {
              }
          };
     	
-    	if (userRole === "ROLE_SELLER") {
+    	if (userRole === "ROLE_SELLER" || userRole === "ROLE_ADMIN") {
         	delete categoryLinkMapping["고객센터"]["판매자 등록하기"];
     	}
 
@@ -120,7 +120,9 @@ document.addEventListener("DOMContentLoaded", function() {
     	} else if(userRole === 'ROLE_ADMIN') {
     		categoryLinkMapping["관리자 전용"] = {
     				"path": "<%=request.getContextPath()%>/admin/",
-    				"회원 관리": "<%=request.getContextPath()%>/admin/userList"
+    				"회원 관리": "<%=request.getContextPath()%>/admin/userList",
+    				"판매업체 관리": "<%=request.getContextPath()%>/admin/sellerList",
+    				"제품 관리": "<%=request.getContextPath()%>/admin/productList",
     		};
     	}
 

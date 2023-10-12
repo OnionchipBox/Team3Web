@@ -8,7 +8,6 @@ import com.team3web.shop.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.mybatis.spring.SqlSessionTemplate;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -33,14 +32,19 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public UserVO findUserId(UserVO userId) {
-        return sqlSession.selectOne("UserMapper.findUserId", userId);
+    public String findUserId(UserVO userId) {
+        return sqlSession.getMapper(UserMapper.class).findUserId(userId);
     }
 
     @Override
-    public String findPassword(HashMap<String, Object> map) {
-        return sqlSession.selectOne("UserMapper.findPassword", map);
+    public String findPassword(UserVO userPw) {
+    	return sqlSession.getMapper(UserMapper.class).findPassword(userPw);
     }
+    
+    @Override
+	public void updatePassword(UserVO user) {
+    	sqlSession.getMapper(UserMapper.class).updatePassword(user);
+	}
     
     @Override
     public UserVO getUserById(String id) {
@@ -56,4 +60,5 @@ public class UserDAOImpl implements UserDAO {
 	public int getUserRole(int verify) {
 		return sqlSession.selectOne("UserMapper.getUserRole", verify);
 	}
+
 }

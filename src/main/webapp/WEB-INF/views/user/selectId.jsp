@@ -40,7 +40,7 @@
 		<label>찾으시는 아이디는' ${id}' 입니다.</label>
 		<div class="form-label-group">
 				<input class="btn btn-lg btn-secondary btn-block text-uppercase"
-					type="button" value="OK" onclick="closethewindow()">
+					type="button" value="비밀번호 찾기" onclick="closethewindow()">
 			</div>
 		</c:if>
     </form>
@@ -55,7 +55,7 @@
 	<script src="<%=request.getContextPath()%>/resources/js/script.js"></script>
 	<script>
 		function closethewindow(){
-			self.close();
+			window.location.href = "/shop/selectPassword";
 		}
 	</script>
 </body>

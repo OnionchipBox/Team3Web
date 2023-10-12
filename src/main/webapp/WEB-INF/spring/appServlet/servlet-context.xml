@@ -27,4 +27,15 @@
 	<beans:bean id="naverLoginBO" class="com.team3web.shop.api.NaverLoginBO" />
 	<beans:bean id="kakaoLoginBO" class="com.team3web.shop.api.KakaoLoginBO" />
 	
+	<beans:bean class="java.lang.String" id="uploadPath">
+ <beans:constructor-arg value="D:\program\Java_WorkSpace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Team3Web-test\resources" />
+</beans:bean>
+
+<!-- 일반 파일 업로드 경로 -->
+<resources mapping="/imgUpload/**" location="/resources/imgUpload/" />
+
+<beans:bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+ <beans:property name="maxUploadSize" value="10485760"/>
+</beans:bean>
+	
 </beans:beans>
