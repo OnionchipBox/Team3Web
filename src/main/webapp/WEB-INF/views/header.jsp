@@ -18,7 +18,16 @@
 	position:relative;
 	top:3px;    
 }
-
+.user-info{
+	margin-top:10px;
+	margin-right:15px;
+	padding-right: 10px;
+}
+.user-info a{
+	text-decoration: none;
+	color:inherit;
+	font-weight: bold;
+}
 #headlogo{
 	letter-spacing:10px;
 	font-family: 'PartialSansKR-Regular';
