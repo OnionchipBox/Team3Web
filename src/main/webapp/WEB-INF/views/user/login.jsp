@@ -166,10 +166,10 @@
 
 .login-container h2{
 	font-style:italic;
-	letter-spacing: 20px;
-	font-family:fantasy;
+	letter-spacing: 10px;
+	font-family: 'PartialSansKR-Regular';
 	text-align:center;
-    font-size: 50px;
+    font-size: 37px;
     font-weight: bold;
     color: #000;
     margin-bottom: 20px;
@@ -229,12 +229,12 @@ input[type="submit"]{
 		 <form action="<%=request.getContextPath()%>/login" method="post" onsubmit="loginEvent();">
             <!-- 로그인 폼 내용 -->
                 <div class="input-group">
-                    <label for="id">아이디:</label> 
+                    <label for="id">아이디</label> 
                     <input type="text" id="id" name="id" placeholder="예) nube@nube.com" required>
                 </div>
                 <div class="input-group">
-                    <label for="pw">비밀번호:</label> 
-                    <input type="password" id="password" name="password" placeholder="비밀번호를 입력하거라" required>
+                    <label for="pw">비밀번호</label> 
+                    <input type="password" id="password" name="password" placeholder="비밀번호 입력" required>
                 </div>
                 <input type="submit" value="로그인"><hr>
                 
