@@ -75,10 +75,13 @@ function showRegisterEvent() {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    
 }
 
+
+
 .form-container {
+	
     max-width: 400px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -111,7 +114,10 @@ function showRegisterEvent() {
     margin-top: 15px;
 }
 
+
+
 /* 회원가입 하단 서브폼 */
+
 
 .register-sub {
     display: flex;
@@ -124,10 +130,12 @@ function showRegisterEvent() {
 }
 
 .register-link {
-    color: #777777; /* 회색으로 변경 */
+    color: #777777;  
     text-decoration: none;
     font-size: 14px;
 }
+
+
 
 .register-sub-divider {
 	color: #777777;
@@ -136,9 +144,10 @@ function showRegisterEvent() {
 }
 
 h1 {
-font-family: Pretendard Variable,Pretendard,-apple-system,BlinkMacSystemFont,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Apple SD Gothic Neo,Noto Sans KR,Malgun Gothic,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;	
+	font-family: Pretendard Variable,Pretendard,-apple-system,BlinkMacSystemFont,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Apple SD Gothic Neo,Noto Sans KR,Malgun Gothic,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;	
 	font-size: 35px;
 	font-weight: bold;
+	margin-bottom:25px;
 }
 #addressGroup{
 	margin-bottom:10px;
@@ -157,13 +166,33 @@ font-family: Pretendard Variable,Pretendard,-apple-system,BlinkMacSystemFont,sys
 	padding:5px;
 }
 
+
+
+#lo01:hover{
+	font-weight: bold;
+    color: gray; 
+    text-decoration: underline;  
+}
+#lo02:hover{
+	font-weight: bold;
+    color: gray; 
+    text-decoration: underline; 
+}
+#lo03:hover{
+	font-weight: bold;
+    color: gray;
+    text-decoration: underline; 
+} 
+
+
 </style>
 </head>
 <body>
 	<jsp:include page="../header.jsp" />
 	<br><br><br><br>
     <div class="container">
-        <div class="form-container">
+        <!--  <div class="form-container"> --> <!-- 주석 처리하고 부트 내장 기능으로 대체 -->
+        <div class="col-md-4">
             <h1 class="text-center">회원가입</h1>
             <form method="post" action="<%= request.getContextPath() %>/register">
                 <div class="form-group">
@@ -212,19 +241,19 @@ font-family: Pretendard Variable,Pretendard,-apple-system,BlinkMacSystemFont,sys
                 <button type="submit" class="btn btn-dark" onclick="showRegisterEvent()">회원가입</button>
                 <ul class="register-sub">
                     <li class="register-sub-item">
-                        <a class="register-link" href="login">로그인</a>
+                        <a id="lo01"class="register-link" href="login">로그인</a>
                     </li>
                     <li class="register-sub-item">
                         <span class="register-sub-divider">|</span>
                     </li>
                     <li class="register-sub-item">
-                        <a class="register-link" href="#">아이디 찾기</a>
+                        <a id="lo02"class="register-link" href="#">아이디 찾기</a>
                     </li>
                     <li class="register-sub-item">
                         <span class="register-sub-divider">|</span>
                     </li>
                     <li class="register-sub-item">
-                        <a class="register-link" href="#">비밀번호 찾기</a>
+                        <a id="lo03"class="register-link" href="#">비밀번호 찾기</a>
                     </li>
                 </ul>
             </form>
