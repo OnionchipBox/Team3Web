@@ -135,6 +135,28 @@ function showRegisterEvent() {
     font-weight: bold;
 }
 
+h1 {
+font-family: Pretendard Variable,Pretendard,-apple-system,BlinkMacSystemFont,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Apple SD Gothic Neo,Noto Sans KR,Malgun Gothic,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;	
+	font-size: 35px;
+	font-weight: bold;
+}
+#addressGroup{
+	margin-bottom:10px;
+}
+
+#addressGroup input{
+	width:50%;
+}
+#addr1 {
+	border:1px solid black;
+	color:white;
+	background-color:#212529;
+	margin-left: 10px;
+	border-radius: 5px;
+	cursor:pointer;
+	padding:5px;
+}
+
 </style>
 </head>
 <body>
@@ -145,27 +167,27 @@ function showRegisterEvent() {
             <h1 class="text-center">회원가입</h1>
             <form method="post" action="<%= request.getContextPath() %>/register">
                 <div class="form-group">
-                    <label for="id">아이디:</label>
+                    <label for="id">아이디</label>
                     <input type="text" id="id" name="id" class="form-control" placeholder="ex)Team3Web@Team3Web.co.kr" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">비밀번호:</label>
+                    <label for="password">비밀번호</label>
                     <input type="password" id="password" name="password" class="form-control" placeholder="영문,숫자,특수문자 조합 8-16자" required>
                 </div>
                	<div class="form-group">
-               	<label for="name">이름:</label>
+               	<label for="name">이름</label>
         			<input type="text" id="name" name="name" class="form-control" required><br>
 				</div>
 				<div class="form-group">
-               	<label for="nickname">닉네임:</label>
+               	<label for="nickname">닉네임</label>
         			<input type="text" id="nickname" name="nickname" class="form-control" required><br>
 				</div>
 				<div class="form-group">
-               	<label for="phone">전화번호:</label>
+               	<label for="phone">전화번호</label>
         			<input type="text" id="phone" name="phone" class="form-control" placeholder="ex)01012345678" required><br>
 				</div>
 				 <div class="form-group">
-                    <label for="birthdate">생년월일:</label>
+                    <label for="birthdate">생년월일</label>
                     <div id="birthGroup">
                         <input type="text" id="birthday" name="birthday" class="form-control" placeholder="ex)2000-12-31" required>
                     </div>
@@ -176,16 +198,18 @@ function showRegisterEvent() {
 					<input type="radio" id="female" name="gender" class="form-check-input" value="여자" required> 
 					<label for="female" class="form-check-label">여자</label><br>
 				</div>
-				<div class="form-group">
-                    <label for="addressGroup">주소:</label>
+					<div class="form-group">
+                    <label for="addressGroup">주소</label>
                     <div id="addressGroup">
                         <input type="text" id="roadAddr1" name="roadAddr1" class="form-control" placeholder="주소" onclick="searchAddress()" required readonly>
-                        <button class="button" class="searchAddress" onclick="searchAddress()">주소 검색</button>
+                        <label for="addrbtn" id="addr1">검색</label>
+                        <button class="button" class="searchAddress" id="addrbtn" style="display:none;" onclick="searchAddress()">주소 검색</button>
+                    	
                     </div>
                     <input type="text" id="zipcode" name="zipcode" class="form-control" placeholder="우편번호" onclick="searchAddress()" required readonly>
                     <input type="text" id="roadAddr2" name="roadAddr2" class="form-control" placeholder="상세주소 입력" required>
                 </div>
-                <button type="submit" class="btn btn-primary" onclick="showRegisterEvent()">회원가입</button>
+                <button type="submit" class="btn btn-dark" onclick="showRegisterEvent()">회원가입</button>
                 <ul class="register-sub">
                     <li class="register-sub-item">
                         <a class="register-link" href="login">로그인</a>
