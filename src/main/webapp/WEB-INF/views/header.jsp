@@ -106,6 +106,12 @@
     margin-left: 20px;
 }
 
+#lo{
+	margin-right:10px;
+	position:relative;
+	top:-2px; 
+	font-weight: bold;
+}
 </style>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -224,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			</h1>
 			<ul class="navbar-nav ms-auto me-2 flex-row align-items-center">
 				<sec:authorize access="isAnonymous()">
-					<span onclick="linkLogin()" style="cursor: pointer;">로그인</span>
+					<span id="lo" onclick="linkLogin()" style="cursor: pointer;">로그인</span>
 				</sec:authorize>
 				<c:choose>
             		<c:when test="${sessionScope.loggedInUserRole == 'ROLE_ADMIN'}">
