@@ -117,11 +117,11 @@ public class QnAController { // qna게시판
 
 	// 내용 보기 + 답변폼 + 수정폼 + 삭제폼 
 			@GetMapping("/qna_cont") //get방식으로 접근하는 매핑주소를 처리 
-			public ModelAndView qna_cont(int qna_no,int page,String state,QnAVO q) {
+			public ModelAndView qna_cont(int qnano,int page,String state,QnAVO q) {
 				if(state.equals("cont")) { // 내용보기일 때만 조회수 증가
-					q=this.qnaService.getQnACont(qna_no);
+					q=this.qnaService.getQnACont(qnano);
 				}else {// 답변폼,수정폼,삭제폼일때는 조회수 증가 안 한다.
-					q=this.qnaService.getQnACont(qna_no);  // < -- 일단 조회수 안 쓸거니깐 똑같은 결론으로 넣어둠
+					q=this.qnaService.getQnACont(qnano);  // < -- 일단 조회수 안 쓸거니깐 똑같은 결론으로 넣어둠
 				}
 				
 				String qna_cont=q.getQcont().replace("\n", "<br>");

@@ -7,58 +7,68 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 
-<!-- QnA 게시판 부분  -->
+<!-- QnA 게시판 부분 -->
 <mapper namespace="com.team3web.shop.mapper.BoardMapper">
 
-<!-- 게시판 저장 -->
-<insert id="qna_in" parameterType="QnAVO">
-	insert into qna01(qna_no,qid,qtitle,qpw,qcont,qref,qstep,qlevel,qdate) values(qna_no_seq01.nextval,#{qid},#{qtitle},#{qpw},#{qcont},qna_no_seq01.nextval,0,0,sysdate)
-</insert>
+	<!-- 게시판 저장 -->
+	<insert id="qna_in" parameterType="QnAVO">
+		insert into
+		qna01(qnano,qid,qtitle,qpw,qcont,qref,qstep,qlevel,qdate)
+		values(qna_no_seq01.nextval,#{qid},#{qtitle},#{qpw},#{qcont},qna_no_seq01.nextval,0,0,sysdate)
+	</insert>
 
-<!-- 시퀀스 번호값 구함 -->
-   <select id="qnaNoSeq_Find" resultType="int">
-     select qna_no_seq01.nextval from dual
-   </select>
-	
-<!-- 검색전후 레코드 개수 -->
+	<!-- 시퀀스 번호값 구함 -->
+	<select id="qnaNoSeq_Find" resultType="int">
+		select
+		qna_no_seq01.nextval from dual
+	</select>
+
+	<!-- 검색전후 레코드 개수 -->
 	<select id="qna_count" resultType="int"> <!-- resultType은 반환타입 -->
-	select count(qna_no) from qna01 <!-- count()는 레코드 개수를 구하는 오라클 함수 -->
-	<!-- 검색 조건 -->
-	<where>
-		<if test="find_field ==''"></if> <!-- 검색을 안 한 경우 - > 총 레코드 개수 -->
-		<if test="find_field =='qtitle'"> <!-- 글 제목으로 검색하는 경우 -->
-		qtitle like #{find_name}
-		</if>
-		<if test="find_field == 'qcont'"> <!--글 내용으로 검색 경우-->
-			qcont like #{find_name}
-		</if>
-	</where>
-	</select>	
+		select count(qnano) from qna01 <!-- count()는 레코드 개수를 구하는 오라클 함수 -->
+		<!-- 검색 조건 -->
+		<where>
+			<if test="find_field ==''"></if> <!-- 검색을 안 한 경우 - > 총 레코드 개수 -->
+			<if test="find_field =='qtitle'"> <!-- 글 제목으로 검색하는 경우 -->
+				qtitle like #{find_name}
+			</if>
+			<if test="find_field == 'qcont'"> <!--글 내용으로 검색 경우 -->
+				qcont like #{find_name}
+			</if>
+		</where>
+	</select>
 
-<!-- 검색전후 목록 -->	
+	<!-- 검색전후 목록 -->
 
 	<select id="qna_list" resultType="QnAVO">
-	select * from(
-	select rowNum rNum, qna_no, qid, qtitle, qref,qstep,qlevel,qdate from(select * from qna01
-	<!-- 검색 조건 -->
-	<where>
-		<if test="find_field ==''"></if> <!-- 검색을 안 한 경우 - > 총 레코드 개수 -->
-		<if test="find_field =='qtitle'"> <!-- 글 제목으로 검색하는 경우 -->
-		qtitle like #{find_name}
-		</if>
-		<if test="find_field == 'qcont'"> <!--글 내용으로 검색 경우-->
-			qcont like #{find_name}
-		</if>
-	</where>
-	order by qref desc, qlevel asc)) where rNum &gt;=#{startrow}
-	and rNum &lt;=#{endrow} <!-- &gt;은 >의미이고, &lt;는 <의 뜻임-->
-	</select>	
-	
+
+		select * from(
+		select rowNum rNum, qnano, qid, qtitle,
+		qref,qstep,qlevel,qdate from (select
+		* from qna01
+
+		<!-- 검색 조건 -->
+		<where>
+			<if test="find_field ==''"></if> <!-- 검색을 안 한 경우 - > 총 레코드 개수 -->
+			<if test="find_field =='qtitle'"> <!-- 글 제목으로 검색하는 경우 -->
+				qtitle like #{find_name}
+			</if>
+			<if test="find_field == 'qcont'"> <!--글 내용으로 검색 경우 -->
+				qcont like #{find_name}
+			</if>
+		</where>
+		
+		order by qref desc, qlevel asc)) where rNum &gt;=#{startrow}
+		and rNum
+		&lt;=#{endrow} <!-- &gt;은 >의미이고, &lt;는 <의 뜻임 -->
+	</select>
+
 
 	<!-- 내용 보기 -->
 	<select id="qna_cont" resultType="QnAVO">
-	select * from qna01 where qna_no=#{qna_no}
-	</select>	
-	
+		select * from qna01 where
+		qnano=#{qnano}
+	</select>
+
 
 </mapper>

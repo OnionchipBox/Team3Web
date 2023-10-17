@@ -20,11 +20,11 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name="qna01")
-@EqualsAndHashCode(of="qna_no")
+@EqualsAndHashCode(of="qnano")
 public class QnAVO {
 
 	@Id
-	private int qna_no; //게시판번호
+	private int qnano; //게시판번호
 	private String qid;  //글쓴이 
 	private String qtitle; // 글제목
 	private String qpw; // 비번 

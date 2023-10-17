@@ -36,8 +36,8 @@ public class QnAServiceImpl implements QnAService {
 
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@Override
-	public QnAVO getQnACont(int qna_no) {
-		return this.qnaDao.getQnACont(qna_no);
+	public QnAVO getQnACont(int qnano) {
+		return this.qnaDao.getQnACont(qnano);
 	}
 
 	@Override

@@ -18,9 +18,11 @@
 </head>
 <body>
 <jsp:include page="../header.jsp" />
-	<div id="bsC_wrap">
-		<h2 class="bsC_title">QnA</h2>
-		<table id="bsC_t">
+
+
+	<div id="q_wrap">
+		<h2 class="q_title">QnA</h2>
+		<table id="q_t">
 			<tr>
 				<th>제목</th>
 				<td>${q.qtitle}</td>
@@ -30,13 +32,13 @@
 				<td>${qna_cont}</td>
 			</tr>
 		</table>
-		<div id="bsC_menu">
+		<div id="q_menu">
 			<input type="button" value="답변"
-				onclick="location='qna_cont?qna_no=${q.qna_no}&page=${page}&state=reply';" />
+				onclick="location='qna_cont?qnano=${q.qnano}&page=${page}&state=reply';" />
 			<input type="button" value="수정"
-				onclick="location='qna_cont?qna_no=${q.qna_no}&page=${page}&state=edit';" />
+				onclick="location='qna_cont?qnano=${q.qnano}&page=${page}&state=edit';" />
 			<input type="button" value="삭제"
-				onclick="location='qna_cont?qna_no=${q.qna_no}&page=${page}&state=del';" />
+				onclick="location='qna_cont?qnano=${q.qnano}&page=${page}&state=del';" />
 			<input type="button" value="목록"
 				onclick="location='qna_list?page=${page}';" />
 		</div>

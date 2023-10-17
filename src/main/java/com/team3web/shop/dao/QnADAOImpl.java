@@ -33,9 +33,9 @@ public class QnADAOImpl implements QnADAO {
 	} //검색 전후 목록 
 
 	@Override
-	public QnAVO getQnACont(int qna_no) {
+	public QnAVO getQnACont(int qnano) {
 		
-		return this.sqlSession.selectOne("qna_cont",qna_no);
+		return this.sqlSession.selectOne("qna_cont",qnano);
 	} // 내용 보기 
 
 	@Override

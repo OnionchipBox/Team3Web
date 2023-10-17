@@ -10,7 +10,7 @@ public interface QnADAO {
 	void insertQna(QnAVO q);
 	int getRowCount(PageVO q);
 	List<QnAVO> getQnaList(PageVO q);
-	QnAVO getQnACont(int qna_no);
+	QnAVO getQnACont(int qnano);
 	void updateLevel(QnAVO rq);
 	void replyQnA(QnAVO rq);
 	void editQnA(QnAVO q);

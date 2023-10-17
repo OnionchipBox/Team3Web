@@ -55,7 +55,7 @@ a{
                <tr>
                   <td align="center">
                   <c:if test="${q.qstep==0}"> <!-- 원본글일때만 글그룹번호를 출력 -->
-                  ${q.qref}
+                  ${q.qref}  
                   </c:if>
                   </td>
                   <td>
@@ -68,8 +68,8 @@ a{
                  &#8627;
                   </c:if>
                   <a id="titleui"
-                     href="qna_cont?qna_no=${q.qna_no}&state=cont&page=${page}">
-                        ${q.qtitle}</a></td>
+                     href="qna_cont?qnano=${q.qnano}&state=cont&page=${page}">
+                      ${q.qtitle}</a></td>
                   <td align="center">${q.qid}</td>
                   <td align="center">${fn:substring(q.qdate,0,10)}</td>
                   <%-- 0이상 10미만 사이의 년월일만 반환 --%>
