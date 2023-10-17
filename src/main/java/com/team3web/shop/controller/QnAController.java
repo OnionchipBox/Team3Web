@@ -1,17 +1,20 @@
 package com.team3web.shop.controller;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.team3web.shop.service.QnAService;
+import com.team3web.shop.vo.PageVO;
 import com.team3web.shop.vo.QnAVO;
 
 @Controller
@@ -20,120 +23,126 @@ public class QnAController { // qna게시판
 	@Autowired
 	private QnAService qnaService;
 	
+	
+	@RequestMapping(value="/myPage/myQnA", method=RequestMethod.GET)
+	public String myQnA() {
+		return "/user/myPage/myQnA";
+	}
+	
+	
+	
 	// qna 글쓰기 폼
-		@GetMapping("/qna_write") 
-		public ModelAndView qna_write(HttpServletRequest request) {
-			
-			int page=1;
-			if(request.getParameter("page")!=null) {
-				page=Integer.parseInt(request.getParameter("page"));
-				
-			}
-			ModelAndView wm = new ModelAndView();
-			wm.addObject("page",page); //페이징 책갈피 기능때문에 page 키이름에 쪽번호 저장
-			wm.setViewName("qna/qna_write"); 
-			return wm;
-		} // qna_write() 
+	@GetMapping("/qna_write")
+	public ModelAndView qna_write(HttpServletRequest request) {
+
+		int page = 1;
+		if (request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+
+		}
+		ModelAndView wm = new ModelAndView();
+		wm.addObject("page", page); // 페이징 책갈피 기능때문에 page 키이름에 쪽번호 저장
+		wm.setViewName("qna/qna_write");
+		return wm;
+	} // qna_write()
+	
+	@PostMapping("/qna_write_ok")
+	public String qna_write_ok(QnAVO q,HttpServletRequest request)
+	throws Exception{
+		
+		
+		String qid = request.getParameter("qid");
+	    
+		String qtitle = request.getParameter("qtitle");
+	    
+		String qcont = request.getParameter("qcont");
+	    
+		String qpw = request.getParameter("qpw");
+		
+		q.setQid(qid); q.setQtitle(qtitle);
+		q.setQpw(qpw); q.setQcont(qcont);
+		this.qnaService.insertQna(q);
+		return "redirect:/qna_list";
+		
+	}// qna_write_ok
 	
 	
-	/* qna 저장 
-		@PostMapping("/qna_write_ok")
-		public String qna_write_ok(QnAVO q,HttpServletRequest request)
-		throws Exception{
-			String saveFolder = request.getRealPath("upload_qna"); //이진 파일 업로드 서버 경로
-			int fileSize = 5*1024*1024; //이진파일 업로드 최대크기
-			MultipartRequest multi = null; // 이진파일 업로드 참조변수 
-			
-			
-			multi = new MultipartRequest(request,saveFolder,fileSize,"UTF-8");
-			
-			String qid = multi.getParameter("qid");
-			String qtitle = multi.getParameter("qtitle");
-			String qpw = multi.getParameter("qpw");
-			String qcont = multi.getParameter("qcont");
-			
-			
-			File upFile = multi.getFile("qfile"); // 첨부한 이진파일을 가져온다.
-			
-			if(upFile != null) { // 첨부한 파일이 있는 경우 실행 
-				String fileName = upFile.getName(); //첨부한 파일명을 구함.
-				Calendar c=Calendar.getInstance(); 
-				int year = c.get(Calendar.YEAR); //년도값
-				int month = c.get(Calendar.MONTH)+1; //월값, +1을 한 이유 :1월이 0으로 반환되기 때문
-				int date = c.get(Calendar.DATE); //일값
-				
-				String homedir = saveFolder+"/"+year+"-"+month+"-"+date; //오늘 날짜 폴더 경로를 저장
-				File path01 = new File(homedir);
-				
-				if(!(path01.exists())) { // 오늘날짜 폴더 경로가 없다면
-					path01.mkdir(); //오늘 날짜 폴더 생성
-					
+
+	// 페이징과 검색 기능이 되는 자료실 목록 
+	@RequestMapping("/qna_list")
+	public ModelAndView qna_list(HttpServletRequest request,PageVO q) {
+		
+		int page=1;
+		int limit=10; //한 페이지에 보여지는 목록 개수를 10개로 함
+		if(request.getParameter("page")!=null) {
+			page=Integer.parseInt(request.getParameter("page"));
+		}
+		
+		/* 검색과 관련된 부분 추가 */
+		String find_name = request.getParameter("find_name"); //검색어
+		String find_field = request.getParameter("find_field"); //검색 필드
+		q.setFind_name("%"+find_name+"%");  //%는 SQL문에서 하나 이상의 임의의 모르는 문자와 매핑 대응
+		q.setFind_field(find_field);
+		
+		int totalCount = this.qnaService.getRowCount(q); 
+		// 검색전 총 레코드 개수 , + 검색 후 레코드 개수
+		
+		q.setStartrow((page-1)*10+1); //시작행 번호
+		q.setEndrow(q.getStartrow()+limit-1); //끝행 번호
+		
+		List<QnAVO> qlist=this.qnaService.getQnaList(q); //검색전 목록
+		
+		//총 페이지수
+	      int maxpage=(int)((double)totalCount/limit+0.95);
+	      //시작페이지(1,11,21 ..)
+	      int startpage=(((int)((double)page/10+0.9))-1)*10+1;
+	      //현재 페이지에 보여질 마지막 페이지(10,20 ..)
+	      int endpage=maxpage;
+	      if(endpage>startpage+10-1) endpage=startpage+10-1;
+		
+		ModelAndView listM=new ModelAndView("qna/qna_list"); 
+		//생성자 인자값으로 뷰페이지 경로 설정
+		
+		listM.addObject("qlist",qlist); //qlist 키이름에 목록 저장
+		listM.addObject("page",page);
+		listM.addObject("startpage",startpage);// 시작 페이지 저장
+		listM.addObject("endpage",endpage); //마지막 페이지
+		listM.addObject("maxpage",maxpage); //최대페이지 
+		listM.addObject("listcount",totalCount); // 검색전후 레코드 개수
+		listM.addObject("find_field",find_field); //검색 필드 
+		listM.addObject("find_name",find_name); //검색어 
+		
+		return listM;
+	}//qna_list()
+
+	// 내용 보기 + 답변폼 + 수정폼 + 삭제폼 
+			@GetMapping("/qna_cont") //get방식으로 접근하는 매핑주소를 처리 
+			public ModelAndView qna_cont(int qna_no,int page,String state,QnAVO q) {
+				if(state.equals("cont")) { // 내용보기일 때만 조회수 증가
+					q=this.qnaService.getQnACont(qna_no);
+				}else {// 답변폼,수정폼,삭제폼일때는 조회수 증가 안 한다.
+					q=this.qnaService.getQnACont(qna_no);  // < -- 일단 조회수 안 쓸거니깐 똑같은 결론으로 넣어둠
 				}
-				Random r = new Random(); //난수를 발생시키는 클래스 
-				int random = r.nextInt(10000); // 0이상 10000미만 사이의 정수 숫자 난수를 발생 -> 강사님은 1억으로 설정하셨다요!!
 				
-				int index=fileName.lastIndexOf("."); //.위치 번호를 맨 오른쪽부터 찾아서
-				// 가장 먼저 나오는 . 위치번호를 맨 왼쪽부터 카운트해서 구한다. 첫 문자는 0부터 시작 
-				
-				String fileExtendsion=fileName.substring(index+1); // .이후부터
-				//마지막 문자까지 구함. -> 즉 첨부파일 확장자만 구함 
-				String refileName="qna"+year+month+date+random+"."+fileExtendsion;
-				//새로운 첨부파일명을 저장
-				String fileDBName = "/"+year+"-"+month+"-"+date+"/"+refileName;
-				// 데이터베이스에 저장될 레코드 값
-				
-				upFile.renameTo(new File(homedir+"/"+refileName));
-				// 새롭게 생성된 폴더에 변경된 파일명으로 실제 업로드 
-				
-				
-				q.setQfile(fileDBName); // 데이터 베이스에 저장될 레코드값
-			}else { //첨부 파일이 없는 경우 
-				String fileDBName="";
-				q.setQfile(fileDBName);
-			}//if else
-			
-			
-			q.setQid(qid); q.setQtitle(qtitle);
-			q.setQpw(qpw); q.setQcont(qcont);
-			
-			this.qnaService.insertQna(q); //자료실 저장 
-			return "redirect:/qna_list"; //자료실 목록보기 매핑주소로 이동 
-		}// qna_write_ok()
-	*/
+				String qna_cont=q.getQcont().replace("\n", "<br>");
 		
-		
-	/*// 수정중 
-		@PostMapping("/qna_write_ok")
-		public String qna_write_ok(QnAVO q, @RequestParam("qfile") MultipartFile qfile, 
-				String qid, String qtitle, String qcont, String qpw, HttpServletRequest request) {
-		    String saveFolder = request.getRealPath("upload_qna");
-		    
-		    if (!qfile.isEmpty()) { // 파일이 업로드된 경우
-		        String originalFileName = qfile.getOriginalFilename();
-		        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-		        String saveFileName = "qna" + System.currentTimeMillis() + fileExtension;
-		        String filePath = saveFolder + File.separator + saveFileName;
-		        
-		        try {
-		            qfile.transferTo(new File(filePath)); // 파일 저장
-		            q.setQfile("/upload_qna/" + saveFileName); // 데이터베이스에 저장될 파일 경로
-		        } catch (IOException e) {
-		            // 파일 업로드 중 오류 처리
-		            e.printStackTrace();
-		        }
-		    } else {
-		        // 파일이 첨부되지 않은 경우
-		        q.setQfile(""); // 빈 문자열 또는 원하는 기본값 설정
-		    }
-		    
-		    // 나머지 데이터 처리
-		    // ...
-			q.setQid(qid); q.setQtitle(qtitle); q.setQcont(qcont); q.setQpw(qpw);
-			
-		    this.qnaService.insertQna(q); // 자료실 저장
-		    return "redirect:/qna_list"; // 자료실 목록보기 매핑 주소로 이동
-		}	
-		*/
-			
 				
+				ModelAndView cm=new ModelAndView();
+				cm.addObject("page",page); //페이징에서 책갈피 기능때문에 쪽번호에 저장
+				cm.addObject("q",q);
+				cm.addObject("qna_cont",qna_cont);
+				
+				if(state.equals("cont")) {
+					cm.setViewName("qna/qna_cont"); 
+				}else if(state.equals("reply")) { 
+					cm.setViewName("qna/qna_reply");
+				}else if(state.equals("edit")) {
+					cm.setViewName("qna/qna_edit");
+				}else if(state.equals("del")) {
+					cm.setViewName("qna/qna_del");
+				}
+				return cm;
+			} //qna_cont()
+	
+	
 }

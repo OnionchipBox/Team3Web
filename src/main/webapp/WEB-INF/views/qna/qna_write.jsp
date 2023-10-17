@@ -4,8 +4,12 @@
 <head>
 <meta charset="UTF-8">
 <title>상품 문의</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/qna.css">
+	<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/resources/js/qna.js"></script>
@@ -20,12 +24,9 @@
 <div id="qwrap">
       <h2 class="title"><strong>상품문의</strong></h2><br>
       <form method="post" action="qna_write_ok"
-         onsubmit="return write_check();" enctype="multipart/form-data">
+         onsubmit="return write_check();">
 			
 			<table id="qna">
-			
-	
-			<!-- 추후에 ui https://wsss.tistory.com/1644 참고 리스트화면 -->
 			
 <div id="container">
 <form>
@@ -54,7 +55,7 @@
 </div>
 			<br>
 			<tr>
-			<p>클레임(교환/환불/취소)관련 문의는 <a href="#"><strong id="mypage">마이페이지 > 1:1 문의</strong></a>에서 문의 바랍니다.</p>
+			<p>클레임(교환/환불/취소)관련 문의는 <a href="<%=request.getContextPath()%>/myPage/myQnA"><strong id="mypage">마이페이지 > 1:1 문의</strong></a>에서 문의 바랍니다.</p>
            </tr>
            
            
@@ -76,12 +77,12 @@
                <td><textarea name="qcont" id="qcont" rows="8" cols="34"></textarea></td>
             </tr>
             <tr>
-               <th>파일첨부</th>
+             <!--   <th>파일첨부</th>
 				<td>
    					<input type="file" id="input-file" name="qfile" class="btn btn-dark"/>
 				</td>						
             </tr>
-            </div>
+            </div> -->
             
          </table>
          <div id="qnamenu">
@@ -94,5 +95,11 @@
    </div>
 
 <jsp:include page="../footer.jsp" />
+	<!-- Bootstrap JS and Popper.js -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+	<script src="/shop/resources/js/script.js"></script>
 </body>
 </html>

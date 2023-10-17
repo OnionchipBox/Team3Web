@@ -7,6 +7,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Q & A 상품문의</title>
+
+	<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
 
@@ -104,54 +112,7 @@ a{
 		</div>
 </form>
 
-<!-- 아작스  -->
-<c:forEach var="q" items="${qlist}">
-    <tr>
-        <td align="center">${q.qref}</td>
-        <td>
-            <a id="titleui" class="view-link"
-               data-qna-no="${q.qna_no}"
-               data-state="cont"
-               data-page="${page}">
-                ${q.qtitle}
-            </a>
-        </td>
-        <td align="center">${q.qid}</td>
-        <td align="center">${fn:substring(q.qdate,0,10)}</td>
-    </tr>
-</c:forEach>
 
-<script>
-    $(document).ready(function () {
-        $(".view-link").click(function (event) {
-            event.preventDefault(); // 기본 클릭 동작을 막음 (페이지 이동 방지)
-
-            var qna_no = $(this).data("qna_no");
-            var state = $(this).data("state");
-            var page = $(this).data("page");
-
-            // AJAX 요청 보내기
-            $.ajax({
-                type: "GET",
-                url: "qna_cont",
-                data: {
-                    qna_no: qna_no,
-                    state: state,
-                    page: page
-                },
-                success: function (data) {
-                    // 성공 시 받아온 데이터를 화면에 출력
-                    $("#qna_content").html(data);
-                    $("#qna-content").show(); // 내용을 표시
-                },
-                error: function () {
-                    // 오류 처리
-                    alert("게시물 내용을 불러오는 중 오류가 발생했습니다.");
-                }
-            });
-        });
-    });
-</script>
 
 
 

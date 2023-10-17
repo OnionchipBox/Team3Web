@@ -71,9 +71,9 @@ public class AdminController {
 		            UserVO userVO = new UserVO();
 		            userVO.setId(userId);
 		            userVO.setVerify(userVerify);
-
-		            adminDAO.updateUserVerify(userVO);
-		            adminDAO.forceDeleteSeller(userId);
+		            
+		            adminService.updateUserVerify(userVO);
+		            adminService.forceDeleteSeller(userId);
 		            
 		            redirectAttributes.addFlashAttribute("successMessage", "VerifyMessageOK");
 		            return "redirect:/admin/userList";

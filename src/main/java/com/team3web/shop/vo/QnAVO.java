@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
-
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,7 +19,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-@Table(name="qna")
+@Table(name="qna01")
 @EqualsAndHashCode(of="qna_no")
 public class QnAVO {
 
@@ -32,7 +32,10 @@ public class QnAVO {
 	@Column(length=1000)
 	private String qcont; // 글내용
 	
-	private String qfile; // 첨부파일경로와 파일명 저장할 변수
+	//private String qfile; // 첨부파일경로와 파일명 저장할 변수
+	private String qfile;
+
+	
 	
 	private int qref; //글 그룹번호 (원본글과 답변글 묶어주는 역할)
 	private int qstep; //원본글과 답변글을 구분하는 번호값

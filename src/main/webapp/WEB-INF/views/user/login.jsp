@@ -170,7 +170,6 @@
 	font-family: 'PartialSansKR-Regular';
 	text-align:center;
     font-size: 37px;
-    font-weight: bold;
     color: #000;
     margin-bottom: 20px;
 }
