@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Q & A 상품문의</title>
+<title>Q &#38; A 상품문의</title>
 
 	<link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
@@ -34,6 +34,12 @@ a{
 	
 	margin-left: 10px;
 }
+
+.title_q{
+	font-weight: bold;
+}
+
+
 </style>
 </head>
 <body>
@@ -42,7 +48,7 @@ a{
 
 <div id="qwrap">
 <form method="get" action="qna_list">
-      <h2 class="bList_title">Q & A 상품문의 (총 ${listcount}건)</h2>
+      <h2 class="title_q">Q & A 상품문의 (총 ${listcount}건)</h2>
       <table id="qList_t">		<!-- 추후 비밀작성글 / 비밀글 제외 버튼 추가 보완 -->
          <tr>
             <th width="6%" height="26">No</th>
@@ -69,7 +75,7 @@ a{
                  <!--  <i class='bx bxs-cloud' ></i> -->
                  &#8627;
                   </c:if>
-                  <a id="titleui"
+                 <a id="titleui"
                      href="qna_cont?qnano=${q.qnano}&state=cont&page=${page}">
                       ${q.qtitle}</a></td>
                   <td align="center">${q.qid}</td>
@@ -85,6 +91,23 @@ a{
             </tr>
          </c:if>
       </table>
+
+
+<!-- 비동기처리로 나타나게 할 부분 -->
+<div id="qna-content" style="display: none;">
+		<h2 class="q_title">QnA</h2>
+		<table id="q_t">
+			<tr>
+				<th>제목</th>
+				<td>${q.qtitle}</td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td>${qna_cont}</td>
+			</tr>
+		</table>
+</div>
+
 
       <%--페이징(쪽나누기)--%>
       <div id="qList_paging">
@@ -143,6 +166,36 @@ a{
 
 </div>
 
+<script>
+$(document).ready(function() {
+  // 게시물 클릭 이벤트 처리
+  $('a.titleui').click(function(e) {
+    e.preventDefault(); // 기본 링크 동작 방지
+    var qnano = $(this).data('qnano'); // 게시물 번호를 가져옴
+
+    // 게시물 내용을 로드할 div를 지정
+    var qnaContent = $('#qna-content');
+
+    // Ajax 요청 생성
+    $.ajax({
+      type: 'GET',
+      url: 'qna-content', // 게시물 내용을 반환하는 서버 엔드포인트
+      data: { qnano: qnano },
+      success: function(data) {
+        // 성공 시 게시물 내용을 qna-content div에 추가
+        qnaContent.html(data);
+
+        // 게시물 내용을 보이도록 변경
+        qnaContent.show();
+      },
+      error: function() {
+        // 에러 처리
+        alert('게시물 내용을 불러오는 중 오류가 발생했습니다.');
+      }
+    });
+  });
+});
+</script>
 
 
 <jsp:include page="../footer.jsp" />

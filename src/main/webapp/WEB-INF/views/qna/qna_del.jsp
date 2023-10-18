@@ -38,7 +38,7 @@
             </tr>
          </table>
          <div id="bsDel_menu">
-            <input type="submit" value="삭제" /> <input type="reset" value="취소"
+            <input type="submit" class="btn btn-dark" value="삭제" /> <input type="reset" class="btn btn-dark" value="취소"
                onclick="$('#qpw').focus();" />
          </div>
       </form>

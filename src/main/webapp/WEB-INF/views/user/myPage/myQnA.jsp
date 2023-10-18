@@ -16,9 +16,9 @@
 <body>
 <jsp:include page="../../header.jsp" />
 
-
-1:1 문의 페이지 UI 작업 전 틀 생성 
-
+<h3>
+1:1 문의 페이지 ui 작업 전
+</h3>
 
 <jsp:include page="../../footer.jsp" />
 	<!-- Bootstrap JS and Popper.js -->

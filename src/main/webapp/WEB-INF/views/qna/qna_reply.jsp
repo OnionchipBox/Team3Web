@@ -61,9 +61,9 @@
 
          </table>
          <div id="qmenu">
-            <input type="submit" value="답변" /> <input type="reset" value="취소"
+            <input type="submit" class="btn btn-dark" value="답변" /> <input type="reset" class="btn btn-dark" value="취소"
                onclick="$('#qid').focus();"> <input type="button"
-               value="목록" onclick="location='qna_list?page=${page}';">
+               class="btn btn-dark" value="목록" onclick="location='qna_list?page=${page}';">
          </div>
       </form>
    </div>

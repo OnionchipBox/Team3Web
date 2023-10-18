@@ -34,13 +34,13 @@
 		</table>
 		<div id="q_menu">
 			<input type="button" value="답변"
-				onclick="location='qna_cont?qnano=${q.qnano}&page=${page}&state=reply';" />
+				class="btn btn-dark" onclick="location='qna_cont?qnano=${q.qnano}&page=${page}&state=reply';" />
 			<input type="button" value="수정"
-				onclick="location='qna_cont?qnano=${q.qnano}&page=${page}&state=edit';" />
+				class="btn btn-dark" onclick="location='qna_cont?qnano=${q.qnano}&page=${page}&state=edit';" />
 			<input type="button" value="삭제"
-				onclick="location='qna_cont?qnano=${q.qnano}&page=${page}&state=del';" />
+				class="btn btn-dark" onclick="location='qna_cont?qnano=${q.qnano}&page=${page}&state=del';" />
 			<input type="button" value="목록"
-				onclick="location='qna_list?page=${page}';" />
+				class="btn btn-dark" onclick="location='qna_list?page=${page}';" />
 		</div>
 		
 	
