@@ -20,7 +20,7 @@
 
 #qwrap{
    width:auto; height:auto; border:none;
-   margin-left:auto; margin-right:auto;
+   margin-left:15px; margin-right:auto;
    margin-top:70px;
    
 }
@@ -38,8 +38,10 @@ a{
 </head>
 <body>
 <jsp:include page="../header.jsp" />
-<form method="get" action="qna_list">
+
+
 <div id="qwrap">
+<form method="get" action="qna_list">
       <h2 class="bList_title">Q & A 상품문의 (총 ${listcount}건)</h2>
       <table id="qList_t">		<!-- 추후 비밀작성글 / 비밀글 제외 버튼 추가 보완 -->
          <tr>
@@ -110,9 +112,36 @@ a{
             </c:if>
          </c:if>
 		</div>
+
+
+<!-- 목록 페이지에 글쓰기 버튼 추가  -->
+	<div id="bList_menu">
+				<input type="button" class="btn btn-dark" value="글쓰기"
+					onclick="location='qna_write?page=${page}';" />
+					<c:if test="${(!empty find_field) && (!empty find_name)}">
+					<input type="button" value="전체목록"
+						onclick="location='qna_list?page=${page}';" />
+				</c:if>
+			</div>
+
+
+<%--검색 폼추가 --%>
+			<div id="bFind_wrap">
+				<select name="find_field">
+					<option value="qtitle"
+						<c:if test="${find_field=='qtitle'}">
+   ${'selected'}</c:if>>제목</option>
+					<option value="qcont"
+						<c:if test="${find_field=='qcont'}">
+   ${'selected'}</c:if>>내용</option>
+				</select> <input name="find_name" id="find_name" size="14"
+					value="${find_name}" /> <input type="submit" value="검색" />
+			</div>
+
+
 </form>
 
-
+</div>
 
 
 

@@ -7,13 +7,19 @@
 	<link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-
 <script src="./resources/js/qna.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/qna.css">
+<style>
+#mypage{
+	
+	color:lightgray;
+	text-decoration: underline;
+}
+</style>
 </head>
 <body>
 <jsp:include page="../header.jsp" />
@@ -49,9 +55,6 @@
     </label>
   </form> 
 </div>--%>
-
-
-			<br>
 			<tr>
 			<p>클레임(교환/환불/취소)관련 문의는 <a href="<%=request.getContextPath()%>/myPage/myQnA"><strong id="mypage">마이페이지 > 1:1 문의</strong></a>에서 문의 바랍니다.</p>
            </tr>
@@ -74,14 +77,14 @@
                <th>내용</th>
                <td><textarea name="qcont" id="qcont" rows="8" cols="34"></textarea></td>
             </tr>
-            <tr>
-             <!--   <th>파일첨부</th>
+            
+             <!-- <tr>  <th>파일첨부</th>
 				<td>
    					<input type="file" id="input-file" name="qfile" class="btn btn-dark"/>
 				</td>						
             </tr>
             </div> -->
-            
+           </div> 
          </table>
          <div id="qnamenu">
          	   <input type="submit" class="btn btn-dark" value="취소" />
