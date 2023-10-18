@@ -39,7 +39,8 @@ public class QnAServiceImpl implements QnAService {
 	public QnAVO getQnACont(int qnano) {
 		return this.qnaDao.getQnACont(qnano);
 	}
-
+	
+	@Transactional
 	@Override
 	public void replyQnA(QnAVO rq) {
 		this.qnaDao.updateLevel(rq); //답변 레벨 증가

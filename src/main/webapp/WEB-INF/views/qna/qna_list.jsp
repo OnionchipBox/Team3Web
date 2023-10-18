@@ -49,7 +49,7 @@ a{
             <th width="14%">작성자</th>
             <th width="17%">등록일자</th>
          </tr>
-<div id="qna-content" style="display: none;"></div>
+<!-- <div id="qna-content" style="display: none;"></div> -->
          <c:if test="${!empty qlist}">
             <c:forEach var="q" items="${qlist}">
                <tr>
@@ -117,7 +117,12 @@ a{
 
 
 <jsp:include page="../footer.jsp" />
-
+<!-- Bootstrap JS and Popper.js -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+	<script src="/shop/resources/js/script.js"></script>
 
 </body>
 </html>

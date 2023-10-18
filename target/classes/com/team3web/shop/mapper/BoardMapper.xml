@@ -71,4 +71,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 
+<!-- 답변 레벨 증가 -->
+	<update id="levelUp">
+	update qna01 set qlevel=qlevel+1 where qref=#{qref}
+	and qlevel > #{qlevel}
+	</update>
+	
+	<!-- 답변 저장 -->
+	<insert id="qna_re">
+	insert into qna01(qnano,qid,qtitle,qpw,qcont,qref,qstep,qlevel,qdate) values(qna_no_seq01.nextval,#{qid},#{qtitle},#{qpw},#{qcont},#{qref},#{qstep}+1,#{qlevel}+1,sysdate)
+	</insert>
+
+<!-- QnA게시판 수정 -->
+	<update id="qna_edit"> 
+	update qna01 set qid=#{qid},qtitle=#{qtitle},qcont=#{qcont} where qnano=#{qnano}
+	</update>
+
+<!-- QnA게시판 삭제 -->
+	<delete id="qna_del">
+	delete from qna01 where qnano=#{qnano}
+	</delete>
+
 </mapper>

@@ -7,12 +7,12 @@
 	<link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="/resources/js/qna.js"></script>
+
+<script src="./resources/js/qna.js"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/qna.css">
 </head>
 <body>
@@ -24,8 +24,8 @@
 			
 			<table id="qna">
 			
-<div id="container">
-<form>
+<%--<div id="container">
+  <form>
 	<strong>문의 유형</strong>&nbsp;
     <label>
       <input type="radio" name="radio"/>
@@ -47,8 +47,10 @@
       <input type="radio" name="radio"/>
       <span>기타</span>
     </label>
-  </form>
-</div>
+  </form> 
+</div>--%>
+
+
 			<br>
 			<tr>
 			<p>클레임(교환/환불/취소)관련 문의는 <a href="<%=request.getContextPath()%>/myPage/myQnA"><strong id="mypage">마이페이지 > 1:1 문의</strong></a>에서 문의 바랍니다.</p>
