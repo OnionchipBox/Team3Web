@@ -32,6 +32,11 @@
 	      <value>D:/fileUpload/product/</value>
 	    </constructor-arg>
 	</bean>
+	
+	
+
+	
+	
 	<!-- 오라클  -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />

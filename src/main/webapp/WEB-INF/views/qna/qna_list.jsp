@@ -39,7 +39,10 @@ a{
 	font-weight: bold;
 }
 
+#qfind{
 
+	margin-top:10px;
+}
 </style>
 </head>
 <body>
@@ -138,18 +141,18 @@ a{
 
 
 <!-- 목록 페이지에 글쓰기 버튼 추가  -->
-	<div id="bList_menu">
+	<div id="qbutton">
 				<input type="button" class="btn btn-dark" value="글쓰기"
 					onclick="location='qna_write?page=${page}';" />
 					<c:if test="${(!empty find_field) && (!empty find_name)}">
-					<input type="button" value="전체목록"
+					<input type="button" class="btn btn-dark" value="전체 목록"
 						onclick="location='qna_list?page=${page}';" />
 				</c:if>
 			</div>
 
 
 <%--검색 폼추가 --%>
-			<div id="bFind_wrap">
+			<div id="qfind">
 				<select name="find_field">
 					<option value="qtitle"
 						<c:if test="${find_field=='qtitle'}">
@@ -179,7 +182,7 @@ $(document).ready(function() {
     // Ajax 요청 생성
     $.ajax({
       type: 'GET',
-      url: 'qna-content', // 게시물 내용을 반환하는 서버 엔드포인트
+      url: 'qna_cont', // 게시물 내용을 반환하는 서버 엔드포인트
       data: { qnano: qnano },
       success: function(data) {
         // 성공 시 게시물 내용을 qna-content div에 추가

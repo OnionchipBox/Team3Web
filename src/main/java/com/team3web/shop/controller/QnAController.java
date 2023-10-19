@@ -33,7 +33,10 @@ public class QnAController { // qna게시판
 		return "/user/myPage/myQnA";
 	}
 
-
+	@RequestMapping(value="/QnA")
+	public String QnA() {
+		return "/qna/qna_list";
+	}
 
 	// qna 글쓰기 폼
 	@GetMapping("/qna_write")

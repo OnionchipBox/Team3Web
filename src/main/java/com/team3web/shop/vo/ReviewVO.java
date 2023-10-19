@@ -9,8 +9,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.team3web.shop.vo.ReviewVO;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +18,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-@Table(name="review")
+@Table(name="review01")
 @EqualsAndHashCode(of="re_no")
 public class ReviewVO {
 
@@ -43,6 +41,8 @@ public class ReviewVO {
 	private int re_step; //원본글과 답변글을 구분하는 번호값이면 몇번째 답변글인가를 알려준다.
 						// 원본 글이면 0, 첫번째 답변글이면 1, 두번째 답변글이면 2
 	private int re_level; //답변글 정렬순서 
+	
+	private String thumbimg;
 	
 	@CreationTimestamp 
 

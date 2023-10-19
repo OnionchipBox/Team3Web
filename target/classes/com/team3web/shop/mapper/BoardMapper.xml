@@ -7,8 +7,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 
-<!-- QnA 게시판 부분 -->
+
 <mapper namespace="com.team3web.shop.mapper.BoardMapper">
+<!--=============== QnA 게시판 부분============================ -->
+
 
 	<!-- 게시판 저장 -->
 	<insert id="qna_in" parameterType="QnAVO">
@@ -91,5 +93,54 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="qna_del">
 	delete from qna01 where qnano=#{qnano}
 	</delete>
+
+<!--========================= review 게시판 부분========================== -->
+
+	<insert id="review_in" parameterType="com.team3web.shop.vo.ReviewVO">
+	insert into review01(re_no,re_name,re_title,re_pwd,re_cont,re_file,
+re_hit,re_ref,re_step,re_level,re_date,thumbimg) values(re_no_seq01.nextval,#{re_name},#{re_title},
+#{re_pwd},#{re_cont},#{re_file},0,re_no_seq.nextval,0,0,sysdate,#{thumbimg})
+	</insert>
+
+<!-- 시퀀스 번호값 구함 -->
+   <select id="review_no_seq_Find" resultType="int">
+     select re_no_seq01.nextval from dual
+   </select>
+
+<!-- 검색 전후 레코드 개수 -->
+<select id="review_count" resultType="int">
+	select count(re_no) from review01 <!-- count()는 레코드 개수를 구하는 오라클 함수 -->
+	<!-- 검색 조건 -->
+	<where>
+		<if test="find_field ==''"></if> <!-- 검색을 안 한 경우 - > 총 레코드 개수 -->
+		<if test="find_field =='re_title'"> <!-- 글 제목으로 검색하는 경우 -->
+		re_title like #{find_name}
+		</if>
+		<if test="find_field == 're_cont'"> <!--글 내용으로 검색 경우-->
+			re_cont like #{find_name}
+		</if>
+	</where>
+</select>
+
+<!-- 검색 전후 목록  -->
+
+	<select id="review_list" parameterType="PageVO" resultType="ReviewVO">
+	select * from(
+	select rowNum rNum, re_no, re_name, re_title, re_hit,re_ref,re_step,re_level,
+	re_date from(select * from review01
+	<!-- 검색 조건 -->
+	<where>
+		<if test="find_field ==''"></if> <!-- 검색을 안 한 경우 - > 총 레코드 개수 -->
+		<if test="find_field =='re_title'"> <!-- 글 제목으로 검색하는 경우 -->
+		re_title like #{find_name}
+		</if>
+		<if test="find_field == 're_cont'"> <!--글 내용으로 검색 경우-->
+			re_cont like #{find_name}
+		</if>
+	</where>
+	order by re_ref desc, re_level asc)) where rNum &gt;=#{startrow}
+	and rNum &lt;=#{endrow} <!-- &gt;은 >의미이고, &lt;는 <의 뜻임-->
+	</select>
+
 
 </mapper>

@@ -19,6 +19,10 @@
 	color:lightgray;
 	text-decoration: underline;
 }
+
+#qwrap{
+	margin-left:10px;
+}
 </style>
 </head>
 <body>
