@@ -29,7 +29,22 @@ public class ReviewDAOImpl implements ReviewDAO {
 	@Override
 	public List<ReviewVO> getReviewList(PageVO p) {
 		return sqlSession.selectList("review_list",p);
-	}
+	} // 목록 
+	
+	
+	@Override
+	public void updateHit(int reno) {
+		
+		this.sqlSession.update("review_hit",reno);
+	} // 조회수 증가 
+
+	@Override
+	public ReviewVO getReviewCont(int reno) {
+		return sqlSession.selectOne("review_cont",reno);
+	} // 내용 보기 
+
+
+	
 	
 	
 	

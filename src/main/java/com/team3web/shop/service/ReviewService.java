@@ -13,4 +13,8 @@ public interface ReviewService {
 
 	List<ReviewVO> getReviewList(PageVO p);
 
+	ReviewVO getReviewCont(int reno);
+
+	ReviewVO getReviewCont2(int reno);
+
 }

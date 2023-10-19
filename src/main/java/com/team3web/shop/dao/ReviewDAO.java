@@ -13,4 +13,10 @@ public interface ReviewDAO {
 
 	List<ReviewVO> getReviewList(PageVO p);
 
+	void updateHit(int reno);
+	
+	ReviewVO getReviewCont(int reno);
+
+
+
 }

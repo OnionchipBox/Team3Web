@@ -97,9 +97,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!--========================= review 게시판 부분========================== -->
 
 	<insert id="review_in" parameterType="com.team3web.shop.vo.ReviewVO">
-	insert into review01(re_no,re_name,re_title,re_pwd,re_cont,re_file,
-re_hit,re_ref,re_step,re_level,re_date,thumbimg) values(re_no_seq01.nextval,#{re_name},#{re_title},
-#{re_pwd},#{re_cont},#{re_file},0,re_no_seq.nextval,0,0,sysdate,#{thumbimg})
+	insert into review01(reno,rename2,retitle,repwd,recont,refile,
+rehit,reref,restep,relevel,redate,thumbimg) values(re_no_seq01.nextval,#{rename2},#{retitle},
+#{repwd},#{recont},#{refile},0,re_no_seq01.nextval,0,0,sysdate,#{thumbimg})
 	</insert>
 
 <!-- 시퀀스 번호값 구함 -->
@@ -109,38 +109,48 @@ re_hit,re_ref,re_step,re_level,re_date,thumbimg) values(re_no_seq01.nextval,#{re
 
 <!-- 검색 전후 레코드 개수 -->
 <select id="review_count" resultType="int">
-	select count(re_no) from review01 <!-- count()는 레코드 개수를 구하는 오라클 함수 -->
+	select count(reno) from review01 <!-- count()는 레코드 개수를 구하는 오라클 함수 -->
 	<!-- 검색 조건 -->
 	<where>
 		<if test="find_field ==''"></if> <!-- 검색을 안 한 경우 - > 총 레코드 개수 -->
-		<if test="find_field =='re_title'"> <!-- 글 제목으로 검색하는 경우 -->
-		re_title like #{find_name}
+		<if test="find_field =='retitle'"> <!-- 글 제목으로 검색하는 경우 -->
+		retitle like #{find_name}
 		</if>
-		<if test="find_field == 're_cont'"> <!--글 내용으로 검색 경우-->
-			re_cont like #{find_name}
+		<if test="find_field == 'recont'"> <!--글 내용으로 검색 경우-->
+			recont like #{find_name}
 		</if>
 	</where>
 </select>
 
 <!-- 검색 전후 목록  -->
 
-	<select id="review_list" parameterType="PageVO" resultType="ReviewVO">
+	<select id="review_list" parameterType="PageVO" resultType="com.team3web.shop.vo.ReviewVO">
 	select * from(
-	select rowNum rNum, re_no, re_name, re_title, re_hit,re_ref,re_step,re_level,
-	re_date from(select * from review01
+	select rowNum rNum, reno, rename2, retitle, rehit,reref,restep,relevel,
+	redate from(select * from review01
 	<!-- 검색 조건 -->
 	<where>
 		<if test="find_field ==''"></if> <!-- 검색을 안 한 경우 - > 총 레코드 개수 -->
-		<if test="find_field =='re_title'"> <!-- 글 제목으로 검색하는 경우 -->
-		re_title like #{find_name}
+		<if test="find_field =='retitle'"> <!-- 글 제목으로 검색하는 경우 -->
+		retitle like #{find_name}
 		</if>
-		<if test="find_field == 're_cont'"> <!--글 내용으로 검색 경우-->
-			re_cont like #{find_name}
+		<if test="find_field == 'recont'"> <!--글 내용으로 검색 경우-->
+			recont like #{find_name}
 		</if>
 	</where>
-	order by re_ref desc, re_level asc)) where rNum &gt;=#{startrow}
+	order by reref desc, relevel asc)) where rNum &gt;=#{startrow}
 	and rNum &lt;=#{endrow} <!-- &gt;은 >의미이고, &lt;는 <의 뜻임-->
 	</select>
+
+<!-- 조회수 증가 -->
+<update id="review_hit">
+	update review01 set rehit=rehit+1 where reno=#{reno}
+</update>
+
+<!-- 내용 보기 -->
+<select id="review_cont" resultType="com.team3web.shop.vo.ReviewVO">
+	select * from review01 where reno=#{reno}
+</select>
 
 
 </mapper>

@@ -45,25 +45,25 @@ a{
          <c:if test="${!empty rlist}">
             <c:forEach var="r" items="${rlist}">
                <tr>
-                  <td align="center">
-                  <c:if test="${r.re_step==0}"> <!-- 원본글일때만 글그룹번호를 출력 -->
-                  ${r.re_ref}
+                  <td align="center">                  
+                  <c:if test="${r.restep==0}"> <!-- 원본글일때만 글그룹번호를 출력 -->
+                  ${r.reref}
                   </c:if>
                   </td>
                   <td>
-                  <c:if test="${r.re_step!=0}"> <!-- 답변글일때만 실행: 계단형 계층형 자료실 -->
-                  <c:forEach begin="1" end="${r.re_step}" step="1">
+                  <c:if test="${r.restep!=0}"> <!-- 답변글일때만 실행: 계단형 계층형 자료실 -->
+                  <c:forEach begin="1" end="${r.restep}" step="1">
                   &nbsp;<%--한 칸의 빈 공백 처리 --%>
                   </c:forEach>
                   &#8627;
                   </c:if>
                   <a
-                     href="review_cont?re_no=${r.re_no}&state=cont&page=${page}">
-                        ${r.re_title}</a></td>
-                  <td align="center">${r.re_name}</td>
-                  <td align="center">${fn:substring(r.re_date,0,10)}</td>
+                     href="review_cont?reno=${r.reno}&state=cont&page=${page}">
+                        ${r.retitle}</a></td>
+                  <td align="center">${r.rename2}</td>
+                  <td align="center">${fn:substring(r.redate,0,10)}</td>
                   <%-- 0이상 10미만 사이의 년월일만 반환 --%>
-                  <td align="center">${r.re_hit}</td>
+                  <td align="center">${r.rehit}</td>
                </tr>
             </c:forEach>
          </c:if>
@@ -138,12 +138,12 @@ a{
 			<%--검색 폼 추가--%>
 			<div id="bFind_wrap">
 				<select name="find_field">
-					<option value="re_title"
-						<c:if test="${find_field=='re_title'}"> ${'selected'}></c:if>>
+					<option value="retitle"
+						<c:if test="${find_field=='retitle'}"> ${'selected'}></c:if>>
 						<!-- find_field가 re_cont와 같다면 해당 목록을 선택되게 한다. -->
 						글제목</option>
-					<option value="re_cont"
-						<c:if test="${find_field=='re_cont'}">${'selected'}
+					<option value="recont"
+						<c:if test="${find_field=='recont'}">${'selected'}
 					</c:if>>글내용</option>
 				</select> <input type="search" name="find_name" id="find_name" 
 				size="16" value="${find_name}"> 

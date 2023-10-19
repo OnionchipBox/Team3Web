@@ -3,24 +3,24 @@
  */
  
  function write_check(){
-   if($.trim($("#re_name").val())==""){
+   if($.trim($("#rename2").val())==""){
       alert("글쓴이를 입력하세요!");
-      $("#re_name").val("").focus();
+      $("#rename2").val("").focus();
       return false;
    }
-   if($.trim($("#re_title").val())==""){
+   if($.trim($("#retitle").val())==""){
       alert("글제목을 입력하세요!");
-      $("#re_title").val("").focus();
+      $("#retitle").val("").focus();
       return false;
    }
-   if($.trim($("#re_pwd").val())==""){
+   if($.trim($("#repwd").val())==""){
       alert("비밀번호를 입력하세요!");
-      $("#re_pwd").val("").focus();
+      $("#repwd").val("").focus();
       return false;
    }
-   if($.trim($("#re_cont").val())==""){
+   if($.trim($("#recont").val())==""){
       alert("글내용을 입력하세요!");
-      $("#re_cont").val("").focus();
+      $("#recont").val("").focus();
       return false;
    }
 }

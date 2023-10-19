@@ -20,16 +20,6 @@
     font-weight: 700;
     font-style: normal;
 }
-
-#review_w{
- 	position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%; /* 너비를 80%로 설정 */
-    height: 50vh; /* 높이를 80vh로 설정 (뷰포트 높이의 80%) */
-	
-}
 h2{
 	 font-family: 'TheJamsil5Bold';
 }
@@ -47,20 +37,20 @@ h2{
 <table>
 	<tr>
 		<th>작성자</th>
-		<td><input name="re_name" id="re_name" size="14" /></td>
+		<td><input name="rename2" id="rename2" size="14" /></td>
 	</tr>
 	<tr>
 		<th>제목</th>
-		<td><input name="re_title" id="re_title" size="33" /></td>
+		<td><input name="retitle" id="retitle" size="33" /></td>
 	</tr>
 	<tr>
 		<th>비밀번호</th>
-		<td><input name="re_pwd" id="re_pwd" size="14" /></td>
+		<td><input name="repwd" id="repwd" size="14" /></td>
 	</tr>
 	<tr>
 		<th>내용</th>
 		<td>
-		<textarea name="re_cont" id="re_cont" rows="8" cols="34" ></textarea>
+		<textarea name="recont" id="recont" rows="8" cols="34" ></textarea>
 		</td>
 	</tr>
 	<tr>
@@ -73,7 +63,7 @@ h2{
 
 <div id="remenu">
          	   <input type="submit" class="btn btn-dark" value="취소" />
-               <input type="reset" style="display:none;" onclick="$('#re_name').focus();" />
+               <input type="reset" style="display:none;" onclick="$('#rename2').focus();" />
                <button type="button" class="btn btn-dark" onclick="location='review_list?page=${page}';">목록</button>
                <input type="submit" class="btn btn-dark" value="작성하기" />
          </div>
@@ -81,13 +71,13 @@ h2{
 </form>
 </div>
 
-<%-- <hr>
+<hr>
 <jsp:include page="../footer.jsp" />
 <!-- Bootstrap JS and Popper.js -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-	<script src="/shop/resources/js/script.js"></script> --%>
+	<script src="/shop/resources/js/script.js"></script>
 </body>
 </html>
