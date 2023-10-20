@@ -167,7 +167,7 @@ rehit,reref,restep,relevel,redate,thumbimg) values(re_no_seq01.nextval,#{rename2
 
 <!-- 리뷰게시판 수정 -->
 	<update id="review_update">
-	update review01 set rename2=#{rename2}, retitle=#{retitle},recont=#{recont},refile=#{refile} where reno=#{reno}
+	update review01 set rename2=#{rename2}, retitle=#{retitle},recont=#{recont},refile=#{refile},thumbimg=#{thumbimg} where reno=#{reno}
 	</update>
 
 <!-- 리뷰 게시판 삭제 -->

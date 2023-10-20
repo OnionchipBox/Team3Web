@@ -195,7 +195,6 @@ public class ReviewController {
 			HttpServletRequest request,HttpServletResponse 
 			response) throws Exception{
 
-
 		response.setContentType("text/html;charset=UTF-8"); // 레거시는 꼭 넣어주어야 하는데 부트에서는 안 넣어줘도 안 깨짐 ?!
 		//웹브라우저로 출력되는 문자와 태그 ,언어코딩 타입을 설정
 
@@ -231,6 +230,9 @@ public class ReviewController {
 		ReviewVO db_pwd = this.reviewser.getReviewCont2(reno);//조회수가 증가되지 않는 것으로
 		//해서 오라클로 부터 비번을 가져옴
 
+		
+		String modifiedFileName = null; // 변수를 if 문 밖에서 미리 선언
+		
 		if(!db_pwd.getRepwd().equals(repwd)) {
 			out.println("<script>");
 			out.println("alert('비번이 다릅니다!');");
@@ -238,8 +240,16 @@ public class ReviewController {
 			out.println("</script>");
 		}else {
 			if (file != null && !file.isEmpty()) { // 수정 첨부된 파일이 있는 경우
-	            savedFileName = file.getOriginalFilename(); // 수정된 파일명을 구함
-	            File delFile = new File(realPath + db_pwd.getRefile());
+				
+				modifiedFileName = file.getOriginalFilename();
+	            
+				// 기존의 원본 파일명을 새로운 파일명으로 업데이트합니다.
+			    originalFileName = modifiedFileName;
+			    
+			    modifiedFileName = uuid.toString()+".png";
+			    
+			    
+				 File delFile = new File(realPath + db_pwd.getRefile());
 	            
 	            if (delFile.exists()) { // 기존 파일이 있다면
 	                delFile.delete(); // 기존 첨부파일 삭제
@@ -250,8 +260,10 @@ public class ReviewController {
 	        review.setRetitle(retitle);
 	        review.setRecont(recont);
 	        review.setReno(reno);
-	        review.setRefile(savedFileName); // 수정된 파일명을 VO에 저장
-	        
+	        review.setRefile(modifiedFileName); // 수정된 파일명을 VO에 저장    
+			review.setThumbimg(originalFileName); // 원본 파일명을 수정된 파일명으로 설정
+			
+			
 			this.reviewser.editReview(review);//게시판 수정
 
 			ModelAndView em=new ModelAndView("redirect:/review_cont");
