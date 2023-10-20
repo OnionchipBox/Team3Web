@@ -15,7 +15,7 @@ create table review01(
  ,redate date --글 등록날짜 
 );
 
-select * from review01 order by reno;
+select * from review01 order by reno desc;
 drop table review01;
 delete from review01;
 --re_no_seq 시퀀스 생성
@@ -29,6 +29,11 @@ nocycle;
 -- thumbimg 컬럼 추가 
 alter table review01 add thumbimg varchar2(255) DEFAULT '-' NOT NULL;
 
-
+--reply_seq 시퀀스 생성
+create sequence reply_seq
+start with 1
+increment by 1
+nocache
+nocycle;
 
 commit;
