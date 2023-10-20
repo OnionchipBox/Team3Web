@@ -95,11 +95,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 
 <!--========================= review 게시판 부분========================== -->
-
-	<insert id="review_in" parameterType="com.team3web.shop.vo.ReviewVO">
-	insert into review01(reno,rename2,retitle,repwd,recont,refile,
-rehit,reref,restep,relevel,redate,thumbimg) values(re_no_seq01.nextval,#{rename2},#{retitle},
-#{repwd},#{recont},#{refile},0,re_no_seq01.nextval,0,0,sysdate,#{thumbimg})
+<!-- 리뷰 저장 -->
+	<insert id="review_in"
+		parameterType="com.team3web.shop.vo.ReviewVO">
+		insert into review01(reno,rename2,retitle,repwd,recont,refile,
+		rehit,reref,restep,relevel,redate,thumbimg)
+		values(re_no_seq01.nextval,#{rename2},#{retitle},
+		#{repwd},#{recont},#{refile},0,re_no_seq01.nextval,0,0,sysdate,#{thumbimg})
 	</insert>
 
 <!-- 시퀀스 번호값 구함 -->

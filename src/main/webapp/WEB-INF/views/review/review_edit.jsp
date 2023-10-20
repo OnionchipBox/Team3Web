@@ -4,14 +4,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Review</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="./resources/js/review.js"></script>
 <link rel="stylesheet" type="text/css" href="./css/review.css" />
 <script 
  src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
- <%--  CDN(Content Delivery Network의 약어) 방식으로 인터넷이 연결된 상태에서 온라인으로 jQuery라이브
- 러리를 연결해서 사용하는 방식이다.로컬 pc로 jQuery라이브러리를 다운 받지 않고 사용가능하다. --%>
-<script src="./js/review.js"></script>
 </head>
 <body>
+<jsp:include page="../header.jsp" />
    <div id="bsW_wrap">
       <h2 class="bsW_title">리뷰 수정</h2>
       <form method="post" action="review_edit_ok"
@@ -52,11 +59,19 @@
             </tr>
          </table>
          <div id="bsW_menu">
-            <input type="submit" value="수정" /> <input type="reset" value="취소"
-               onclick="$('#rename2').focus();"> <input type="button"
-               value="목록" onclick="location='review_list?page=${page}';">
+            <input type="submit" class="btn btn-dark" value="수정" /> <input type="reset" value="취소"
+               class="btn btn-dark" onclick="$('#rename2').focus();"> <input type="button"
+               class="btn btn-dark" value="목록" onclick="location='review_list?page=${page}';">
          </div>
       </form>
    </div>
+<hr>
+<jsp:include page="../footer.jsp" />
+<!-- Bootstrap JS and Popper.js -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+	<script src="/shop/resources/js/script.js"></script>
 </body>
 </html>

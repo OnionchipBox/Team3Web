@@ -180,10 +180,7 @@ public class ReviewController {
 	//답변 저장 
 	@PostMapping("/review_reply_ok") // post로 접근하는 매핑주소를 처리, review_reply_ok 매핑 주소 등록
 	public String review_reply_ok(ReviewVO rb,int page) {
-		/*	BbsVO rb라고 하면 review_reply.jsp의 네임파리미터 이름과 ReviewVO.java의 변수명이 같으면
-		 *  b객체에 답변폼에서 전달되어진 값이 저장되어 있다. 단, page는 reviewVO.java에 변수명으로 정의 안 되어 있기 때문에
-		 *  별도의 int page로 히든 쪽번호 값을 가져온다.
-		 */
+		
 		this.reviewser.replyReview(rb); //답변 레벨 증가와 답변 저장 
 		return "redirect:/review_list?page="+page;
 	}// review_reply_ok()	
@@ -195,7 +192,7 @@ public class ReviewController {
 			HttpServletRequest request,HttpServletResponse 
 			response) throws Exception{
 
-		response.setContentType("text/html;charset=UTF-8"); // 레거시는 꼭 넣어주어야 하는데 부트에서는 안 넣어줘도 안 깨짐 ?!
+		response.setContentType("text/html;charset=UTF-8");
 		//웹브라우저로 출력되는 문자와 태그 ,언어코딩 타입을 설정
 
 		String savedFileName = "";

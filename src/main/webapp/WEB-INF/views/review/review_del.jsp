@@ -38,8 +38,8 @@
             </tr>
          </table>
          <div id="bsDel_menu">
-            <input type="submit" value="삭제" /> <input type="reset" value="취소"
-               onclick="$('#del_pwd').focus();" />
+            <input type="submit" class="btn btn-dark" value="삭제" /> <input type="reset" value="취소"
+               class="btn btn-dark" onclick="$('#del_pwd').focus();" />
          </div>
       </form>
    </div>
