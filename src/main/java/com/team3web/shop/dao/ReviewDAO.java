@@ -17,6 +17,14 @@ public interface ReviewDAO {
 	
 	ReviewVO getReviewCont(int reno);
 
+	void replyReview(ReviewVO rb);
+
+	void updateLevel(ReviewVO rb);
+
+	void editReview(ReviewVO review);
+
+	void delReview(int reno);
+
 
 
 }

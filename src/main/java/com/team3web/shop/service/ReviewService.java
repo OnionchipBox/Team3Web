@@ -17,4 +17,10 @@ public interface ReviewService {
 
 	ReviewVO getReviewCont2(int reno);
 
+	void replyReview(ReviewVO rb);
+
+	void editReview(ReviewVO review);
+
+	void delReview(int reno);
+
 }

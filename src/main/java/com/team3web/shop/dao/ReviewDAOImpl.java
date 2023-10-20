@@ -43,6 +43,28 @@ public class ReviewDAOImpl implements ReviewDAO {
 		return sqlSession.selectOne("review_cont",reno);
 	} // 내용 보기 
 
+	@Override
+	public void updateLevel(ReviewVO rb) {
+		sqlSession.update("reply_up",rb);
+	}
+	
+	
+	@Override
+	public void replyReview(ReviewVO rb) {
+		sqlSession.insert("review_re",rb);
+	} // 댓글 저장 
+
+	@Override
+	public void editReview(ReviewVO review) {
+		sqlSession.update("review_update",review);
+	}// 리뷰 게시판 수정
+
+	@Override
+	public void delReview(int reno) {
+		sqlSession.delete("review_del",reno);
+	}
+
+
 
 	
 	

@@ -46,6 +46,23 @@ public class ReviewServiceImpl implements ReviewService {
 	public ReviewVO getReviewCont2(int reno) {
 		return this.reviewDao.getReviewCont(reno); 
 	}//수정폼,삭제폼,답변폼일때는 조회수 증가 안되고 내용보기만 이루어진다.
+
+	@Transactional
+	@Override
+	public void replyReview(ReviewVO rb) {
+		this.reviewDao.updateLevel(rb); //댓글 레벨 증가
+		reviewDao.replyReview(rb); // 댓글 저장
+	}
+
+	@Override
+	public void editReview(ReviewVO review) {
+		reviewDao.editReview(review);
+	}
+
+	@Override
+	public void delReview(int reno) {
+		reviewDao.delReview(reno);
+	}
 	
 	
 	

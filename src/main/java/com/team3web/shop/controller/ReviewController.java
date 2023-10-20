@@ -2,10 +2,12 @@ package com.team3web.shop.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,7 +63,7 @@ public class ReviewController {
 		// 파일 저장 경로 설정 : 실제 서비스되는 위치(프로젝트 외부에 저장)
 		String savedFileName = "";
 		String realPath = request.getRealPath("/resources/imgUpload/");
-        System.out.println("실제 경로" + realPath);		
+		System.out.println("실제 경로" + realPath);		
 
 		// 2. 원본 파일 이름 알아오기
 		String originalFileName = file.getOriginalFilename();
@@ -142,7 +145,7 @@ public class ReviewController {
 		return listM;
 	}//review_list()	
 
-	
+
 	// 리뷰 내용 보기 + 답변폼 + 수정폼 + 삭제폼 
 	@GetMapping("/review_cont") //get방식으로 접근하는 매핑주소를 처리 
 	public ModelAndView review_cont(int reno,int page,String state,ReviewVO r) {
@@ -174,5 +177,140 @@ public class ReviewController {
 		return cm;
 	} //review_cont()				
 
+	//답변 저장 
+	@PostMapping("/review_reply_ok") // post로 접근하는 매핑주소를 처리, review_reply_ok 매핑 주소 등록
+	public String review_reply_ok(ReviewVO rb,int page) {
+		/*	BbsVO rb라고 하면 review_reply.jsp의 네임파리미터 이름과 ReviewVO.java의 변수명이 같으면
+		 *  b객체에 답변폼에서 전달되어진 값이 저장되어 있다. 단, page는 reviewVO.java에 변수명으로 정의 안 되어 있기 때문에
+		 *  별도의 int page로 히든 쪽번호 값을 가져온다.
+		 */
+		this.reviewser.replyReview(rb); //답변 레벨 증가와 답변 저장 
+		return "redirect:/review_list?page="+page;
+	}// review_reply_ok()	
 
+
+	// 리뷰게시판 수정 
+	@RequestMapping("/review_edit_ok")
+	public ModelAndView review_edit_ok(@ModelAttribute ReviewVO review, @RequestParam("uploadFile") MultipartFile file, Model model,
+			HttpServletRequest request,HttpServletResponse 
+			response) throws Exception{
+
+
+		response.setContentType("text/html;charset=UTF-8"); // 레거시는 꼭 넣어주어야 하는데 부트에서는 안 넣어줘도 안 깨짐 ?!
+		//웹브라우저로 출력되는 문자와 태그 ,언어코딩 타입을 설정
+
+		String savedFileName = "";
+		String realPath = request.getRealPath("/resources/imgUpload/");
+		System.out.println("실제 경로" + realPath);		
+
+		// 2. 원본 파일 이름 알아오기
+		String originalFileName = file.getOriginalFilename();
+		// 3. 파일 이름 중복되지 않게 이름 변경(서버에 저장할 이름) UUID 사용
+		UUID uuid = UUID.randomUUID();
+		savedFileName = uuid.toString()+".png";
+
+		// 5. 외부 저장소에 파일 생성 및 저장
+		File externalFile = new File(realPath + savedFileName);
+		file.transferTo(externalFile);
+
+
+		PrintWriter out=response.getWriter();//출력스트림 out생성
+
+		int reno = Integer.parseInt(request.getParameter("reno"));
+
+		int page=1;
+		if(request.getParameter("page") != null) {
+			page=Integer.parseInt(request.getParameter("page"));
+		}
+
+		String rename2 = request.getParameter("rename2");
+		String retitle = request.getParameter("retitle");
+		String repwd = request.getParameter("repwd");
+		String recont = request.getParameter("recont");
+
+		ReviewVO db_pwd = this.reviewser.getReviewCont2(reno);//조회수가 증가되지 않는 것으로
+		//해서 오라클로 부터 비번을 가져옴
+
+		if(!db_pwd.getRepwd().equals(repwd)) {
+			out.println("<script>");
+			out.println("alert('비번이 다릅니다!');");
+			out.println("history.back();");
+			out.println("</script>");
+		}else {
+			if (file != null && !file.isEmpty()) { // 수정 첨부된 파일이 있는 경우
+	            savedFileName = file.getOriginalFilename(); // 수정된 파일명을 구함
+	            File delFile = new File(realPath + db_pwd.getRefile());
+	            
+	            if (delFile.exists()) { // 기존 파일이 있다면
+	                delFile.delete(); // 기존 첨부파일 삭제
+	            }
+	        }
+
+	        review.setRename2(rename2);
+	        review.setRetitle(retitle);
+	        review.setRecont(recont);
+	        review.setReno(reno);
+	        review.setRefile(savedFileName); // 수정된 파일명을 VO에 저장
+	        
+			this.reviewser.editReview(review);//게시판 수정
+
+			ModelAndView em=new ModelAndView("redirect:/review_cont");
+			em.addObject("reno",reno);
+			em.addObject("page",page);
+			em.addObject("state","cont");
+			return em;//브라우저 주소창에 다음과 같이 실행된다. re_cont?re_no=번호&page=쪽번호
+			//&state=cont 3개의 피라미터 값이 get방식으로 전달된다.=>쿼리스트링 방식임.
+		}//if else      
+		return null;
+
+	} // review_edit_ok()
+
+
+
+	// 리뷰게시판 삭제 
+	@RequestMapping("/review_del_ok") // get or post로 전달되는 매핑주소를 처리
+	public ModelAndView review_del_ok(int reno,int page,@RequestParam("del_pwd")
+	String del_pwd, HttpServletResponse response,HttpServletRequest request)
+			throws Exception{
+		/* @RequestParam("del_pwd") 스프링의 애노테이션의 의미는 
+		 *    request.getParameter("del_pwd")와 같은 기능이다.   
+		 */
+		response.setContentType("text/html;charset=UTF-8"); //한글 깨짐 방지
+		PrintWriter out=response.getWriter();
+		String delFolder =request.getRealPath("/resources/imgUpload/");
+		ReviewVO db_pwd=this.reviewser.getReviewCont2(reno);
+		String fileNameToDelete = db_pwd.getRefile();
+
+		
+		if(!db_pwd.getRepwd().equals(del_pwd)) { 
+			out.println("<script>");
+			out.println("alert('비번이 다릅니다!');");
+			out.println("history.go(-1);");
+			out.println("</script>");
+		}else {
+			this.reviewser.delReview(reno);//자료실 삭제
+			
+			if (fileNameToDelete != null) {
+	            File delFile = new File(delFolder + File.separator + fileNameToDelete);
+	            // Note the usage of File.separator for cross-platform file path construction.
+	            if (delFile.exists()) {
+	                if (delFile.delete()) {
+	                    System.out.println("파일 삭제 성공: " + fileNameToDelete);
+	                } else {
+	                    System.err.println("파일 삭제 실패: " + fileNameToDelete);
+	                }
+	            } else {
+	                System.err.println("파일이 존재하지 않습니다: " + fileNameToDelete);
+	            }
+	        }
+
+
+			ModelAndView dm=new ModelAndView();
+			dm.setViewName("redirect:/review_list?page="+page);
+			return dm;
+		}
+		return null;
+	}//review_del_ok()
+	
+	
 }

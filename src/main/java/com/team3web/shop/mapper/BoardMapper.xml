@@ -152,5 +152,28 @@ rehit,reref,restep,relevel,redate,thumbimg) values(re_no_seq01.nextval,#{rename2
 	select * from review01 where reno=#{reno}
 </select>
 
+	<!-- 답변 레벨 증가 -->
+	<update id="reply_up">
+	update review01 set relevel=relevel+1 where reref=#{reref}
+	and relevel > #{relevel}
+	</update>
+	
+<!-- 댓글 저장 -->
+	<insert id="review_re">
+	insert into review01(reno,rename2,retitle,repwd,recont,rehit,reref,
+	restep,relevel,redate) values(re_no_seq01.nextval, #{rename2},#{retitle},
+	#{repwd},#{recont},0,#{reref},#{restep}+1,#{relevel}+1,sysdate)
+	</insert>
+
+<!-- 리뷰게시판 수정 -->
+	<update id="review_update">
+	update review01 set rename2=#{rename2}, retitle=#{retitle},recont=#{recont},refile=#{refile} where reno=#{reno}
+	</update>
+
+<!-- 리뷰 게시판 삭제 -->
+<delete id="review_del">
+	delete from review01 where reno=#{reno}
+</delete>
+
 
 </mapper>
