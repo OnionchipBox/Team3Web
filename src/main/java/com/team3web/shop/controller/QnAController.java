@@ -32,7 +32,13 @@ public class QnAController { // qna게시판
 	public String myQnA() {
 		return "/user/myPage/myQnA";
 	}
-
+	
+	@RequestMapping(value="/test")
+	public String Test() {
+		return "qna/qna_test";
+	}
+	
+	
 	@RequestMapping(value="/QnA")
 	public String QnA() {
 		return "/qna/qna_list";

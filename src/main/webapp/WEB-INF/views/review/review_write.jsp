@@ -23,6 +23,7 @@
 h2{
 	 font-family: 'TheJamsil5Bold';
 }
+
 </style>
 </head>
 <body>
@@ -45,7 +46,7 @@ h2{
 	</tr>
 	<tr>
 		<th>비밀번호</th>
-		<td><input name="repwd" id="repwd" size="14" /></td>
+		<td><input type="password" name="repwd" id="repwd" size="14" /></td>
 	</tr>
 	<tr>
 		<th>내용</th>

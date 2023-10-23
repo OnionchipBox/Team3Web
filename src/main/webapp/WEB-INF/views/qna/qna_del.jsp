@@ -4,7 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <title>QnA 삭제</title>
-<link rel="stylesheet" type="text/css" href="./css/qna.css" />
 <script 
  src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<link
@@ -22,22 +21,42 @@
     }
  }
 </script>
+
+<style>
+#q_wrap {
+
+   text-align: center;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+	
+}
+h2{
+	margin-top:30px;	
+	font-weight: bold;
+	margin-bottom:10px;
+}
+#q_menu{
+	margin-top:10px;
+	margin-left:10px;
+}
+</style>
 </head>
 <body>
 <jsp:include page="../header.jsp" />
-   <div id="bsDel_wrap">
-      <h2 class="bsDel_title">QnA 삭제</h2>
+   <div id="q_wrap">
+      <h2 class="q_title">문의 삭제</h2>
       <form method="post" action="qna_del_ok?qnano=${q.qnano}" onsubmit="return del_check();">
       <%-- qna_no는 get방식으로 전달되고, page와 qpw는 post방식으로 전달된다. --%>
           <input   type="hidden" name="page" value="${page}" />
-         <table id="bsDel_t">
+         <table id="q_t">
             <tr>
                <th>비밀번호</th>
                <td><input type="password" name="qpw" id="qpw"
                   size="14" /></td>
             </tr>
          </table>
-         <div id="bsDel_menu">
+         <div id="q_menu">
             <input type="submit" class="btn btn-dark" value="삭제" /> <input type="reset" class="btn btn-dark" value="취소"
                onclick="$('#qpw').focus();" />
          </div>

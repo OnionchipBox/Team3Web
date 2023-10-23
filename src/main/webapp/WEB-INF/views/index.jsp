@@ -84,6 +84,10 @@
       <!-- Adjusted the margin-top to 2rem -->
       <a href="<%=request.getContextPath()%>/products/details" class="btn btn-outline-secondary mb-3">더보기</a>
    </div>
+  
+
+  
+  
    
    <jsp:include page="footer.jsp" />
 

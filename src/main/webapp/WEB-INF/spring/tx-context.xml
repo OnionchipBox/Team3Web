@@ -73,8 +73,9 @@
     <!-- 매개변수 매핑을 자동으로 맞추도록 설정 -->
     <bean id="settings" class="org.apache.ibatis.session.Configuration">
         <property name="autoMappingBehavior" value="FULL"/>
+        <property name="jdbcTypeForNull" value="VARCHAR"/>
     </bean>
 		
-	</beans>
+</beans>
 	
 	

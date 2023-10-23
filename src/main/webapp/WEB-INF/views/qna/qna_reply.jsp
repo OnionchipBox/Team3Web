@@ -4,7 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <title>댓글</title>
-<link rel="stylesheet" type="text/css" href="./css/qna.css" />
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -14,7 +13,17 @@
 
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-<script src="./js/qna.js"></script>
+<script src="./resources/js/qna.js"></script>
+<style>
+#container_q {
+	 display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center; /* 수평 가운데 정렬을 위해 추가 */
+}
+
+
+</style>
 </head>
 <body>
 <jsp:include page="../header.jsp" />
@@ -46,7 +55,7 @@
             <tr>
                <th>글제목</th>
                <td><input name="qtitle" id="qtitle" size="33"
-               value="Re:${q.qtitle}"/></td>
+               value="Re:${q.qtitle}" /></td>
             </tr>
             
             
@@ -56,7 +65,7 @@
             </tr>
             <tr>
                <th>글내용</th>
-               <td><textarea name="qcont" id="qcont" rows="8" cols="34"></textarea></td>
+               <td><textarea name="qcont" id="qcont" rows="8" cols="34" ></textarea></td>
             </tr>
 
          </table>

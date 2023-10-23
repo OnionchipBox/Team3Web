@@ -24,7 +24,7 @@ public class QnADAOImpl implements QnADAO {
 	@Override
 	public int getRowCount(PageVO q) {
 		
-		return this.sqlSession.selectOne("qna_count",q);
+		return this.sqlSession.selectOne("qna_one",q);
 	} //검색 전후 총 레코드 개수
 
 	@Override
