@@ -42,10 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 댓글일 때는 카운트 안 되고 원본 글 (qna문의 글!)일 때만 목록 페이지에서 카운트 되게 ! -->
 	<select id="qna_one" resultType="int">
-		select count(qnano) from qna01
-		<where>
-			qstep=0			
-		</where>
+		select count(qnano) from qna01 where qstep=0		
 	</select>
 
 
