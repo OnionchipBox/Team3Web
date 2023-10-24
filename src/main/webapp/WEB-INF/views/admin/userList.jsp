@@ -17,9 +17,13 @@
 </style>
 <script>
 var successMessage = '${successMessage}';
+var errorMessage = '${errorMessage}';
 if (successMessage === 'VerifyMessageOK') {
     alert("변경이 완료되었습니다");
+} else if (errorMessage === 'ErrorMessage') {
+	alert("판매자로 변경은 불가능합니다");
 }
+
 
 const DeleteSuccessMessage = '<%= request.getAttribute("DeleteSuccessMessage") %>';
 

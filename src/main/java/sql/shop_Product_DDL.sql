@@ -7,7 +7,7 @@ CREATE TABLE shop_products (
     pcode VARCHAR2(255) NOT NULL,
     thumbimg varchar2(255) not null,
     category varchar2(255) ,
-     seller_id number(38)       --ì¶”í›„ seller idê°? ì°¸ì¡°(FK) ì¶”ê?(?–´?–¤ ?Œë§¤ìê°? ?˜¬ë¦? ?ƒ?’ˆ?¸ì§? ?™•?¸?•  ?ˆ˜ ?ˆ?–´?•¼ ?•¨)
+     seller_code number(38)
 );
 
 create SEQUENCE product_no_seq

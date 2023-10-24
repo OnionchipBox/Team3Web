@@ -5,8 +5,35 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <title></title>
 <style>
+@font-face {
+    font-family: 'PartialSansKR-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/PartialSansKR-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+.icon-custom {
+	position:relative;
+	top:3px;    
+}
+.user-info{
+	margin-top:10px;
+	margin-right:15px;
+	padding-right: 10px;
+}
+.user-info a{
+	text-decoration: none;
+	color:inherit;
+	font-weight: bold;
+}
+#headlogo{
+	letter-spacing:10px;
+	font-family: 'PartialSansKR-Regular';
+	font-style: italic;
+}
+
 @keyframes slide-down {
     0% {
         height: 0px;
@@ -140,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function() {
          }
 
          const navItems = document.querySelectorAll(".nav-underline .nav-item a");
-         navItems.forEach(item => {
+         navItems.forEach(item =>{
              // "about" 항목을 제외하고 이벤트 리스너를 추가합니다.
              if (item.textContent.trim().toLowerCase() !== "about") {
                  item.addEventListener("click", function(event) {
@@ -191,9 +218,9 @@ document.addEventListener("DOMContentLoaded", function() {
 <body>
 	<div>
 		<nav class="navbar">
-			<h1>
+			<h1 id="headlogo">
 				<a class="navbar-brand mx-auto"
-					href="<%=request.getContextPath()%>/">Team3Web</a>
+					href="<%=request.getContextPath()%>/">NUBE</a>
 			</h1>
 			<ul class="navbar-nav ms-auto me-2 flex-row align-items-center">
 				<sec:authorize access="isAnonymous()">
@@ -209,12 +236,15 @@ document.addEventListener("DOMContentLoaded", function() {
 					</c:when> 
 				<c:otherwise>
 					<sec:authorize access="isAuthenticated()">
-						<div class="user-info">
-							<p>
-								닉네임 :
-								<sec:authentication property="principal.nickName" />
-								&nbsp;&nbsp; <a href="<c:url value="/logout" />">로그아웃</a>
-						</div>
+<div class="user-info">
+    <p>
+        <span id='cloud' class='icon-custom'>
+            <i class='bx bx-cloud' style='font-size: 20px;'></i>
+        </span>
+        <sec:authentication property="principal.nickName" />
+        &nbsp;&nbsp; <a href="<c:url value="/logout" />">로그아웃</a>
+    </p>
+</div>
 					</sec:authorize>
 				</c:otherwise>
 				</c:choose>
@@ -362,4 +392,3 @@ document.addEventListener("DOMContentLoaded", function() {
 	</script>
 </body>
 </html>
-

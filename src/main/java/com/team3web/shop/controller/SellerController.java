@@ -3,6 +3,7 @@ package com.team3web.shop.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team3web.shop.service.SellerService;
 import com.team3web.shop.vo.SellerVO;
@@ -37,7 +39,7 @@ public class SellerController {
             out.println("alert('이미 등록된 사용자 입니다');");
             out.println("</script>");
             out.flush();
-	        return "index";
+	        return "redirect:/";
 	    }
 	    return "/seller/registration";
 	}
@@ -47,6 +49,7 @@ public class SellerController {
 	 public String PostRegistration(
 	     @RequestParam("sellerId") String sellerId,
 	     @RequestParam("sellerName") String sellerName,
+	     RedirectAttributes redirectAttributes,
 	     Model model, HttpSession session) {
 
 	     try {
@@ -58,15 +61,18 @@ public class SellerController {
 	             sellerService.updateSellerVerify(user);
 	             SellerVO seller = new SellerVO();
 	             seller.setId(id);
-	             seller.setSeller_name(sellerName);
-	             seller.setSeller_registration_number(sellerId);
+	             seller.setSellerName(sellerName);
+	             seller.setSellerRegistrationNumber(sellerId);
 	             sellerService.insertSeller(seller);
 	             session.setAttribute("loggedInUserRole", "ROLE_SELLER");
+	             
+	             redirectAttributes.addFlashAttribute("successMessage", "MessageOK");
+	             return "redirect:/";
 	         } else {
 	             System.out.println("id가 null입니다.");
 	         }
 
-	         return "index";
+	         return "redirect:/";
 	     } catch (Exception e) {
 	         e.printStackTrace();
 	         System.out.println("null 에러 발생");

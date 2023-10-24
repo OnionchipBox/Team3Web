@@ -14,5 +14,20 @@ public class ProductVO {
     private String pcode;
     private String thumbimg;
     private String category;
-    private int seller_id ;
+    
+    private int sellerCode;
+    
+    public ProductVO() {}
+    
+    public ProductVO(ProductVO product, SellerVO seller) {
+    	this.productId = product.getProductId();
+    	this.name = product.getName();
+    	this.price = product.getPrice();
+    	this.stock = product.getStock();
+    	this.imageUrl = product.getImageUrl();
+    	this.pcode = product.getPcode();
+    	this.thumbimg = product.getThumbimg();
+    	this.category = product.getCategory();
+    	this.sellerCode = seller.getSellerCode();
+    }
 }

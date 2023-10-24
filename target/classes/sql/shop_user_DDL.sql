@@ -1,8 +1,8 @@
 DROP TABLE shop_user;
-
+DROP TABLE shop_seller;
 create table shop_user
 (
-  ID        VARCHAR2(50)          PRIMARY KEY,
+  ID        VARCHAR2(50)  PRIMARY KEY  ,
   PASSWORD        VARCHAR2(100)        ,
   NAME      VARCHAR2(30)                  ,
   GENDER      VARCHAR2(10)                  ,
@@ -18,15 +18,10 @@ create table shop_user
     POINT NUMBER(10, 0) DEFAULT 1000
 );
 
-ALTER TABLE shop_user
-ADD BALANCE NUMBER(10, 0) DEFAULT 0;
+--ALTER TABLE shop_user
+--ADD CONSTRAINT fk_user_seller FOREIGN KEY (ID) REFERENCES shop_seller (ID);
 
-ALTER TABLE shop_user
-ADD POINT NUMBER(10, 0) DEFAULT 1000;
-
-ALTER TABLE shop_user
-ADD CONSTRAINT fk_user_seller FOREIGN KEY (ID) REFERENCES shop_seller (ID);
-
-
+--ALTER TABLE shop_user
+--drop CONSTRAINT fk_user_seller;
 
 -------------------------------------------------------------------------------- 

@@ -1,9 +1,5 @@
 package com.team3web.shop.vo;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
@@ -15,21 +11,29 @@ public class SellerVO {
 	
 	private String id;
 	
-	@NotNull
-	private String seller_name;
+	private String userId;
+	private String verify;
 	
 	@NotNull
-	private String seller_registration_number;
+	private String sellerName;
+	
+	@NotNull
+	private String sellerRegistrationNumber;
 
-	private String registration_date;
+	private String registrationDate;
+	
+	private int sellerCode;
 	
 	public SellerVO() {}
 
-	public SellerVO(SellerVO seller) {
+	public SellerVO(SellerVO seller, UserVO user) {
 		this.id = seller.getId();
-		this.seller_name = seller.getSeller_name();
-		this.seller_registration_number = seller.getSeller_registration_number();
-		this.registration_date = seller.getRegistration_date();
+		this.userId = user.getId();
+		this.verify = user.getVerify();
+		this.sellerName = seller.getSellerName();
+		this.sellerRegistrationNumber = seller.getSellerRegistrationNumber();
+		this.registrationDate = seller.getRegistrationDate();
+		this.sellerCode = seller.getSellerCode();
 	}
 	
 }

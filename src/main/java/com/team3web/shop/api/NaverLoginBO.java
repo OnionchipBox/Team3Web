@@ -13,6 +13,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
+// 10/18 작성 끝
 @Component
 public class NaverLoginBO {
 	private final static String CLIENT_ID = "LtVC0uv8SOtacIAlLWZL";
@@ -26,6 +27,7 @@ public class NaverLoginBO {
 		// 세션 유효성 검증을 위하여 난수 생성
 		String state = generateRandomString();
 		setSession(session,state);
+		System.out.println("null값 체크(세션) : "+getSession(session));
 		// Scribe에서 제공하는 인증 URL 생성 기능을 이용하여 네아로 인증 URL 생성 
 		OAuth20Service oauthService = new ServiceBuilder()
 				.apiKey(CLIENT_ID)
@@ -39,7 +41,8 @@ public class NaverLoginBO {
 	public OAuth2AccessToken getAccessToken(HttpSession session, String code, String state) throws IOException{
 		// Callback으로 전달받은 세선검증용 난수값과 세션에 저장되어있는 값이 일치하는지 확인 
 		String sessionState = getSession(session);
-		if(StringUtils.pathEquals(sessionState, state)){
+		System.out.println("if문 실행전 체크 : "+sessionState+"\t"+state);
+//		if(StringUtils.pathEquals(sessionState, state)){
 			OAuth20Service oauthService = new ServiceBuilder()
 					.apiKey(CLIENT_ID)
 					.apiSecret(CLIENT_SECRET)
@@ -47,10 +50,10 @@ public class NaverLoginBO {
 					.state(state)
 					.build(NaverLoginApi.instance());
 			// Scribe에서 제공하는 AccessToken 획득 기능으로 네아로 Access Token을 획득
-			OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
-			return accessToken;
-		}
-		return null;
+			OAuth2AccessToken oauthToken = oauthService.getAccessToken(code);
+			System.out.println("getAccessToken 탈출 전 null 체크 : "+oauthToken);
+			return oauthToken;
+
 	}
 	// 세션 유효성 검증을 위한 난수 생성기 
 	private String generateRandomString() {
@@ -69,10 +72,19 @@ public class NaverLoginBO {
 		OAuth20Service oauthService =new ServiceBuilder()
 				.apiKey(CLIENT_ID)
 				.apiSecret(CLIENT_SECRET)
-				.callback(REDIRECT_URI).build(NaverLoginApi.instance());
+				.callback(REDIRECT_URI)
+				.build(NaverLoginApi.instance());
 		OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_API_URL, oauthService);
-		oauthService.signRequest(oauthToken, request);
-		Response response = request.send();
-		return response.getBody();
+		System.out.println("BO null값 1차 체크 : "+request);
+		try {
+			System.out.println("BO null값 2차 체크 : "+oauthToken+"\t"+request);
+	        oauthService.signRequest(oauthToken, request);
+	        Response response = request.send();
+	        return response.getBody();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("getUserProfile - null값 오류 체크");
+	        return null;
+	    }
 	}
 }

@@ -51,15 +51,6 @@
 			id = #{id}
 	</select>
 	
-	<!-- 회원 등급 상세보기 -->
-	<select id="viewUserRole" resultType="UserVO" parameterType="String">
-		SELECT 
-			id_count,id,role 
-		FROM shop_user_role
-		WHERE 
-			id = #{id}
-	</select>
-	
 	<!-- 사용자 아이디에 해당하는 비밀번호 조회 -->
     <select id="getPasswordById" parameterType="string" resultType="string">
         SELECT password

@@ -25,7 +25,7 @@ public class ImageController {
       ProductVO product = productService.findById(productId);
       String imageUrl = product.getImageUrl();
       
-      String fullPath = imageDirectory + "/" + imageUrl +".png";
+      String fullPath = imageDirectory + "/" + imageUrl;
       System.out.println(fullPath);
       return new UrlResource("file:" + fullPath);
    }

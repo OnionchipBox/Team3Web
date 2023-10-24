@@ -48,7 +48,12 @@ import com.team3web.shop.vo.UserVO;
 public class LoginController {
 
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+	
+	@Autowired
 	private NaverLoginBO naverLoginBO;
+	private String apiResult = null;
+	
+	@Autowired
 	private KakaoLoginBO kakaoLoginBO;
 	
 	@Inject
@@ -59,16 +64,6 @@ public class LoginController {
 	
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
-		this.naverLoginBO = naverLoginBO;
-	}
-	
-	@Autowired
-	private void setKakaoLoginBO(KakaoLoginBO kakaoLoginBO) {
-		this.kakaoLoginBO = kakaoLoginBO;
-	}
 
 	@Autowired
 	@Qualifier("AuthenticationManager")
@@ -79,7 +74,7 @@ public class LoginController {
 	
 	@Autowired
     private HttpServletRequest request;
-
+	// 10/18 작성 끝
 	@RequestMapping(value = "/login" , method = RequestMethod.GET)
     public String login(Model model, HttpSession session) {
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
@@ -92,57 +87,86 @@ public class LoginController {
 	    
 		return "/user/login";
 	}
-	
-	@RequestMapping(value = "/naver/callback", method = { RequestMethod.GET, RequestMethod.POST })
-	public String naverCallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
+	// 10/19 작성 끝
+	@RequestMapping(value = "/login/naver", method = { RequestMethod.GET, RequestMethod.POST })
+	public String naverCallback(Model model, @RequestParam String code, 
+			@RequestParam String state, HttpSession session) throws IOException, ParseException {
 		System.out.println("Naver callback");
+	    System.out.println("null값 체크 \n code :  "+code+"\n state : "+state+"\n 세션 : "+session);
 	    
 	    OAuth2AccessToken oauthToken;
 	    oauthToken = naverLoginBO.getAccessToken(session, code, state);
-	    
-	    if (oauthToken != null) {
-	        String apiResult = naverLoginBO.getUserProfile(oauthToken);
+	    apiResult = naverLoginBO.getUserProfile(oauthToken);
+	    System.out.println("null값 2차 체크(oauth토큰) : "+oauthToken+"\t"+apiResult);
+
 	        JSONParser parser = new JSONParser();
 	        Object obj = parser.parse(apiResult);
 	        JSONObject jsonObj = (JSONObject) obj;
 	        
 	        JSONObject response_obj = (JSONObject) jsonObj.get("response");
 	        String nickname = (String) response_obj.get("nickname");
-	        System.out.println(nickname);
+	        String gender = (String) response_obj.get("gender");
+	        String name = (String) response_obj.get("name");
+	        String phone = (String) response_obj.get("mobile");
+	        Date birthday = (Date) response_obj.get("birthday");
 	        
-	        session.setAttribute("sessionId", nickname);
-	        model.addAttribute("result", apiResult);
-	    } else {
-	    	System.out.println(" AccessToken ");
-	    }
-	    
-	    return "login";
+	        phone = phone.replaceAll("-", "");
+	        
+	        UserVO user = new UserVO();
+	        
+	        user.setName(name);
+	        user.setNickname(nickname);
+	        if ("M".equals(gender)) {
+	            user.setGender("남자");
+	        } else if ("F".equals(gender)) {
+	            user.setGender("여자");
+	        }
+	        user.setPhone(phone);
+	        user.setBirthday(birthday);
+	        
+	        model.addAttribute("user", user);
+	        return "/user/registerInput";
 	}
-	
-	@RequestMapping(value = "/kakao/callback", method = { RequestMethod.GET, RequestMethod.POST })
-	public String kakaoCallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
+	// 10/18 작성 끝
+	@RequestMapping(value = "/user/registerInput", method = RequestMethod.GET)
+	public String ApiRegister(HttpSession session, Model model, UserVO user) {
+		
+		return "user/registerInput";
+	}
+	// 10/19 작성 끝
+	@RequestMapping(value = "/login/kakao", method = { RequestMethod.GET, RequestMethod.POST })
+	public String kakaoCallback(Model model, @RequestParam String code,
+			@RequestParam String state, HttpSession session) throws IOException, ParseException {
 	    System.out.println("Kakao callback");
 	    
 	    OAuth2AccessToken oauthToken;
 	    oauthToken = kakaoLoginBO.getAccessToken(session, code, state);
-	    
-	    if (oauthToken != null) {
+
 	        String apiResult = kakaoLoginBO.getUserProfile(oauthToken);
 	        
 	        JSONParser parser = new JSONParser();
 	        Object obj = parser.parse(apiResult);
 	        JSONObject jsonObj = (JSONObject) obj;
 	        JSONObject properties = (JSONObject) jsonObj.get("properties");
+	        JSONObject kakao_account = (JSONObject) jsonObj.get("kakao_account");
+
+	        String email = (String) kakao_account.get("email");
 	        String nickname = (String) properties.get("nickname");
+	        String gender = (String) kakao_account.get("gender");
 	        
-	        System.out.println(nickname);
-	        session.setAttribute("sessionId", nickname);
-	        model.addAttribute("result", apiResult);
-	    } else {
-	    	System.out.println(" AccessToken ");
-	    }
+	        UserVO user = new UserVO();
+	        
+	        user.setId(email);
+	        user.setNickname(nickname);
+	        if ("male".equals(gender)) {
+	            user.setGender("남자");
+	        } else if ("female".equals(gender)) {
+	            user.setGender("여자");
+	        }
+	        
+	        model.addAttribute("user", user);
 	    
-	    return "login";
+	    return "/user/registerInput";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -168,17 +192,17 @@ public class LoginController {
 	        if (authorities.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
 	        	session.setAttribute("loggedInUserId", id);
 	            session.setAttribute("loggedInUserRole", "ROLE_USER");
-	            return "index";
+	            return "redirect:/";
 	        } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_SELLER"))) {
 	        	session.setAttribute("loggedInUserId", id);
 	            session.setAttribute("loggedInUserRole", "ROLE_SELLER");
-	            return "index";
+	            return "redirect:/";
 	        } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
 	        	session.setAttribute("loggedInUserId", id);
 	            session.setAttribute("loggedInUserRole", "ROLE_ADMIN");
-	        	return "index";
+	        	return "redirect:/";
 	    	}else {
-	            return "index";
+	            return "redirect:/";
 	        }
 	    } catch (AuthenticationException e) {
 	        System.out.println("로그인 실패: " + e.getMessage());

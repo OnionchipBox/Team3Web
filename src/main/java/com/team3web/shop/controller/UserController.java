@@ -1,12 +1,10 @@
 package com.team3web.shop.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.team3web.shop.api.KakaoLoginBO;
@@ -45,9 +42,6 @@ public class UserController {
 		this.kakaoLoginBO = kakaoLoginBO;
 	}
 
-	@Autowired
-	private LoginController loginController;
-
 	@RequestMapping(value = "/choiceRegister", method = RequestMethod.GET)
 	public String choiceRegister(Model model, HttpSession session) {
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
@@ -66,8 +60,9 @@ public class UserController {
 	}
 
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String joinRegister(@Valid @ModelAttribute("userValid") UserVO userVO, Model model, BindingResult result, RedirectAttributes ra) {
-
+	public String joinRegister(@Valid @ModelAttribute("userValid") UserVO userVO, 
+			Model model, BindingResult result, RedirectAttributes ra, HttpSession session) {
+		
 		if (result.hasErrors()) {
 			logger.info("error!!!!!");
 			logger.error("form error redirect page!");
@@ -116,42 +111,45 @@ public class UserController {
 		return "/user/login";
 	}
 
-	@RequestMapping(value = "/registerInput", method = RequestMethod.GET)
-	public String registerInput(@RequestParam("id") String id, 
-			@RequestParam("password") String pw,
-			@RequestParam("email") String email,
-			@RequestParam("name") String name,
-			@RequestParam("nickname") String nickname,
-			@RequestParam("birthday") String birthday,
-			@RequestParam("gender") String gender,
-			Model model, HttpSession session) {
-		String naverNickname = (String) session.getAttribute("naverNickname");
-		String naverName = (String) session.getAttribute("naverName");
-		String naverEmail = (String) session.getAttribute("naverEmail");
-		String kakaoNickname = (String) session.getAttribute("kakaoNickname");
-		String kakaoGender = (String) session.getAttribute("kakaoGender");
-		String kakaoBirthday = (String) session.getAttribute("kakaoBirthday");
-		String kakaoEmail = (String) session.getAttribute("kakaoEmail");
+//	@RequestMapping(value = "/registerInput", method = RequestMethod.GET)
+//	public String registerInput(@RequestParam("id") String id, 
+//	                            @RequestParam("password") String pw,
+//	                            @RequestParam("phone") String phone,
+//	                            @RequestParam("name") String name,
+//	                            @RequestParam("nickname") String nickname,
+//	                            @RequestParam("birthday") String birthday,
+//	                            @RequestParam("gender") String gender,
+//	                            Model model, HttpSession session) {
+//		String naverNickname = (String) session.getAttribute("naverNickname");
+//		String naverName = (String) session.getAttribute("naverName");
+//		String naverEmail = (String) session.getAttribute("naverEmail");
+//		String kakaoNickname = (String) session.getAttribute("kakaoNickname");
+//		String kakaoGender = (String) session.getAttribute("kakaoGender");
+//		String kakaoBirthday = (String) session.getAttribute("kakaoBirthday");
+//		String kakaoEmail = (String) session.getAttribute("kakaoEmail");
+//
+//		if (naverName != null || kakaoNickname != null) {
+//			model.addAttribute("nickname", (naverNickname != null) ? naverNickname : kakaoNickname);
+//			model.addAttribute("email", (naverEmail != null) ? naverEmail : kakaoEmail);
+//			model.addAttribute("name", naverName);
+//			model.addAttribute("gender", kakaoGender);
+//			model.addAttribute("birthday", kakaoBirthday);
+//		} else {
+//	        model.addAttribute("userValid", new UserVO());
+//
+//		return "/user/register";
+//		}
+//		return "/user/register";
+//	}
 
-		if (naverName != null || kakaoNickname != null) {
-			model.addAttribute("nickname", (naverNickname != null) ? naverNickname : kakaoNickname);
-			model.addAttribute("email", (naverEmail != null) ? naverEmail : kakaoEmail);
-			model.addAttribute("name", naverName);
-			model.addAttribute("gender", kakaoGender);
-			model.addAttribute("birthday", kakaoBirthday);
-		}
+//	@RequestMapping(value = "/naver/user/callback", method = { RequestMethod.GET, RequestMethod.POST })
+//	public String userNaverCallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
+//		return loginController.naverCallback(model, code, state, session);
+//	}
 
-		return "/user/register";
-	}
-
-	@RequestMapping(value = "/naver/user/callback", method = { RequestMethod.GET, RequestMethod.POST })
-	public String userNaverCallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
-		return loginController.naverCallback(model, code, state, session);
-	}
-
-	@RequestMapping(value = "/kakao/user/callback", method = { RequestMethod.GET, RequestMethod.POST })
-	public String userKakaoCallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
-		return loginController.kakaoCallback(model, code, state, session);
-	}
+//	@RequestMapping(value = "/kakao/user/callback", method = { RequestMethod.GET, RequestMethod.POST })
+//	public String userKakaoCallback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
+//		return loginController.kakaoCallback(model, code, state, session);
+//	}
 
 }

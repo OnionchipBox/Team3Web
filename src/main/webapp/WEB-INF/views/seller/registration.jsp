@@ -12,6 +12,14 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
+<script>
+document.getElementById('sellerOK').addEventListener('click', function() {
+    var successMessage = '${successMessage}';
+    if (successMessage === 'MessageOK') {
+        alert("등록되었습니다\n다시 로그인하세요");
+    }
+});
+</script>
 <style>
     /* 입력칸 스타일 */
     .Input-container {
@@ -87,7 +95,7 @@
                     <label for="sellerName">업체명 : </label> 
                     <input class="form-control" id="sellerName" name="sellerName" placeholder="업체명 입력" required>
                 </div>
-                <button type="submit" class="btn btn-primary">등록</button>  
+                <button type="submit" class="btn btn-primary" id="sellerOK">등록</button>  
         </form>
 	</div>
 <br><br><br>

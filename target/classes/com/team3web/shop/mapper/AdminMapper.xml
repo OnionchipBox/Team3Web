@@ -23,6 +23,16 @@
     	WHERE id = #{id}
 	</delete>
 	
+	<!-- 제품 삭제 -->
+	<delete id="forceDeleteProduct" parameterType="ProductVO">
+		DELETE FROM shop_products
+		WHERE seller_code = #{sellerCode} OR productId = #{productId}
+	</delete>
+	<delete id="DeleteProductAll" parameterType="ProductVO">
+		DELETE FROM shop_products
+		WHERE seller_code = #{sellerCode}
+	</delete>
+	
 	<!-- 회원 목록 가져오기 (페이징) -->
 	<select id="getUsersByPage" parameterType="map" resultType="UserVO">
     SELECT *
@@ -56,7 +66,7 @@
 	</select>
 	
 	<!-- 검색된 회원 목록 가져오기 (페이징) -->
-<select id="getSearchedUsersByPage" parameterType="map" resultType="UserVO">
+	<select id="getSearchedUsersByPage" parameterType="map" resultType="UserVO">
     SELECT *
     FROM (
         SELECT
@@ -74,7 +84,7 @@
         WHERE ROWNUM &lt;= #{end}
     )
     WHERE RNUM &gt;= #{start}
-</select>
+	</select>
 
 
 	<!-- 총 검색된 회원 수 가져오기 -->
@@ -84,6 +94,132 @@
     	WHERE 
     	<if test="search != null and !search.isEmpty()">
         	(name LIKE '%' || #{search, jdbcType=VARCHAR} || '%' OR id LIKE '%' || #{search, jdbcType=VARCHAR} || '%')
+    	</if>
+	</select>
+	
+	<!-- 판매업체 관련 -->
+	
+	<!-- 판매업체 목록 가져오기 (페이징) -->
+	<select id="getSellerByPage" parameterType="map" resultType="SellerVO">
+    SELECT *
+    FROM (
+        SELECT
+            ROWNUM AS RNUM,
+            A.*
+        FROM (
+            SELECT *
+            FROM shop_seller
+            WHERE 1=1
+            <if test="search != null and !search.isEmpty()">
+                AND (id LIKE '%' || #{search, jdbcType=VARCHAR} || '%' OR seller_name LIKE '%' || #{search, jdbcType=VARCHAR})
+            </if>
+            ORDER BY id
+        ) A
+        WHERE ROWNUM &lt;= #{end}
+    )
+    WHERE RNUM &gt;= #{start}
+	</select>
+
+	<!-- 총 판매업체 수 가져오기 (검색 포함) -->
+	<select id="getTotalSeller" parameterType="map" resultType="int">
+    	SELECT COUNT(*)
+    	FROM shop_seller
+    	<if test="search != null and !search.isEmpty()">
+        	WHERE (id LIKE '%' || #{search, jdbcType=VARCHAR} || '%' OR seller_name LIKE '%' || #{search, jdbcType=VARCHAR})
+    	</if>
+	</select>
+	
+	<!-- 검색된 판매업체 목록 가져오기 (페이징) -->
+	<select id="getSearchedSellerByPage" parameterType="map" resultType="SellerVO">
+    SELECT *
+    FROM (
+        SELECT
+            ROWNUM AS RNUM,
+            A.*
+        FROM (
+            SELECT *
+            FROM shop_seller
+            WHERE 1=1
+            <if test="search != null and !search.isEmpty()">
+                AND (id LIKE '%' || #{search, jdbcType=VARCHAR} || '%' OR seller_name LIKE '%' || #{search, jdbcType=VARCHAR})
+            </if>
+            ORDER BY id
+        ) A
+        WHERE ROWNUM &lt;= #{end}
+    )
+    WHERE RNUM &gt;= #{start}
+	</select>
+	
+	<!-- 총 검색된 판매업체 수 가져오기 -->
+	<select id="getTotalSearchedSeller" parameterType="map" resultType="int">
+    	SELECT COUNT(*)
+    	FROM shop_seller
+    	WHERE 
+    	<if test="search != null and !search.isEmpty()">
+        	(id LIKE '%' || #{search, jdbcType=VARCHAR} || '%' OR seller_name LIKE '%' || #{search, jdbcType=VARCHAR} || '%')
+    	</if>
+	</select>
+	
+	<!-- 제품 관련 -->
+	
+	<!-- 제품 목록 가져오기 (페이징) -->
+	<select id="getProductsByPage" parameterType="map" resultType="ProductVO">
+    SELECT *
+    FROM (
+        SELECT
+            ROWNUM AS RNUM,
+            A.*
+        FROM (
+            SELECT *
+            FROM shop_products
+            WHERE 1=1
+            <if test="search != null and !search.isEmpty()">
+                AND (productId LIKE '%' || #{search, jdbcType=NUMBER} || '%' OR name LIKE '%' || #{search, jdbcType=VARCHAR})
+            </if>
+            ORDER BY productId
+        ) A
+        WHERE ROWNUM &lt;= #{end}
+    )
+    WHERE RNUM &gt;= #{start}
+	</select>
+
+	<!-- 총 제품 수 가져오기 (검색 포함) -->
+	<select id="getTotalProducts" parameterType="map" resultType="int">
+    	SELECT COUNT(*)
+    	FROM shop_products
+    	<if test="search != null and !search.isEmpty()">
+        	WHERE (productId LIKE '%' || #{search, jdbcType=NUMBER} || '%' OR name LIKE '%' || #{search, jdbcType=VARCHAR})
+    	</if>
+	</select>
+	
+	<!-- 검색된 제품 목록 가져오기 (페이징) -->
+	<select id="getSearchedProductsByPage" parameterType="map" resultType="ProductVO">
+    SELECT *
+    FROM (
+        SELECT
+            ROWNUM AS RNUM,
+            A.*
+        FROM (
+            SELECT *
+            FROM shop_products
+            WHERE 1=1
+            <if test="search != null and !search.isEmpty()">
+                AND (productId LIKE '%' || #{search, jdbcType=NUMBER} || '%' OR name LIKE '%' || #{search, jdbcType=VARCHAR})
+            </if>
+            ORDER BY productId
+        ) A
+        WHERE ROWNUM &lt;= #{end}
+    )
+    WHERE RNUM &gt;= #{start}
+	</select>
+	
+	<!-- 총 검색된 제품 수 가져오기 -->
+	<select id="getTotalSearchedProducts" parameterType="map" resultType="int">
+    	SELECT COUNT(*)
+    	FROM shop_products
+    	WHERE 
+    	<if test="search != null and !search.isEmpty()">
+        	(productId LIKE '%' || #{search, jdbcType=NUMBER} || '%' OR name LIKE '%' || #{search, jdbcType=VARCHAR} || '%')
     	</if>
 	</select>
 

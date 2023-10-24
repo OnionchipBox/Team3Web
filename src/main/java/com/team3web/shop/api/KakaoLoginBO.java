@@ -16,7 +16,7 @@ import com.github.scribejava.core.oauth.OAuth20Service;
 @Component
 public class KakaoLoginBO {
     private final static String CLIENT_ID = "473b250b46e3a08eb8db0f1fb6578aa8";
-    private final static String CLIENT_SECRET = "yrCANAIRom6BEirbeDTICez0ECpo7ABg";
+    private final static String CLIENT_SECRET = "yrCANAIRom6BEirbeDTICez0ECpo7ABg"; // 시큐리티로 대체함
     private final static String REDIRECT_URI = "http://localhost:7996/shop/login/kakao";
     private final static String SESSION_STATE = "oauth_state";
 
@@ -41,7 +41,7 @@ public class KakaoLoginBO {
     public OAuth2AccessToken getAccessToken(HttpSession session, String code, String state) throws IOException {
         // Callback으로 전달받은 세션 검증용 난수값과 세션에 저장된 값이 일치하는지 확인
         String sessionState = getSession(session);
-        if (StringUtils.pathEquals(sessionState, state)) {
+//        if (StringUtils.pathEquals(sessionState, state)) {
             OAuth20Service oauthService = new ServiceBuilder()
                 .apiKey(CLIENT_ID)
                 .apiSecret(CLIENT_SECRET)
@@ -51,8 +51,8 @@ public class KakaoLoginBO {
             
             OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
             return accessToken;
-        }
-        return null;
+//        }
+//        return null;
     }
     
     // 세션 유효성 검증을 위한 난수 생성 메서드

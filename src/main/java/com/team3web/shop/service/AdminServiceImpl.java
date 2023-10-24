@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3web.shop.dao.AdminDAO;
+import com.team3web.shop.vo.ProductVO;
+import com.team3web.shop.vo.SellerVO;
 import com.team3web.shop.vo.UserVO;
 
 @Service
@@ -30,9 +32,21 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
+	public void forceDeleteProduct(ProductVO product) {
+		adminDAO.forceDeleteProduct(product);
+	}
+	
+	@Override
 	public void forceDeleteSeller(String id) {
 		adminDAO.forceDeleteSeller(id);
 	}
+	
+	@Override
+	public void DeleteProductAll(ProductVO product) {
+		adminDAO.DeleteProductAll(product);
+	}
+	
+	// 사용자 영역
 
 	@Override
 	public List<UserVO> getUsersByPage(String search, int page, int pageSize) {
@@ -53,5 +67,48 @@ public class AdminServiceImpl implements AdminService {
 	public int getTotalSearchedUsers(String search) {
 		return adminDAO.getTotalSearchedUsers(search);
 	}
+	
+	// 판매업체 영역
 
+	@Override
+	public List<SellerVO> getSellerByPage(String search, int page, int pageSize) {
+		return adminDAO.getSellerByPage(search, page, pageSize);
+	}
+
+	@Override
+	public int getTotalSeller(Map<String, Object> map) {
+		return adminDAO.getTotalSeller(map);
+	}
+
+	@Override
+	public List<SellerVO> getSearchedSellerByPage(Map<String, Object> map) {
+		return adminDAO.getSearchedSellerByPage(map);
+	}
+
+	@Override
+	public int getTotalSearchedSeller(String search) {
+		return adminDAO.getTotalSearchedSeller(search);
+	}
+	
+	// 제품 영역
+
+	@Override
+	public List<ProductVO> getProductsByPage(String search, int page, int pageSize) {
+		return adminDAO.getProductsByPage(search, page, pageSize);
+	}
+
+	@Override
+	public int getTotalProducts(Map<String, Object> map) {
+		return adminDAO.getTotalProducts(map);
+	}
+
+	@Override
+	public List<ProductVO> getSearchedProductsByPage(Map<String, Object> map) {
+		return adminDAO.getSearchedProductsByPage(map);
+	}
+
+	@Override
+	public int getTotalSearchedProducts(String search) {
+		return adminDAO.getTotalSearchedProducts(search);
+	}
 }
