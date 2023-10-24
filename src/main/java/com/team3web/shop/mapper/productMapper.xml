@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team3web.shop.mapper.ProductMapper">
+
+
+
+
+
+<insert id="addProduct" parameterType="com.team3web.shop.vo.ProductVO">
+        INSERT INTO shop_products (productId,name, price, stock, imageUrl, pcode, thumbimg)
+        VALUES (product_no_seq.nextval,#{name}, #{price}, #{stock}, #{imageUrl}, #{pcode},#{thumbimg})
+    </insert>
+
+<select id ="getAllProduct" resultType ="com.team3web.shop.vo.ProductVO">
+   select * from shop_products
+
+</select>
+
+<select id = "findById" resultType="com.team3web.shop.vo.ProductVO">
+   select * from shop_products where productId=#{productId}
+</select>
+
+
+</mapper>
