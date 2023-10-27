@@ -11,20 +11,22 @@
 
 <h1> kakaoPay api 이용하기 </h1>
  
-<form method="post" action="/kakaoPay">
+<form method="post" action="/check_module">
     <button>카카오페이로 결제하기</button>
 </form>
 
 
 <script>
-$("#check_module").click(function () {
+$("#aaa").click(function () {
 	var IMP = window.IMP; // 생략가능
-	IMP.init('가맹점식별코드'); 
+	IMP.init('imp24673855'); 
 	// i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
 	// ''안에 띄어쓰기 없이 가맹점 식별코드를 붙여넣어주세요. 안그러면 결제창이 안뜹니다.
 	IMP.request_pay({
 		pg: 'kakao',
 		pay_method: 'card',
+		
+		//유일한 값
 		merchant_uid: 'merchant_' + new Date().getTime(),
 		/* 
 		 *  merchant_uid에 경우 
@@ -35,7 +37,7 @@ $("#check_module").click(function () {
 		// 결제창에서 보여질 이름
 		// name: '주문명 : ${auction.a_title}',
 		// 위와같이 model에 담은 정보를 넣어 쓸수도 있습니다.
-		amount: 2000,
+		amount: totalPrice,
 		// amount: ${bid.b_bid},
 		// 가격 
 		buyer_name: '이름',

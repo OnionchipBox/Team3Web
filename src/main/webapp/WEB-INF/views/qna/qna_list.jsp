@@ -86,6 +86,7 @@ a {
 }
 
 #qList_t th {
+	
 	border-bottom: 2px solid #9ca3a6; /* 가로 구분선 추가 및 회색 계열의 바탕색 설정 */
 	background-color: #83888a;
 	padding: 8px; /* 셀 안의 내용과 내부 여백 설정 */
@@ -99,11 +100,12 @@ a {
 }
 
 #qtable {
-	border: 1px solid #ccc; /* 바깥 윤곽선 설정 */
+	/*border: 1px solid #ccc; /* 바깥 윤곽선 설정 */
+	
 	border-radius: 3px; /* 윤곽선의 둥근 모서리 설정 */
 	overflow: auto; /* 내용이 넘칠 때 스크롤 표시 */
 	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
-	background-color: #fff; /* 배경색 설정 */
+
 }
 </style>
 </head>
@@ -230,44 +232,6 @@ a {
 
 
 
-<!-- 모달 창 -->
-<%-- <div class="modal fade" id="qnaModal" tabindex="-1" role="dialog" aria-labelledby="qnaModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="qnaModalLabel">게시물 내용</h5>
-       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="qna-content">
-		<table id="q_t">
-			<tr>
-				<th>제목</th>
-				<td>${q.qtitle}</td>
-			</tr>
-			<tr>
-				<th>내용</th>
-				<td>${qna_cont}</td>
-			</tr>
-		</table>
-		<br>
-		<div id="q_menu">
-			<input type="button" value="답변"
-				class="btn btn-dark" onclick="location='qna_cont?qnano=${q.qnano}&page=${page}&state=reply';" />
-			<input type="button" value="수정"
-				class="btn btn-dark" onclick="location='qna_cont?qnano=${q.qnano}&page=${page}&state=edit';" />
-			<input type="button" value="삭제"
-				class="btn btn-dark" onclick="location='qna_cont?qnano=${q.qnano}&page=${page}&state=del';" />
-			<input type="button" value="목록"
-				class="btn btn-dark" onclick="location='qna_list?page=${page}';" />
-		</div>
-		
-      </div>
-    </div>
-  </div>
-</div>
- --%>
 <script type="text/javascript">
 $(document).ready(function() {
 	  // 게시물 클릭 이벤트 처리

@@ -14,28 +14,35 @@
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="./resources/js/review.js"></script>
 <style>
-@font-face {
-    font-family: 'TheJamsil5Bold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-}
-h2{
-	 font-family: 'TheJamsil5Bold';
-}
 
+.re_t{
+	text-align:center;
+	font-weight: bold;
+}
+#Rlist_t{
+	overflow: auto; /* 내용이 넘칠 때 스크롤 표시 */
+	margin-left:auto; 
+    margin-right:auto;
+}
+#remenu{
+	text-align:center;
+	margin-top:15px;
+	padding:15px 0px;	
+}
+#rtable{
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
 </style>
 </head>
 <body>
 <jsp:include page="../header.jsp" />
 
-
 <div id="review_w">
       <h2 class="re_t">Review</h2>
       <form method="post" action="review_write_ok"
          onsubmit="return write_check();" enctype="multipart/form-data">
-
-<table>
+<div id="rtable">
+<table id="Rlist_t" style='height:auto'>
 	<tr>
 		<th>작성자</th>
 		<td><input name="rename2" id="rename2" size="14" /></td>
@@ -61,6 +68,7 @@ h2{
 		</td>
 	</tr>
 </table>
+</div>
 
 <div id="remenu">
          	   <input type="submit" class="btn btn-dark" value="취소" />
@@ -71,9 +79,9 @@ h2{
 
 </form>
 </div>
-
-<hr>
 <jsp:include page="../footer.jsp" />
+
+
 <!-- Bootstrap JS and Popper.js -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

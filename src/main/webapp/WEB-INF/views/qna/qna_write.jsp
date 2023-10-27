@@ -15,34 +15,56 @@
 <script src="./resources/js/qna.js"></script>
 
 <style>
-
 #mypage {
 	color: lightgray;
 	text-decoration: underline;
 }
-
-
 #container_q {
 	 display: flex;
     justify-content: center;
     align-items: center;
     text-align: center; /* 수평 가운데 정렬을 위해 추가 */
+    
 }
+
+#container_q{
+	/* background-image: url("./resources/img/sources/img.jpeg"); */
+	background-color:#fff;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+
+#qwrap {
+	width: 90%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative; /* 요소의 위치를 조정하기 위해 필요한 기본 속성 */
+	top: 20px; /* 위로 이동할 픽셀 수를 조정하세요. 음수 값은 위로 이동, 양수 값은 아래로 이동 */
+}
+
 
 #qna input {
     width: 100%; /* 모든 input 요소의 너비를 100%로 설정 */
 }
 
-#qna {
-	
+#qtable {
+	background : transparent;
+	/* border: 1px solid #ccc; 바깥 윤곽선 설정
+	border-radius: 3px;  윤곽선의 둥근 모서리 설정 */
+	overflow: auto; /* 내용이 넘칠 때 스크롤 표시 */
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+	/* background-color: #fff; /* 배경색 설정 */ */
 }
 #qna-title {
     text-align: center; /* 제목 가운데 정렬 */
     font-size: 24px; /* 원하는 글자 크기 설정 */
     margin: 20px 0; /* 위 아래 여백 추가 */
 }
-#ill {
 
+#qbutton {
+	float: center;
 }
 </style>
 </head>
@@ -51,13 +73,11 @@
 	
 	<div id="container_q">
 	<div id="qwrap">
-		<h2 class="qna-title">
-			<strong>상품문의</strong>
-		</h2>
-		<br>
+
 		<form method="post" action="qna_write_ok"
 			onsubmit="return write_check();">
 
+		
 				<%--<div id="container">
 	<strong>문의 유형</strong>&nbsp;
     <label>
@@ -82,9 +102,12 @@
     </label>
 </div>
 --%>
+<h2 class="qna-title">
+			<strong>상품문의</strong>
+		</h2>
+<div id="qtable">
+<table id="qna" style='width: 900px; table-layout: fixed; word-break: break-all; height:800'>
 
-
-<table id="qna">
 				<tr>
 				<td id="ill">
 						클레임(교환/환불/취소)관련 문의는 <a
@@ -111,11 +134,10 @@
 					</tr>
 
 			</table>
-			
+</div>			
 		
-			<div id="qnamenu">
-				<input type="submit" class="btn btn-dark" value="취소" /> <input
-					type="reset" style="display: none;" onclick="$('#qid').focus();" />
+			<div id="qbutton">
+			<input type="reset" class="btn btn-dark" value="취소" onclick="$('#qid').focus();" />
 				<button type="button" class="btn btn-dark"
 					onclick="location='qna_list?page=${page}';">목록</button>
 				<input type="submit" class="btn btn-dark" value="작성하기" />

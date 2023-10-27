@@ -1,5 +1,5 @@
 /**
- * qna.js : 자료실 유효성 검증 10/16
+ * qna.js : 게시판 입력폼  유효성 검증 10/16
  */
  
 function write_check(){

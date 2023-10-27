@@ -35,14 +35,9 @@ public class QnAController { // qna게시판
 	
 	@RequestMapping(value="/test")
 	public String Test() {
-		return "qna/qna_test";
+		return "qna/test03";
 	}
 	
-	
-	@RequestMapping(value="/QnA")
-	public String QnA() {
-		return "/qna/qna_list";
-	}
 
 	// qna 글쓰기 폼
 	@GetMapping("/qna_write")
@@ -118,6 +113,10 @@ public class QnAController { // qna게시판
 		return listM;
 	}//qna_list()
 
+	
+	
+	
+	
 	// 내용 보기 + 답변폼 + 수정폼 + 삭제폼 
 	@GetMapping("/qna_cont") //get방식으로 접근하는 매핑주소를 처리 
 	public ModelAndView qna_cont(int qnano,int page,String state,QnAVO q) {

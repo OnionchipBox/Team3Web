@@ -1,20 +1,38 @@
 <%@ page  contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title></title>
+
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<!--  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+-->
+
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <script>
+
+<%-- 
+var box = date.next_redirect_pc_url;
+function kakao() {
+	
+        document.getElementById("kadiv").action = "<%=request.getContextPath()%>/jq/kakaopay.cls";
+        window.open(box);
+} --%>
+
+
 /**
  *  10/24
  */
  
+Kakao.init('66d7c294781c76254fac347a83b98fb9');
 
 $(function(){
  	$('#apibtn').click(function(){
@@ -22,10 +40,10 @@ $(function(){
  	url:'/jq/kakaopay.cls' ,
  	dataType:'json' ,
  	success:function(data){
- 		alert(data);
+ 		alert(data.tid);
  	} ,
  	error:function(error){
- 	alert(error);
+ 		console.log(error);
  	}
  	});
  	});
@@ -50,7 +68,7 @@ $(function(){
 <!--<div id="loginbtn">LOGIN</div>-->
 <input type="button" class="btn btn-dark" value="LOGIN" />
 </c:if>
-<input type="button" id="apibtn" class="btn btn-dark" value="kakaopay" />
+<input type="button" id="apibtn" class="btn btn-dark" value="kakaopay"/>
 <c:if test="${not empty sessionScope.SID}">
 <!-- <div id="logoutbtn">LOGOUT</div>
 <div id="writebtn">WRITE</div>

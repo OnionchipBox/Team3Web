@@ -16,26 +16,142 @@
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
-#re_wrap{
-   width:auto; height:auto; border:none;
-   margin-left:auto; margin-right:auto;
-   margin-top:70px;
-   
+
+/*============================================*/
+
+#container_r {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
 }
-a{
+
+
+#rwrap {
+	width: 90%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative; /* 요소의 위치를 조정하기 위해 필요한 기본 속성 */
+	top: -60px; /* 위로 이동할 픽셀 수를 조정하세요. 음수 값은 위로 이동, 양수 값은 아래로 이동 */
+}
+
+a {
 	text-decoration: none;
-	color:inherit;
+	color: inherit;
+}
+
+#titleui {
+	margin-left: 10px;
+}
+
+.title_q {
+	font-weight: bold;
+}
+
+#rfind, #rList_paging {
+	margin-top: 5px;
+	flex-direction: column; /* 세로 방향 가운데 정렬 */
+	align-items: center; /* 세로 방향 가운데 정렬 */
+	text-align: center;
+}
+
+#rList_paging {
+	padding: 10px;
+}
+
+#rbutton {
+	position: relative;
+	float: right;
+	right: 20px;
+	z-index: 2; /* qbutton을 qfind 위에 표시 */
+}
+
+#rfind {
+	position: relative;
+	z-index: 1; /* qfind를 다른 요소보다 위에 표시 */
+	left: 32px;
+}
+
+#qti {
+	margin-bottom: 20px;
+	text-align: center;
+	margin-top: 10px;
+}
+
+#rwrite {
+	flex-direction: column; /* 세로 방향 가운데 정렬 */
+}
+
+#Rlist_t {
+	border-collapse: collapse; /* 테두리를 겹치게 설정 */
+}
+
+#Rlist_t th {
+	border-bottom: 2px solid #9ca3a6; /* 가로 구분선 추가 및 회색 계열의 바탕색 설정 */
+	/*background-color: #fff;*/
+	padding: 15px; /* 셀 안의 내용과 내부 여백 설정 */
+	text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+#Rlist_t td {
+	border-bottom: 1px solid #e9e9e9; /* 가로 구분선 추가 */
+	padding: 15px;
+	text-align: center;
+}
+
+#Rlist_t {
+	background : transparent;
+	/* border: 1px solid #ccc; 바깥 윤곽선 설정
+	border-radius: 3px;  윤곽선의 둥근 모서리 설정 */
+	overflow: auto; /* 내용이 넘칠 때 스크롤 표시 */
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+	/* background-color: #fff; /* 배경색 설정 */ */
+}
+
+#container_q{
+	/* background-image: url("./resources/img/sources/img.jpeg"); */
+	background-color:#f2f2f2;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+/*페이징 부분 */
+.paging-section {
+    padding: 15px;
+    text-align: center;
+}
+
+.paging-section a {
+    text-decoration: none;
+    margin : 0 5px;
+    
+ 
+}
+
+.paging-section a:hover {
+    color: #6e7480; 
 }
 </style>
 </head>
 <body>
 <jsp:include page="../header.jsp" />
+
+
+<div id="container_r">
+<div id="rwrap">
+
 <form method="get" action="review_list">
-<div id="re_wrap">
-      <div><h2>Review (${listcount})</h2></div>
-      <table id="bList_t">
+		<div id="qti">
+		<h2 class="title_q">Review (총 ${listcount}개)</h2>
+					<h6 id="qq">
+						<strong>NUBE</strong> 리뷰 게시판입니다.
+					</h6>
+			</div>
+<div id="rtable">
+      <table id="Rlist_t" style='width: 900px; table-layout: fixed; word-break: break-all; height:auto'>
          <tr>
-            <th width="6%" height="26">번호</th>
+            <th width="8%" height="26">번호</th>
             <th width="50%">제목</th>
             <th width="14%">작성자</th>
             <th width="17%">작성일</th>
@@ -74,9 +190,11 @@ a{
             </tr>
          </c:if>
       </table>
+</div>
+
 
       <%--페이징(쪽나누기)--%>
-      <div id="bList_paging">
+      <div id="rList_paging" class="paging-section">
          <%--검색전 페이징 --%>
          <c:if test="${(empty find_field)&&(empty find_name)}">
             <c:if test="${page <=1}">
@@ -126,8 +244,8 @@ a{
          </c:if>
       </div>
 
-      <div id="bList_menu">
-         <input type="button" class="btn btn-dark" value="글쓰기"
+      <div id="rbutton">
+         <input type="button" class="btn btn-dark" id="rwrite" value="글쓰기"
             onclick="location='review_write?page=${page}';" />
       	<c:if test="${(!empty find_field) && (!empty find_name)}"> <!-- 이건 지금 검색 이후!! -->
       	<input type="button" class="btn btn-dark" value="전체목록"
@@ -136,7 +254,7 @@ a{
       </div>
       
 			<%--검색 폼 추가--%>
-			<div id="bFind_wrap">
+			<div id="rFind">
 				<select name="find_field">
 					<option value="retitle"
 						<c:if test="${find_field=='retitle'}"> ${'selected'}></c:if>>
@@ -151,9 +269,10 @@ a{
 			</div>
 
 
-		</div>
+		
 </form>
-
+</div>
+</div>
 
 <jsp:include page="../footer.jsp" />
 <!-- Bootstrap JS and Popper.js -->

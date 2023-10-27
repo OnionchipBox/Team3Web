@@ -27,7 +27,7 @@
 	justify-content: center;
 	align-items: center;
 	position: relative; /* 요소의 위치를 조정하기 위해 필요한 기본 속성 */
-	top:70px; /* 위로 이동할 픽셀 수를 조정하세요. 음수 값은 위로 이동, 양수 값은 아래로 이동 */
+	top:50px; /* 위로 이동할 픽셀 수를 조정하세요. 음수 값은 위로 이동, 양수 값은 아래로 이동 */
 	margin-bottom:100px;
 }
 .q_title{
@@ -35,10 +35,12 @@
 }
 #q_t{
 	z-index:2;
+	width:500px;
 }
 #q_menu{
 	z-index:1;
 }
+
 </style>
 </head>
 <body>
@@ -73,6 +75,9 @@
 	
 	</div>
 </div>	
+
+
+
 	<jsp:include page="../footer.jsp" />
 </body>
 </html>
