@@ -3,7 +3,7 @@ package com.team3web.shop.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.team3web.shop.dao.UserDAO;
 import com.team3web.shop.vo.UserVO;
@@ -12,12 +12,13 @@ import com.team3web.shop.vo.UserVO;
 public class UserServiceImpl implements UserService {
 	
 	private final UserDAO userDAO;
-    private final PasswordEncoder passwordEncoder;
+
+	@Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserDAO userDAO) {
         this.userDAO = userDAO;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -35,10 +36,26 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(String userId) {
         userDAO.deleteUser(userId);
     }
+    
+    @Override
+    public String findUserId(UserVO userId) {
+        return userDAO.findUserId(userId);
+    }
 
     @Override
-    public UserVO getUserById(String userId) {
-        return userDAO.getUserById(userId);
+    public String findPassword(UserVO userPw) {
+        return userDAO.findPassword(userPw);
+    }
+    
+    @Override
+	public void updatePassword(UserVO user) {
+    	user.setPassword(passwordEncoder.encode(user.getPassword()));
+    	userDAO.updatePassword(user);
+	}
+
+    @Override
+    public UserVO getUserById(String id) {
+        return userDAO.getUserById(id);
     }
 
     @Override
@@ -50,4 +67,5 @@ public class UserServiceImpl implements UserService {
     public int getUserRole(int verify) {
         return userDAO.getUserRole(verify);
     }
+
 }

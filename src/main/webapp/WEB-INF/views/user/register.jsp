@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -41,7 +40,7 @@ function searchAddress() {
             document.getElementById("roadAddr1").value = roadAddr; //도로명 주소
             //document.getElementById("NOaddress").value = data.jibunAddress; //일반 주소
             
-         	// 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+         	// 참고항목 문자열이 있을 경우
             if(roadAddr !== ''){
                 document.getElementById("sample4_extraAddress").value = extraRoadAddr;
             } else {
@@ -168,7 +167,7 @@ function showRegisterEvent() {
 				 <div class="form-group">
                     <label for="birthdate">생년월일:</label>
                     <div id="birthGroup">
-                        <input type="text" id="birthday" name="birthday" class="form-control" placeholder="ex)20001231" required>
+                        <input type="text" id="birthday" name="birthday" class="form-control" placeholder="ex)2000-12-31" required>
                     </div>
                 </div>
 				<div class="form-group">
@@ -209,5 +208,10 @@ function showRegisterEvent() {
     </div>
     <br><br><br>
 	<jsp:include page="../footer.jsp" />
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/script.js"></script>
 </body>
 </html>

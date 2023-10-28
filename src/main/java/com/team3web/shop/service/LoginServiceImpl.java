@@ -4,7 +4,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.team3web.shop.dao.LoginDAO;
@@ -16,12 +16,12 @@ public class LoginServiceImpl implements LoginService {
 	@Inject
 	LoginDAO LoginDAO;
 	
-	private final PasswordEncoder passwordEncoder;
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public LoginServiceImpl(LoginDAO LoginDAO, PasswordEncoder passwordEncoder) {
+    public LoginServiceImpl(LoginDAO LoginDAO) {
         this.LoginDAO = LoginDAO;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -34,6 +34,21 @@ public class LoginServiceImpl implements LoginService {
             }
         }
         return 0;
+    }
+
+    @Override
+    public boolean changePassword(String userId, String oldPassword, String newPassword) {
+    	UserVO dbUser = LoginDAO.getUserById(userId);
+    	if(dbUser!=null) {
+    		if(passwordEncoder.matches(oldPassword, dbUser.getPassword())) {
+    			String encodedNewPassword = passwordEncoder.encode(newPassword);
+    		dbUser.setPassword(encodedNewPassword);
+    		LoginDAO.updateUser(dbUser);
+    		return true;
+    		}
+    	}
+    	return false;
+    	
     }
 
 	@Override
@@ -70,7 +85,7 @@ public class LoginServiceImpl implements LoginService {
 
 	@Override
 	public UserVO getUserById(String id) {
-		return null;
+		return LoginDAO.getUserById(id);
 	}
 
 	@Override
@@ -83,4 +98,14 @@ public class LoginServiceImpl implements LoginService {
     public String getUserName(String id) {
         return LoginDAO.getUserName(id);
     }
+
+	@Override
+	public void updateUser(UserVO user) {
+		LoginDAO.updateUser(user);
+	}
+
+	@Override
+	public void insertUser(UserVO user) {
+		LoginDAO.insertUser(user);
+	}
 }

@@ -25,4 +25,10 @@ public interface LoginService {
 	public int getUserRole(String id);
 	
 	public String getUserName(String id);
+
+	public void updateUser(UserVO user); // 사용자 업데이트
+	public void insertUser(UserVO user); // 사용자 삽입
+
+	public boolean changePassword(String userId, String oldPassword, String newPassword);
+
 }

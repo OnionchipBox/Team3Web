@@ -17,6 +17,9 @@
 	</context-param>
 	
 	<!-- 스프링 시큐리티 -->
+	<listener>
+    	<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+	</listener> <!-- 동시 로그인 제한 -->
 	<filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -66,5 +69,4 @@
     <session-config>
     	<session-timeout>30</session-timeout>
 	</session-config>
-
 </web-app>

@@ -1,11 +1,39 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <title></title>
 <style>
+@font-face {
+    font-family: 'PartialSansKR-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/PartialSansKR-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+.icon-custom {
+	position:relative;
+	top:3px;    
+}
+.user-info{
+	margin-top:10px;
+	margin-right:15px;
+	padding-right: 10px;
+}
+.user-info a{
+	text-decoration: none;
+	color:inherit;
+	font-weight: bold;
+}
+#headlogo{
+	letter-spacing:10px;
+	font-family: 'PartialSansKR-Regular';
+	font-style: italic;
+}
+
 @keyframes slide-down {
     0% {
         height: 0px;
@@ -80,8 +108,8 @@
 
 </style>
 <script>
-	
 document.addEventListener("DOMContentLoaded", function() {
+	const userRole = '<%=session.getAttribute("loggedInUserRole")%>';
     const categoryLinkMapping = {
              "남성": {
                  "path": "<%=request.getContextPath()%>/mens",
@@ -101,9 +129,29 @@ document.addEventListener("DOMContentLoaded", function() {
              "고객센터": {
                  "path": "<%=request.getContextPath()%>/help",
                  "FAQ": "<%=request.getContextPath()%>/help/faq",
-                 "문의하기": "<%=request.getContextPath()%>/help/contact"
+                 "문의하기": "<%=request.getContextPath()%>/help/contact",
+                 "판매자 등록하기": "<%=request.getContextPath()%>/seller/registration"
              }
          };
+    	
+    	if (userRole === "ROLE_SELLER" || userRole === "ROLE_ADMIN") {
+        	delete categoryLinkMapping["고객센터"]["판매자 등록하기"];
+    	}
+
+    	if (userRole === 'ROLE_SELLER') {
+    		categoryLinkMapping["제품 관리"] = {
+    		        "path": "<%=request.getContextPath()%>/seller/",
+    		        "제품 등록": "<%=request.getContextPath()%>/seller/addProductForm",
+    		        "제품 관리": "<%=request.getContextPath()%>#"
+    		    };
+    	} else if(userRole === 'ROLE_ADMIN') {
+    		categoryLinkMapping["관리자 전용"] = {
+    				"path": "<%=request.getContextPath()%>/admin/",
+    				"회원 관리": "<%=request.getContextPath()%>/admin/userList",
+    				"판매업체 관리": "<%=request.getContextPath()%>/admin/sellerList",
+    				"제품 관리": "<%=request.getContextPath()%>/admin/productList",
+    		};
+    	}
 
 
          function closeSearchForm() {
@@ -119,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function() {
          }
 
          const navItems = document.querySelectorAll(".nav-underline .nav-item a");
-         navItems.forEach(item => {
+         navItems.forEach(item =>{
              // "about" 항목을 제외하고 이벤트 리스너를 추가합니다.
              if (item.textContent.trim().toLowerCase() !== "about") {
                  item.addEventListener("click", function(event) {
@@ -139,7 +187,6 @@ document.addEventListener("DOMContentLoaded", function() {
                          mainCategoryElem.href = categoryLinkMapping[mainCategory].path;
                          mainCategoryElem.className = "main-category";  
                          columnElement.appendChild(mainCategoryElem);
-
                          Object.entries(subCategoriesLinks).forEach(([subCategory, link]) => {
                              // "path"는 추가하지 않습니다.
                              if (subCategory !== "path") {
@@ -171,57 +218,57 @@ document.addEventListener("DOMContentLoaded", function() {
 <body>
 	<div>
 		<nav class="navbar">
-			<h1>
+			<h1 id="headlogo">
 				<a class="navbar-brand mx-auto"
-					href="<%=request.getContextPath()%>/">Team3Web</a>
+					href="<%=request.getContextPath()%>/">NUBE</a>
 			</h1>
 			<ul class="navbar-nav ms-auto me-2 flex-row align-items-center">
-			<c:choose>
-            	<c:when test="${empty sessionScope.loggedInUserName}">
-                	<span onclick="linkLogin()" style="cursor: pointer;">로그인</span>
-            	</c:when>
-            	<c:otherwise>
-                	<div class="user-info">
-                    	<p>이름 : ${sessionScope.loggedInUserName}&nbsp;&nbsp;
-                    	<span onclick="logout()" style="cursor: pointer;">로그아웃</span>
-                	</div>
-            	</c:otherwise>
-        	</c:choose>
+				<sec:authorize access="isAnonymous()">
+					<span onclick="linkLogin()" style="cursor: pointer;">로그인</span>
+				</sec:authorize>
+				<c:choose>
+            		<c:when test="${sessionScope.loggedInUserRole == 'ROLE_ADMIN'}">
+						<div class="user-info">
+						<p>
+							<strong>관리자 모드</strong> 
+							&nbsp;&nbsp; <a href="<c:url value="/logout" />">로그아웃</a>
+						</div>
+					</c:when> 
+				<c:otherwise>
+					<sec:authorize access="isAuthenticated()">
+<div class="user-info">
+    <p>
+        <span id='cloud' class='icon-custom'>
+            <i class='bx bx-cloud' style='font-size: 20px;'></i>
+        </span>
+        <sec:authentication property="principal.nickName" />
+        &nbsp;&nbsp; <a href="<c:url value="/logout" />">로그아웃</a>
+    </p>
+</div>
+					</sec:authorize>
+				</c:otherwise>
+				</c:choose>
 				<li class="nav-item">
 					<button class="icon-button" id="searchIcon">
 						<i class="bi bi-search"></i>
 					</button>
 				</li>
 				<li class="nav-item px-lg-2">
-				<c:choose>
-            		<c:when test="${empty sessionScope.loggedInUserName}">
-    					<button class="icon-button" id="userIcon" onclick="linkLogin()">
-    					<i class="bi bi-person-circle"></i>
-        				<span id="userName"></span>
-        				</button>
-    				</c:when>
-    				<c:otherwise>
-    					<button class="icon-button" id="userIcon" onclick="linkMyinfo()">
-    					<i class="bi bi-person-circle"></i>
-        				<span id="userName"></span>
-    				</button>
-    				</c:otherwise>
-        		</c:choose>
+				<sec:authorize access="isAnonymous()">
+						<button class="icon-button" id="userIcon" onclick="linkLogin()">
+							<i class="bi bi-person-circle"></i> <span id="userName"></span>
+						</button>
+					</sec:authorize> <sec:authorize access="isAuthenticated()">
+						<button class="icon-button" id="userIcon" onclick="linkMyinfo()">
+							<i class="bi bi-person-circle"></i> <span id="userName"></span>
+						</button>
+					</sec:authorize>
 				</li>
 
 				<li class="nav-item">
-				<c:choose>
-            		<c:when test="${empty sessionScope.loggedInUserName}">
-						<button class="icon-button" id="cartButton" onclick ="linkLogin()">
+				<button class="icon-button" id="cartButton" onclick ="linkCart()">
 						<i class="bi bi-bag"></i>
-						</button>
-					</c:when> 
-				<c:otherwise>
-						<button class="icon-button" id="cartButton" onclick ="linkCart('<%=request.getContextPath()%>/user/cart')">
-						<i class="bi bi-bag"></i>
-						</button>
-				</c:otherwise>
-        		</c:choose>
+				</button>
 				</li>
 			</ul>
 		</nav>
@@ -235,6 +282,16 @@ document.addEventListener("DOMContentLoaded", function() {
 				<li class="nav-item"><a class="nav-link" href="#">악세사리</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">고객센터</a></li>
 				<li class="nav-item about-item"><a class="nav-link" href="<%=request.getContextPath()%>/about">About</a></li>
+				<c:choose>
+            		<c:when test="${sessionScope.loggedInUserRole == 'ROLE_SELLER'}">
+            			<li class="nav-item"><a class="nav-link" href="/seller">제품 관리</a></li>
+            		</c:when>
+            	</c:choose>
+            	<c:choose>
+            		<c:when test="${sessionScope.loggedInUserRole == 'ROLE_ADMIN'}">
+            			<li class="nav-item"><a class="nav-link" href="/admin">관리자 전용</a></li>
+            		</c:when>
+            	</c:choose>
 			</ul>
 		</nav>
 	</div>
@@ -319,15 +376,14 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 		
 		function linkMyinfo() {
-			window.location.href = "myinfo";
+			window.location.href = "updateLogin";
 			
 		}
 		
-		function linkCart(url) {
-		    // 지정된 URL로 페이지 이동
-		    window.location.href = url;
+		function linkCart() {
+			window.location.href = "/shop/user/cart";
 		}
-		
+
 		function logout() {
     		alert("로그아웃 되었습니다");
 			window.location.href = "logout";
@@ -336,4 +392,3 @@ document.addEventListener("DOMContentLoaded", function() {
 	</script>
 </body>
 </html>
-

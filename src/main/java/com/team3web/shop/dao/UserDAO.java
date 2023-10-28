@@ -13,8 +13,14 @@ public interface UserDAO {
     void updateUser(UserVO user); // 사용자 업데이트
     
     void deleteUser(String userId); // 사용자 삭제
+
+    String findUserId(UserVO userId);
+
+    String findPassword(UserVO userPw);
     
-    UserVO getUserById(String userId); // 아이디로 사용자 조회
+    void updatePassword(UserVO user);
+    
+    UserVO getUserById(String id); // 아이디로 사용자 조회
     
     List<UserVO> getAllUsers(); // 모든 사용자 조회
     

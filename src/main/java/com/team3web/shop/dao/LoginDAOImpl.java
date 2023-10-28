@@ -1,5 +1,8 @@
 package com.team3web.shop.dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -71,4 +74,37 @@ public class LoginDAOImpl implements LoginDAO {
     public String getUserName(String id) {
         return sqlSession.selectOne("com.team3web.shop.mapper.LoginMapper.getUserName", id);
     }
+
+	@Override
+	public void updateUser(UserVO user) {
+		sqlSession.update("com.team3web.shop.mapper.LoginMapper.updateUser",user);
+	}
+
+	@Override
+    public void insertUser(UserVO user) {
+    	sqlSession.getMapper(LoginMapper.class).insertUser(user);
+    }
+
+	@Override
+	public UserVO loadUserByUsername(String username) {
+	    try {
+	        Map<String, Object> parameters = new HashMap<>();
+	        parameters.put("id", username);
+	        
+	        return sqlSession.selectOne("com.team3web.shop.mapper.LoginMapper.loadUserByUsername", parameters);
+	    } catch (Exception e) {
+	        return null;
+	    }
+	}
+	
+	@Override
+	public String getUserRoleById(String id) {
+	    try {
+	        return sqlSession.selectOne("com.team3web.shop.mapper.LoginMapper.loadUserRoleByUsername", id);
+	    } catch (Exception e) {
+	        return null;
+	    }
+	}
+
 }
+

@@ -81,6 +81,11 @@ body {
     margin-right: 5px;
     vertical-align: middle;
   }
+  .login-button a{
+	width: 100%;
+	border:1px solid lightgray;
+	margin-top:10px;
+}
 </style>
 <script>
   function openNaver() {
@@ -113,12 +118,16 @@ body {
           <p class="card-text">원하는 가입 방법을 선택하세요.</p>
           <div class="d-grid gap-2">
             <a href="register" class="btn btn-primary">이메일로 가입하기</a>
-            <button class="btn btn-register" onclick="openNaver()">
-              <img src="<%=request.getContextPath()%>/resources/img/icon/naverLogin_white.png" class="btn-icon" alt="네이버로 가입하기">
-            </button>
-            <button class="btn btn-register" onclick="openKakao()">
-              <img src="<%=request.getContextPath()%>/resources/img/icon/kakao_login_medium_wide.png" class="btn-icon" alt="카카오로 가입하기">
-            </button>
+            <a href="" class="btn btn_login_naver" onclick="openNaver()">
+              <img src="<%=request.getContextPath()%>/resources/img/icon/naverlogo01.png" 
+        			class="btn-icon" id="btn01" alt="네이버로 가입하기" width="25px">
+        			&nbsp;네이버로 가입하기
+            </a>
+            <a href="" class="btn btn_login_kakao" onclick="openKakao()">
+              <img src="<%=request.getContextPath()%>/resources/img/icon/kakao.png" 
+					class="btn-icon" id="btn02" alt="카카오로 가입하기" width="20px">
+					&nbsp;카카오로 가입하기
+            </a>
           </div>
         </div>
       </div>
@@ -127,6 +136,15 @@ body {
 </div>
 <br><br><br>
 <jsp:include page="../footer.jsp" />
-
+<!-- Bootstrap JS and Popper.js -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+	<script src="/shop/resources/js/script.js"></script>
+	<!-- 네이버 로그인 -->
+	<script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
+	<!-- 카카오 로그인 -->
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 </body>
 </html>

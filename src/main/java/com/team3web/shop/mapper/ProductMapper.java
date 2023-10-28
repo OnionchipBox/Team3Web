@@ -1,5 +1,13 @@
 package com.team3web.shop.mapper;
 
-public class ProductMapper {
+import java.util.List;
 
+import com.team3web.shop.vo.ProductVO;
+
+public interface ProductMapper {
+    public List<ProductVO> getAllProduct();
+    public void addProduct(ProductVO product);
+    public void productModify(ProductVO vo) ;
+    public void productDelete(int productId);
+    public ProductVO findById(int productId);
 }

@@ -10,8 +10,14 @@ public interface UserService {
 	public void updateUser(UserVO user); // 사용자 업데이트
 	
 	public void deleteUser(String userId); // 사용자 삭제
+
+	public String findUserId(UserVO userId);
+
+    public String findPassword(UserVO userPw);
+    
+    public void updatePassword(UserVO user);
 	
-	public UserVO getUserById(String userId); // 아이디로 사용자 조회
+	public UserVO getUserById(String id); // 아이디로 사용자 조회
 	
 	public List<UserVO> getAllUsers(); // 모든 사용자 조회
 	

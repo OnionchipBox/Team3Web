@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
@@ -23,8 +24,18 @@
 	
 	<context:component-scan base-package="com.team3web.shop" />
 	
-	
 	<beans:bean id="naverLoginBO" class="com.team3web.shop.api.NaverLoginBO" />
 	<beans:bean id="kakaoLoginBO" class="com.team3web.shop.api.KakaoLoginBO" />
+	
+	<beans:bean class="java.lang.String" id="uploadPath">
+ <beans:constructor-arg value="D:\program\Java_WorkSpace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\Team3Web-test\resources" />
+</beans:bean>
+
+<!-- 일반 파일 업로드 경로 -->
+<resources mapping="/imgUpload/**" location="/resources/imgUpload/" />
+
+<beans:bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+ <beans:property name="maxUploadSize" value="10485760"/>
+</beans:bean>
 	
 </beans:beans>

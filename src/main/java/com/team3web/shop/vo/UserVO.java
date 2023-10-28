@@ -62,14 +62,19 @@ public class UserVO {
 	private String address; // 기본주소 + 상세주소
 	
 	@Past(message="생일은 금일 기준 이전 일이 들어가야 합니다.")
-	@DateTimeFormat(pattern="yyyyMMdd")
+
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+
 	@Temporal(TemporalType.DATE)
 	@NotNull
 	private Date birthday;
 
 	private String joindate;
 	private String updatedate;
-	private int verify;
+	private String verify;
+	
+	private int balance;
+	private int point;
 	
 	public UserVO() {}
 

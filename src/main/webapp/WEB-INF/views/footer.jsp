@@ -66,9 +66,9 @@
         gap: 15px;
     }
     .footer_menu {
-    	display: flex;
-    	justify-content: space-between;
-	}
+       display: flex;
+       justify-content: space-between;
+   }
     .btn_business, .btn.solid.small {
         display: inline-flex;
         align-items: center;

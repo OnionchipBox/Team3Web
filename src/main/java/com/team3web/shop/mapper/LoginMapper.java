@@ -5,7 +5,11 @@ import com.team3web.shop.vo.UserVO;
 public interface LoginMapper {
 	
 	public int loginCheck(UserVO user);
+
+	public UserVO loadUserByUsername(String username);
 	
+	public String getUserRoleById(String id);
+
 	public UserVO viewUser(UserVO user);
 	
 	public String idFind(UserVO user);
@@ -21,5 +25,8 @@ public interface LoginMapper {
 	public int getUserRole(String id);
 	
 	public String getUserName(String id);
+	
+    public void updateUser(UserVO user);
 
+	public void insertUser(UserVO user);
 }
