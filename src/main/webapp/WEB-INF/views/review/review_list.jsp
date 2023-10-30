@@ -82,6 +82,11 @@ a {
 	left: 32px;
 }
 
+#rfindbtn{
+	position:relative;
+	bottom:3px;	
+}
+
 #qti {
 	margin-bottom: 20px;
 	text-align: center;
@@ -260,7 +265,7 @@ a {
 					</c:if>>글내용</option>
 				</select> <input type="search" name="find_name" id="find_name" 
 				size="16" value="${find_name}"> 
-				<input type="submit" value="검색">
+				<input type="submit" id="rfindbtn" class="btn btn-dark" value="검색">
 			</div>
 
 

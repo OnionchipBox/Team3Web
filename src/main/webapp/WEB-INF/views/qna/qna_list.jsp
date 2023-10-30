@@ -31,7 +31,7 @@
 	justify-content: center;
 	align-items: center;
 	position: relative; /* 요소의 위치를 조정하기 위해 필요한 기본 속성 */
-	top: -40px; /* 위로 이동할 픽셀 수를 조정하세요. 음수 값은 위로 이동, 양수 값은 아래로 이동 */
+	top: -20px; /* 위로 이동할 픽셀 수를 조정하세요. 음수 값은 위로 이동, 양수 값은 아래로 이동 */
 }
 
 a {
@@ -71,6 +71,10 @@ a {
 	left: 32px;
 }
 
+#qfindbtn{
+	position: relative;
+	bottom:2px;
+}
 #qti {
 	margin-bottom: 30px;
 	text-align: center;
@@ -220,7 +224,7 @@ a {
 							<c:if test="${find_field=='qcont'}">
    ${'selected'}</c:if>>내용</option>
 					</select> <input name="find_name" id="find_name" size="14"
-						value="${find_name}" /> <input type="submit" value="검색" />
+						value="${find_name}" /> <input type="submit" id="qfindbtn" class="btn btn-dark" value="검색" />
 				</div>
 
 
