@@ -42,6 +42,10 @@
 				</tr>
 			</c:if>
 		</table>
+		
+		
+		
+		
 		<div id="bsC_menu">
 			<input type="button" class="btn btn-dark" value="답변"
 				onclick="location='review_cont?reno=${r.reno}&page=${page}&state=reply';" />

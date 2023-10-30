@@ -36,7 +36,7 @@
 	<!-- // apache DBCP2 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" 
 		  p:driverClassName="oracle.jdbc.OracleDriver"
-		  p:url="jdbc:oracle:thin:@13.209.108.23:1521:xe" 
+		  p:url="jdbc:oracle:thin:@localhost:1521:xe" 
 		  p:username="night"
 		  p:password="123456" 
 		  p:maxTotal="20" 

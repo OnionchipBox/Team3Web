@@ -52,11 +52,6 @@ public class ReviewController {
 
 	// 리뷰 저장 
 
-	@GetMapping("/exUpload")
-	public void exUpload() {
-		logger.info("/exUpload..............");
-	}
-
 	@RequestMapping(value = "/review_write_ok", method = RequestMethod.POST)
 	public String insertReview(@ModelAttribute ReviewVO review, @RequestParam("uploadFile") MultipartFile file, Model model,
 			HttpServletRequest request) throws IOException {
@@ -77,10 +72,16 @@ public class ReviewController {
 
 		if (file.isEmpty()) {
 			// 파일이 업로드되지 않은 경우에 대한 처리
-			// 예를 들어, 에러 메시지를 설정하거나 리다이렉트하여 사용자에게 알림
-			return "redirect:/review_write?error=noFile";
+			// 예를 들어, 에러 메시지를 설정하거나 리다이렉트하여 사용자에게 알림	
+			savedFileName="";
+			review.setRefile(savedFileName);
+			originalFileName="";
+			review.setThumbimg(originalFileName);
 		}
 
+		
+		
+		
 		review.setRefile(savedFileName);
 		review.setThumbimg(originalFileName);
 
