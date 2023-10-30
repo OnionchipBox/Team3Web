@@ -22,7 +22,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	min-height: 100vh;
+	min-height: 80vh;
 }
 
 #qwrap {
@@ -31,7 +31,7 @@
 	justify-content: center;
 	align-items: center;
 	position: relative; /* 요소의 위치를 조정하기 위해 필요한 기본 속성 */
-	top: -100px; /* 위로 이동할 픽셀 수를 조정하세요. 음수 값은 위로 이동, 양수 값은 아래로 이동 */
+	top: -40px; /* 위로 이동할 픽셀 수를 조정하세요. 음수 값은 위로 이동, 양수 값은 아래로 이동 */
 }
 
 a {
@@ -87,15 +87,15 @@ a {
 
 #qList_t th {
 	
-	border-bottom: 2px solid #9ca3a6; /* 가로 구분선 추가 및 회색 계열의 바탕색 설정 */
-	background-color: #83888a;
+	border-bottom: 2px solid #9ca3a6; 
+	background-color: #fff;
 	padding: 8px; /* 셀 안의 내용과 내부 여백 설정 */
 	text-align: center; /* 텍스트 가운데 정렬 */
 }
 
 #qList_t td {
 	border-bottom: 1px solid #e9e9e9; /* 가로 구분선 추가 */
-	padding: 8px;
+	padding: 12px;
 	text-align: center;
 }
 

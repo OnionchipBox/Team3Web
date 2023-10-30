@@ -1,4 +1,4 @@
-<%@ page  contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -44,8 +44,7 @@
 		</table>
 		
 		
-		
-		
+
 		<div id="bsC_menu">
 			<input type="button" class="btn btn-dark" value="답변"
 				onclick="location='review_cont?reno=${r.reno}&page=${page}&state=reply';" />
@@ -57,6 +56,30 @@
 				onclick="location='review_list?page=${page}';" />
 		</div>
 	</div>
+
+	<!-- 
+	<c:choose>
+    <c:when test="${not empty sessionScope.user}">
+        <!-- 사용자가 로그인한 경우 
+        <div id="bsC_menu">
+            <input type="button" class="btn btn-dark" value="답변"
+                   onclick="location='review_cont?reno=${r.reno}&page=${page}&state=reply';" />
+            <input type="button" class="btn btn-dark" value="수정"
+                   onclick="location='review_cont?reno=${r.reno}&page=${page}&state=edit';" />
+            <input type="button" class="btn btn-dark" value="삭제"
+                   onclick="location='review_cont?reno=${r.reno}&page=${page}&state=del';" />
+            <input type="button" class="btn btn-dark" value="목록"
+                   onclick="location='review_list?page=${page}';" />
+        </div>
+    </c:when>
+    <c:otherwise>
+        <!-- 사용자가 로그인하지 않은 경우 
+        <!-- 버튼을 숨김 
+        <!-- 아무 내용도 출력하지 않으므로 버튼이 표시되지 않습니다. 
+    </c:otherwise>
+</c:choose>
+ -->	
+	
 
 
 <hr>

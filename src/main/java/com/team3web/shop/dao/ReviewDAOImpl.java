@@ -23,8 +23,8 @@ public class ReviewDAOImpl implements ReviewDAO {
 	@Override
 	public int getRowCount(PageVO p) {
 		
-		return sqlSession.selectOne("review_count",p);
-	}// 검색 전후 총 레코드 개수
+		return sqlSession.selectOne("review_count2",p);
+	}// 검색 전후 총 레코드 개수 -- > 댓글 개수 제외 
 
 	@Override
 	public List<ReviewVO> getReviewList(PageVO p) {

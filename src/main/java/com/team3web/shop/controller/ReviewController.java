@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,20 +36,36 @@ public class ReviewController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-	// 리뷰 글쓰기 폼 
+	
+		// 글쓰기 폼 
 	@GetMapping("/review_write")
-	public ModelAndView review_write(HttpServletRequest request) {
-		int page=1;
-		if(request.getParameter("page")!=null) {
-			page=Integer.parseInt(request.getParameter("page"));
-			//get으로 전달된 쪽번호가 있는 경우 정수 숫자로 변경해서 저장 	
-		}
-		ModelAndView wm = new ModelAndView();
-		wm.addObject("page",page); //페이징 책갈피 기능때문에 page 키이름에 쪽번호 저장
-		wm.setViewName("review/review_write"); 
-		return wm;
-
-	} // review_write()
+	public ModelAndView review_write(HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception {
+	    ModelAndView wm = new ModelAndView();
+	    response.setContentType("text/html;charset=UTF-8");
+	    PrintWriter out = response.getWriter();
+	    
+	    
+	    String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+	    if (loggedInUserId == null) {
+	        out.println("<script>");
+	        out.println("alert('로그인 이후에 이용 가능합니다.');");
+	        out.println("</script>");
+	        out.flush();
+	        wm.setViewName("user/login");
+	    } else {
+	        int page = 1;
+	        if (request.getParameter("page") != null) {
+	            try {
+	                page = Integer.parseInt(request.getParameter("page"));
+	            } catch (NumberFormatException e) {
+	                page = 1;
+	            }
+	        }
+	        wm.addObject("page", page); // Add the page parameter to the model
+	        wm.setViewName("review/review_write");
+	    }
+	    return wm;
+	}
 
 	// 리뷰 저장 
 
@@ -79,8 +96,6 @@ public class ReviewController {
 			review.setThumbimg(originalFileName);
 		}
 
-		
-		
 		
 		review.setRefile(savedFileName);
 		review.setThumbimg(originalFileName);
@@ -165,6 +180,7 @@ public class ReviewController {
 		cm.addObject("r",r);
 		cm.addObject("review_cont",review_cont);
 
+		
 		if(state.equals("cont")) {
 			cm.setViewName("review/review_cont"); //뷰페이지 경로가
 			//WEB-INF/views/review/review_cont.jsp 이다.

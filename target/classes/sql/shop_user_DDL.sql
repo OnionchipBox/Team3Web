@@ -30,3 +30,7 @@ ADD CONSTRAINT fk_user_seller FOREIGN KEY (ID) REFERENCES shop_seller (ID);
 
 
 -------------------------------------------------------------------------------- 
+
+-- 10/30 테스트 
+insert into shop_user values('kim123@naver.com', 'abcd123!A', '지현김', '여자', '01011113333', '지현', '03192', '서울시 마포구', '00/12/30', sysdate, 0, 0, 0, 0);
+

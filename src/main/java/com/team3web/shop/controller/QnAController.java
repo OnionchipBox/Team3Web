@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,26 +33,36 @@ public class QnAController { // qna게시판
 	public String myQnA() {
 		return "/user/myPage/myQnA";
 	}
-	
-	@RequestMapping(value="/test")
-	public String Test() {
-		return "qna/test03";
-	}
-	
 
 	// qna 글쓰기 폼
 	@GetMapping("/qna_write")
-	public ModelAndView qna_write(HttpServletRequest request) {
-
-		int page = 1;
-		if (request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page"));
-
-		}
+	public ModelAndView qna_write(HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception {
+		
 		ModelAndView wm = new ModelAndView();
-		wm.addObject("page", page); // 페이징 책갈피 기능때문에 page 키이름에 쪽번호 저장
-		wm.setViewName("qna/qna_write");
-		return wm;
+	    response.setContentType("text/html;charset=UTF-8");
+	    PrintWriter out = response.getWriter();
+	    
+	    
+	    String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+	    if (loggedInUserId == null) {
+	        out.println("<script>");
+	        out.println("alert('로그인 이후에 이용 가능합니다.');");
+	        out.println("</script>");
+	        out.flush();
+	        wm.setViewName("user/login");
+	    } else {
+	        int page = 1;
+	        if (request.getParameter("page") != null) {
+	            try {
+	                page = Integer.parseInt(request.getParameter("page"));
+	            } catch (NumberFormatException e) {
+	                page = 1;
+	            }
+	        }
+	        wm.addObject("page", page);
+	        wm.setViewName("qna/qna_write");
+	    }
+	    return wm;
 	} // qna_write()
 
 	// 글쓰기 저장 

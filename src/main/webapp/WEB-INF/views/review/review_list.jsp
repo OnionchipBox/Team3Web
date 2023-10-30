@@ -1,6 +1,8 @@
 <%@ page  contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,8 +21,18 @@
 
 /*============================================*/
 
+/*
 #container_r {
 	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+}
+*/
+
+
+#container_r{
+	display:flex;
 	justify-content: center;
 	align-items: center;
 	min-height: 100vh;
@@ -34,6 +46,7 @@
 	align-items: center;
 	position: relative; /* 요소의 위치를 조정하기 위해 필요한 기본 속성 */
 	top: -60px; /* 위로 이동할 픽셀 수를 조정하세요. 음수 값은 위로 이동, 양수 값은 아래로 이동 */
+	
 }
 
 a {
@@ -43,10 +56,6 @@ a {
 
 #titleui {
 	margin-left: 10px;
-}
-
-.title_q {
-	font-weight: bold;
 }
 
 #rfind, #rList_paging {
@@ -84,37 +93,25 @@ a {
 }
 
 #Rlist_t {
-	border-collapse: collapse; /* 테두리를 겹치게 설정 */
+	border-style:2px solid #000;
+	overflow: auto; /* 내용이 넘칠 때 스크롤 표시 */
+	table-layout: fixed;
+    border-spacing: 0;
+	
 }
 
 #Rlist_t th {
 	border-bottom: 2px solid #9ca3a6; /* 가로 구분선 추가 및 회색 계열의 바탕색 설정 */
-	/*background-color: #fff;*/
+	background-color: #fff;
 	padding: 15px; /* 셀 안의 내용과 내부 여백 설정 */
 	text-align: center; /* 텍스트 가운데 정렬 */
 }
 
 #Rlist_t td {
-	border-bottom: 1px solid #e9e9e9; /* 가로 구분선 추가 */
 	padding: 15px;
 	text-align: center;
 }
 
-#Rlist_t {
-	background : transparent;
-	/* border: 1px solid #ccc; 바깥 윤곽선 설정
-	border-radius: 3px;  윤곽선의 둥근 모서리 설정 */
-	overflow: auto; /* 내용이 넘칠 때 스크롤 표시 */
-	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
-	/* background-color: #fff; /* 배경색 설정 */ */
-}
-
-#container_q{
-	/* background-image: url("./resources/img/sources/img.jpeg"); */
-	background-color:#f2f2f2;
-	background-repeat: no-repeat;
-	background-size: cover;
-}
 
 /*페이징 부분 */
 .paging-section {
@@ -125,8 +122,6 @@ a {
 .paging-section a {
     text-decoration: none;
     margin : 0 5px;
-    
- 
 }
 
 .paging-section a:hover {
@@ -143,7 +138,7 @@ a {
 
 <form method="get" action="review_list">
 		<div id="qti">
-		<h2 class="title_q">Review (총 ${listcount}개)</h2>
+		<h2 class="title_q"><strong>Review</strong> (총 ${listcount}개)</h2>
 					<h6 id="qq">
 						<strong>NUBE</strong> 리뷰 게시판입니다.
 					</h6>
@@ -155,7 +150,7 @@ a {
             <th width="50%">제목</th>
             <th width="14%">작성자</th>
             <th width="17%">작성일</th>
-            <th width="14%">조회수</th>
+            <th width="10%">조회수</th>
          </tr>
 
          <c:if test="${!empty rlist}">
