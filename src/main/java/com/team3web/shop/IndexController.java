@@ -3,6 +3,10 @@ package com.team3web.shop;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.team3web.shop.controller.PayMentController;
 import com.team3web.shop.service.ProductService;
 import com.team3web.shop.vo.ProductVO;
 
@@ -40,8 +45,7 @@ public class IndexController {
         // 제품 목록을 표시할 JSP 파일 이름 반환
         return "index"; // product.jsp 파일을 참조
     }
-
-   
+    
        
     }
  

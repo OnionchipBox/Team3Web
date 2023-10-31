@@ -34,7 +34,7 @@
           
          <table id="qtable">
             <tr>
-               <th>글쓴이</th>
+               <th>작성자</th>
                <td><input name="qid" id="qid" size="14" value="${q.qid}"/></td>
             </tr>
             <tr>
@@ -43,7 +43,8 @@
             </tr>
             <tr>
                <th>비밀번호</th>
-               <td><input type="password" name="qpw" id="qpw"   size="14" /></td>
+               <td><input type="password" name="qpw" id="qpw"
+                  size="14" /></td>
             </tr>
             <tr>
                <th>글내용</th>

@@ -4,11 +4,11 @@ package com.team3web.shop.controller;
 import java.io.PrintWriter;
 import java.util.List;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +22,8 @@ import com.team3web.shop.service.QnAService;
 import com.team3web.shop.vo.PageVO;
 import com.team3web.shop.vo.QnAVO;
 
+import ch.qos.logback.classic.Logger;
+
 @Controller
 public class QnAController { // qna게시판
 
@@ -29,6 +31,7 @@ public class QnAController { // qna게시판
 	private QnAService qnaService;
 
 
+	
 	@RequestMapping(value="/myPage/myQnA", method=RequestMethod.GET)
 	public String myQnA() {
 		return "/user/myPage/myQnA";
@@ -206,7 +209,8 @@ public class QnAController { // qna게시판
 				@RequestParam("qnano") int qnano,
 				@RequestParam("qpw") String qpw,
 				HttpServletResponse response,
-				HttpServletRequest request)
+				HttpServletRequest request,
+				HttpSession session)
 						throws Exception{
 			response.setContentType("text/html;charset=UTF-8");
 			PrintWriter out=response.getWriter();
@@ -215,17 +219,35 @@ public class QnAController { // qna게시판
 				page=Integer.parseInt(request.getParameter("page"));
 			}
 			QnAVO db_pwd=this.qnaService.getQnACont(qnano);
-			if(!db_pwd.getQpw().equals(qpw)) {
-				out.println("<script>");
-				out.println("alert('비번이 다릅니다!');");
-				out.println("history.back();");
-				out.println("</script>");
-			}else {
-				this.qnaService.delQnA(qnano);//게시판 삭제
-				return "redirect:/qna_list?page="+page;
-			}
-			return null;
+	
+			 // 아래의 isAdmin() 메서드는 사용자가 관리자 계정인지 여부를 확인합니다.
+			
+			String loggedInUserId = (String) session.getAttribute("loggedInUserId");
+			 // 아래의 isAdmin() 메서드는 사용자가 관리자 계정인지 여부를 확인합니다.
+		   
+			if (!isAdmin(loggedInUserId) && !db_pwd.getQpw().equals(qpw)) {
+		        out.println("<script>");
+		        out.println("alert('비번이 다르거나 권한이 없습니다!');");
+		        out.println("history.back();");
+		        out.println("</script>");
+		    } else {
+		        this.qnaService.delQnA(qnano); // 게시판 삭제
+		        return "redirect:/qna_list?page=" + page;
+		    }
+		    return null;
+			
 		}//qna_del_ok()
 	
+		
+		// 사용자가 관리자인지 여부를 확인하는 메서드
+		private boolean isAdmin(String loggedInUserId) {
+		    // 여기에 사용자의 역할(role)을 확인하는 코드를 추가해야 합니다.
+		    // 예를 들어, 사용자의 역할(role)이 "ADMIN"이면 true를 반환하도록 구현합니다.
+		    if ("ADMIN".equals(loggedInUserId)) {
+		    	return true;
+		    }	   
+		    return false; // 사용자가 관리자가 아닌 경우
+		
+		}
 
 }

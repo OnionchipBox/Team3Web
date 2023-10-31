@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>댓글</title>
+<title>문의 답변</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -28,7 +28,7 @@
 <body>
 <jsp:include page="../header.jsp" />
    <div id="qwrap">
-      <h2 class="q_title">댓글</h2>
+      <h2 class="q_title">문의 답변</h2>
       <form method="post" action="qna_reply_ok"
          onsubmit="return write_check();">
 	
@@ -48,20 +48,19 @@
 	
 			<table id="qtable">
             <tr>
-               <th>글쓴이</th>
-               <td><input name="qid" id="qid" size="14" /></td>
+               <th>작성자</th>
+               <td><input name="qid" id="qid" size="14" value="NUBE관리자" /></td>
             </tr>
             
             <tr>
                <th>글제목</th>
                <td><input name="qtitle" id="qtitle" size="33"
-               value="Re:${q.qtitle}" /></td>
+               value="문의 답변 드립니다." /></td>
             </tr>
-            
-            
             <tr>
                <th>비밀번호</th>
-               <td><input type="password" name="qpw" id="qpw"   size="14" /></td>
+               <td><input type="password" name="qpw" id="qpw"
+                  size="14" /></td>
             </tr>
             <tr>
                <th>글내용</th>
@@ -71,7 +70,7 @@
          </table>
          <div id="qmenu">
             <input type="submit" class="btn btn-dark" value="답변" /> <input type="reset" class="btn btn-dark" value="취소"
-               onclick="$('#qid').focus();"> <input type="button"
+               onclick="$('#qcont').focus();"> <input type="button"
                class="btn btn-dark" value="목록" onclick="location='qna_list?page=${page}';">
          </div>
       </form>

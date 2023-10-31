@@ -37,7 +37,7 @@
           
          <table id="bsW_t">
             <tr>
-               <th>글쓴이</th>
+               <th>작성자</th>
                <td><input name="rename2" id="rename2" size="14" value="${r.rename2}"/></td>
             </tr>
             <tr>

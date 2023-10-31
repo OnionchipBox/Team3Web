@@ -33,7 +33,7 @@ alter table review01 add thumbimg varchar2(255) DEFAULT '-' NOT NULL;
 --10/30 thumbimg not null 해제 
 alter table review01 modify (thumbimg null);
 
---reply_seq 시퀀스 생성
+--reply_seq 시퀀스 생성 -- > 추후에 댓글 테이블 따로 관리
 create sequence reply_seq
 start with 1
 increment by 1

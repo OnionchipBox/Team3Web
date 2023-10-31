@@ -425,6 +425,7 @@ KREAM은 해당 사안의 사실관계, 이전 사용이력, 거래행태 등을
                <div class="menu_box">
                   <strong class="menu_title">고객지원</strong>
                   <ul class="menu_list">
+                     <!-- <li class="menu_item"><a href="/shop/notice" class="menu_link">공지사항</a></li> -->
                      <li class="menu_item"><a href="/shop/notice" class="menu_link">공지사항</a></li>
                      <li class="menu_item"><a href="#" target="_blank"
                         class="menu_link">서비스 소개</a></li>

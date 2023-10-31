@@ -5,6 +5,20 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항</title>
+
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/style.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+
+
 <style>
 /* notice.jsp ui 상단 */
 /* 서브 메인 이미지 */
@@ -131,9 +145,11 @@ margin-left:auto 이거 쓰고 싶으면...jsp가서 이 부분 div에 너비를
 	font-weight: bold;
 }
 </style>
+
+
 </head>
 <body>
-
+<jsp:include page="../header.jsp" />
 
 <%-- 고객 센터 서브 메인 이미지 --%>
 <div id="sub_img_center"></div>
@@ -148,8 +164,8 @@ margin-left:auto 이거 쓰고 싶으면...jsp가서 이 부분 div에 너비를
 <h1 id="center">고객센터</h1>
 <ul id="leftlist">
 <li><a href="./notice.jsp">공지사항</a></li>
-<li><a href="#" data-page="q&a.jsp">자주 묻는 질문</a></li>
-<li><a href="#" data-page="inspection.jsp">검수 기준</a></li>
+<li><a href="./FAQ.jsp" data-page="./FAQ.jsp">자주 묻는 질문</a></li>
+<li><a href="./inspection.jsp" data-page="./inspection.jsp">검수 기준</a></li>
 </ul>
 </div>
 
@@ -270,6 +286,6 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 
 
-
+<jsp:include page="../footer.jsp" />
 </body>
 </html>

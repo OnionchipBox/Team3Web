@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +18,7 @@
 <body>
 <jsp:include page="../header.jsp" />
 <div id="bsC_wrap">
-		<h2 class="rtitle">내용보기</h2>
+		<h2 class="rtitle">Review</h2>
 		<table id="rtable">
 			<tr>
 				<th>제목</th>
@@ -44,7 +44,7 @@
 		</table>
 		
 		
-
+<!--
 		<div id="bsC_menu">
 			<input type="button" class="btn btn-dark" value="답변"
 				onclick="location='review_cont?reno=${r.reno}&page=${page}&state=reply';" />
@@ -55,12 +55,13 @@
 			<input type="button" class="btn btn-dark" value="목록"
 				onclick="location='review_list?page=${page}';" />
 		</div>
-	</div>
+-->		
 
-	<!-- 
-	<c:choose>
-    <c:when test="${not empty sessionScope.user}">
-        <!-- 사용자가 로그인한 경우 
+
+
+<c:choose>
+    <c:when test="${sessionScope.loggedInUserRole == 'ROLE_ADMIN'}">
+        <!-- 관리자가 로그인한 경우 모든 기능 사용 가능 -->
         <div id="bsC_menu">
             <input type="button" class="btn btn-dark" value="답변"
                    onclick="location='review_cont?reno=${r.reno}&page=${page}&state=reply';" />
@@ -73,14 +74,19 @@
         </div>
     </c:when>
     <c:otherwise>
-        <!-- 사용자가 로그인하지 않은 경우 
-        <!-- 버튼을 숨김 
-        <!-- 아무 내용도 출력하지 않으므로 버튼이 표시되지 않습니다. 
+        <!-- 관리자 외의 사용자 혹은 로그인 안 한 이용자들은 목록 버튼만 보이게
+        (추후에 사용자 로그인 한 사람에게는 로그인 정보 일치하는지 확인 하고 내가 쓴 게시글만 수정할 수 있게 해보기!!) -->
+        <div id="r_menu01">
+            <input type="button" class="btn btn-dark" value="목록"
+                   onclick="location='review_list?page=${page}';" />
+        </div>
     </c:otherwise>
 </c:choose>
- -->	
-	
 
+
+
+	
+</div>
 
 <hr>
 <jsp:include page="../footer.jsp" />

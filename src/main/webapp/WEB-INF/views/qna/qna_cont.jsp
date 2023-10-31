@@ -61,6 +61,9 @@
 			</tr>
 		</table>
 		<br>
+		
+<c:choose>
+    <c:when test="${sessionScope.loggedInUserRole == 'ROLE_ADMIN'}">
 		<div id="q_menu">
 			<input type="button" value="답변"
 				class="btn btn-dark" onclick="location='qna_cont?qnano=${q.qnano}&page=${page}&state=reply';" />
@@ -71,6 +74,15 @@
 			<input type="button" value="목록"
 				class="btn btn-dark" onclick="location='qna_list?page=${page}';" />
 		</div>
+		</c:when>
+    <c:otherwise>
+        <div id="q_menu01">
+<input type="button" value="목록" class="btn btn-dark" onclick="location='qna_list?page=${page}';" />
+        </div>
+    </c:otherwise>
+</c:choose>
+
+
 		
 	
 	</div>

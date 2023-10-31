@@ -52,7 +52,6 @@
           }, function (rsp){
             if(rsp.success){
                 alert('주문이 완료되었습니다.');
-                
                 //결제완료 후 주문정보를 DB에 저장하고, 주문완료 페이지로 이동
                 $.ajax(
                     {
@@ -76,9 +75,11 @@
                         location.href = '/user/orders';
                     } else {
                         alert('주문에 실패하였습니다.');
+                        history.go(-1);
                     }
                 }).fail(function(){
                     alert('결제에 실패하였습니다.');
+                    history.go(-1);
                 });
             } else {
                 alert(rsp.error_msg);

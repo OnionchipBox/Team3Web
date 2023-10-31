@@ -76,6 +76,13 @@ function showRegisterEvent() {
     justify-content: center;
     align-items: center;
     
+   /*  
+    max-width: 800px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: white; */
 }
 
 
@@ -184,14 +191,14 @@ h1 {
     text-decoration: underline; 
 } 
 
-
 </style>
 </head>
 <body>
 	<jsp:include page="../header.jsp" />
 	<br><br><br><br>
     <div class="container">
-        <!--  <div class="form-container"> --> <!-- 주석 처리하고 부트 내장 기능으로 대체 -->
+        <!-- <div class="form-container">  --> <!-- 주석 처리하고 부트 내장 기능으로 대체 -->
+
         <div class="col-md-4">
             <h1 class="text-center">회원가입</h1>
             <form method="post" action="<%= request.getContextPath() %>/register">
