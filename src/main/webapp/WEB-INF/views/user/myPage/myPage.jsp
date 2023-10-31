@@ -14,7 +14,7 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body>
-	<jsp:include page="header.jsp" />
+	<jsp:include page="../../header.jsp" />
 	<div id="carouselExampleAutoplaying" class="carousel slide"
 		data-bs-ride="carousel">
 		<!-- Carousel Indicators -->
@@ -87,7 +87,7 @@
 		<a href="<%=request.getContextPath()%>/products/details" class="btn btn-outline-secondary mb-3">더보기</a>
 	</div>
 	
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="../../footer.jsp" />
 
 	<!-- Bootstrap JS and Popper.js -->
 	<script

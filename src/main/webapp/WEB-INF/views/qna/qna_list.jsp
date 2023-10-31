@@ -22,7 +22,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	min-height: 80vh;
+	min-height: 90vh;
 }
 
 #qwrap {
@@ -44,11 +44,14 @@ a {
 }
 
 .title_q {
-	font-weight: bold;
+	font-size: 30px;
 }
 
+.count{
+	font-size: 20px;
+}
 #qfind, #qList_paging {
-	margin-top: 5px;
+	margin-top: 10px;
 	flex-direction: column; /* 세로 방향 가운데 정렬 */
 	align-items: center; /* 세로 방향 가운데 정렬 */
 	text-align: center;
@@ -56,6 +59,7 @@ a {
 
 #qList_paging {
 	padding: 10px;
+	margin-left:10px;
 }
 
 #qbutton {
@@ -73,7 +77,8 @@ a {
 
 #qfindbtn{
 	position: relative;
-	bottom:2px;
+	bottom:3px;
+	left:10px;
 }
 #qti {
 	margin-bottom: 30px;
@@ -111,6 +116,16 @@ a {
 	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
 
 }
+
+.ex-select {
+	padding:0.3em; border-radius:0.2em; border:1px solid;
+	position:relative;
+	right:5px;
+	
+}
+#find_name{
+	padding:0.3em; border-radius:0.5em; border:1px solid;
+}
 </style>
 </head>
 <body>
@@ -122,7 +137,7 @@ a {
 			<form method="get" action="qna_list">
 		
 		<div id="qti">
-		<h2 class="title_q">Q & A (총 ${listcount}건)</h2>
+		 <h2 class="title_q">Q & A<span class="count"> (총 ${listcount}건)</span></h2>
 					<h6 id="qq">
 						<strong>NUBE</strong> 문의 게시판입니다.
 					</h6>
@@ -216,7 +231,7 @@ a {
 
 <%--검색 폼추가 --%>
 				<div id="qfind">
-					<select name="find_field">
+					<select name="find_field"  class="ex-select">
 						<option value="qtitle"
 							<c:if test="${find_field=='qtitle'}">
    ${'selected'}</c:if>>제목</option>
@@ -233,43 +248,6 @@ a {
 
 		</div>
 	</div>
-
-
-
-<script type="text/javascript">
-$(document).ready(function() {
-	  // 게시물 클릭 이벤트 처리
-	  $('.titleui').click(function(e) {
-	    e.preventDefault(); // 기본 링크 동작 방지
-	    var qnano = $(this).data('qnano'); // 게시물 번호를 가져옴
-	
-	    // 모달 창 열기
-	    $('#qnaModal').modal('show');
-
-	    // 게시물 내용을 로드할 div를 지정
-	    var qnaContent = $('#qna-content');
-
-	    // Ajax 요청 생성
-	    $.ajax({
-	      type: 'GET',
-	      url: 'qna_cont', // 게시물 내용을 반환하는 서버 엔드포인트
-	      data: { qnano: qnano },
-	      success: function(data) {
-	        // 성공 시 게시물 내용을 qna-content div에 추가
-	        qnaContent.html(data);
-	      },
-	      error: function() {
-	        // 에러 처리
-	        alert('게시물 내용을 불러오는 중 오류가 발생했습니다.');
-	      }
-	    });
-	  });
-	});
-</script>
-
-
-
-
 
 
 	<jsp:include page="../footer.jsp" />

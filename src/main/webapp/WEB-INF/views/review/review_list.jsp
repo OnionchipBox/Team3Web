@@ -112,9 +112,14 @@ a {
 	text-align: center; /* 텍스트 가운데 정렬 */
 }
 
+
 #Rlist_t td {
 	padding: 15px;
 	text-align: center;
+}
+
+#rtr:hover {
+	background-color:#a4c1de;
 }
 
 
@@ -151,16 +156,16 @@ a {
 <div id="rtable">
       <table id="Rlist_t" style='width: 900px; table-layout: fixed; word-break: break-all; height:auto'>
          <tr>
-            <th width="8%" height="26">번호</th>
-            <th width="50%">제목</th>
-            <th width="14%">작성자</th>
-            <th width="17%">작성일</th>
-            <th width="10%">조회수</th>
+            <th class ="rnot" width="8%" height="26">번호</th>
+            <th class ="rnot" width="50%">제목</th>
+            <th class ="rnot" width="14%">작성자</th>
+            <th class ="rnot" width="17%">작성일</th>
+            <th class ="rnot" width="10%">조회수</th>
          </tr>
 
          <c:if test="${!empty rlist}">
             <c:forEach var="r" items="${rlist}">
-               <tr>
+               <tr id="rtr">
                   <td align="center">                  
                   <c:if test="${r.restep==0}"> <!-- 원본글일때만 글그룹번호를 출력 -->
                   ${r.reref}
@@ -259,10 +264,10 @@ a {
 					<option value="retitle"
 						<c:if test="${find_field=='retitle'}"> ${'selected'}></c:if>>
 						<!-- find_field가 re_cont와 같다면 해당 목록을 선택되게 한다. -->
-						글제목</option>
+						제목</option>
 					<option value="recont"
 						<c:if test="${find_field=='recont'}">${'selected'}
-					</c:if>>글내용</option>
+					</c:if>>내용</option>
 				</select> <input type="search" name="find_name" id="find_name" 
 				size="16" value="${find_name}"> 
 				<input type="submit" id="rfindbtn" class="btn btn-dark" value="검색">

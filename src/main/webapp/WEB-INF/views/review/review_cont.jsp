@@ -18,8 +18,8 @@
 <body>
 <jsp:include page="../header.jsp" />
 <div id="bsC_wrap">
-		<h2 class="bsC_title">내용보기</h2>
-		<table id="bsC_t">
+		<h2 class="rtitle">내용보기</h2>
+		<table id="rtable">
 			<tr>
 				<th>제목</th>
 				<td>${r.retitle}</td>
