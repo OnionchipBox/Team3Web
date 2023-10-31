@@ -4,7 +4,7 @@
  
  function write_check(){
    if($.trim($("#rename2").val())==""){
-      alert("글쓴이를 입력하세요!");
+      alert("작성자를 입력하세요!");
       $("#rename2").val("").focus();
       return false;
    }

@@ -4,7 +4,7 @@
  
 function write_check(){
    if($.trim($("#qid").val())==""){
-      alert("글쓴이를 입력하세요!");
+      alert("작성자를 입력하세요!");
       $("#qid").val("").focus();
       return false;
    }

@@ -16,7 +16,7 @@
 #k{
 	text-align:center;
 	position:relative;
-	top:50%;
+	top:30%;
 }
 
 
@@ -26,10 +26,8 @@
 </head>
 <body>
 <div id="k">
-
+<img src="https://i.pinimg.com/originals/a8/91/71/a891719076ec3b34d9fb8f0aad89f564.gif">
 <button class="btn btn-secondary" id="proc_payment">결제</button>
-
-
 </div>
 </body>
 <script>
@@ -46,7 +44,7 @@
           
           name: 'NUBE',
           amount: 5000, //총결제금액
-          buyer_email: 'wusl3954@gmail.com',
+          buyer_email: 'kkk@naver.com',
           buyer_name: 'jihyeon',
           buyer_tel: '010-3678-6474',
           buyer_addr: '서울특별시 강남구 삼성동',
