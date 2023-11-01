@@ -191,4 +191,25 @@ select count(reno) from review01 where restep=0
 </delete>
 
 
+
+<!-- 1:1 문의 폼 저장  -->
+
+<insert id="myQnA_in" parameterType="MyQnAVO">
+		insert into
+		myQ values(myQ_seq.nextval,#{qtitle},#{qcont},sysdate)
+	</insert>
+
+<!-- 1:1 문의 레코드 개수 -->	
+	<select id="selectMy" resultType="int">
+	select count(qnano) from myQ
+	</select>
+	
+<!-- 1:1 문의 목록 -->
+<select id="myQnA_list" resultType="MyQnAVO">
+  SELECT qnano, qtitle, qdate
+    FROM myQ
+</select>	
+	
+
+	
 </mapper>

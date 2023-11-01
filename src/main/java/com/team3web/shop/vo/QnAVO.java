@@ -25,7 +25,7 @@ public class QnAVO {
 
 	@Id
 	private int qnano; //게시판번호
-	private String qid;  //글쓴이 
+	private String qid;  //작성자
 	private String qtitle; // 글제목
 	private String qpw; // 비번 
 	

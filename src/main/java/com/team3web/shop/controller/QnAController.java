@@ -8,21 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.team3web.shop.service.QnAService;
+import com.team3web.shop.vo.MyQnAVO;
 import com.team3web.shop.vo.PageVO;
 import com.team3web.shop.vo.QnAVO;
-
-import ch.qos.logback.classic.Logger;
 
 @Controller
 public class QnAController { // qna게시판
@@ -30,13 +28,40 @@ public class QnAController { // qna게시판
 	@Autowired
 	private QnAService qnaService;
 
-
+	//====1:1문의 시작 (사용자는 읽기/쓰기 기능까지만 가능하게)====
 	
-	@RequestMapping(value="/myPage/myQnA", method=RequestMethod.GET)
-	public String myQnA() {
-		return "/user/myPage/myQnA";
+	// 1:1 문의 폼 
+	@GetMapping("/myQnA")
+	public ModelAndView myQnA(HttpServletRequest request, HttpServletResponse response)throws Exception {
+		ModelAndView wm = new ModelAndView();
+	    response.setContentType("text/html;charset=UTF-8");
+	        wm.setViewName("/user/myPage/myQnA");
+	        return wm;
 	}
-
+	
+	// 1:1문의 저장  
+	@PostMapping("/myQnA_ok")
+	public String myQnA_ok(MyQnAVO q,HttpServletRequest request,HttpServletResponse response)
+			throws Exception{
+		response.setContentType("text/html;charset=UTF-8");
+		this.qnaService.insertMyQ(q);
+		return "redirect:/myQnA_list";
+	}
+	
+	//1:1 문의 목록 
+	@GetMapping("/myQnA_list")
+	public String myQnA_list(Model model) {
+	    List<MyQnAVO> myQnAList = qnaService.getMyQnAList();
+	    
+	    int totalCount = this.qnaService.getRowCount(); 
+	    
+	    model.addAttribute("myQnAList", myQnAList);
+	    model.addAttribute("listcount", totalCount);
+	    return "user/myPage/myQnA_list";
+	}
+	
+	//==== 1:1문의 끝 ====
+	
 	// qna 글쓰기 폼
 	@GetMapping("/qna_write")
 	public ModelAndView qna_write(HttpServletRequest request, HttpSession session, HttpServletResponse response)throws Exception {

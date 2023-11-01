@@ -23,3 +23,27 @@ nocache
 nocycle;
 
 commit;
+
+-- 11/01  1:1 문의 테이블 추가 
+
+create table myQ(
+  qnano number(38) primary key --게시물번호
+ ,qid varchar2(100) not null --작성자
+ ,qtitle varchar2(200) not null --제목
+ ,qcont varchar2(1000) not null --내용
+ ,qref number(38) --글 그룹번호
+ ,qdate date --글 등록날짜 
+);
+
+ALTER TABLE myQ DROP COLUMN qid; -- ID 컬럼 삭제 ( 사용자 로그인 했을 때만 문의폼에 접근할 수 있으므로 ID값은 현재 필요 없음!! )
+select * from myQ;
+delete from myQ;
+ALTER TABLE myQ DROP COLUMN qref; -- QREF 컬럼 삭제 
+-- qnano에 적용할 시퀀스 생성
+create sequence myQ_seq
+start with 1
+increment by 1
+nocache
+nocycle;
+
+commit;

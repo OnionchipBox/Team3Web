@@ -16,11 +16,11 @@
 
 <style>
 #mypage {
-	color: lightgray;
+	color:#828d94;
 	text-decoration: underline;
 }
 #container_q {
-	 display: flex;
+	display: flex;
     justify-content: center;
     align-items: center;
     text-align: center; /* 수평 가운데 정렬을 위해 추가 */
@@ -55,7 +55,11 @@
 	border-radius: 3px;  윤곽선의 둥근 모서리 설정 */
 	overflow: auto; /* 내용이 넘칠 때 스크롤 표시 */
 	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
-	/* background-color: #fff; /* 배경색 설정 */ */
+	/* background-color: #fff; /* 배경색 설정 */
+}
+
+#qtable th{
+	background-color:#fff;
 }
 #qna-title {
     text-align: center; /* 제목 가운데 정렬 */
@@ -76,46 +80,16 @@
 
 		<form method="post" action="qna_write_ok"
 			onsubmit="return write_check();">
-
-		
-				<%--<div id="container">
-	<strong>문의 유형</strong>&nbsp;
-    <label>
-      <input type="radio" name="radio"/>
-      <span>사이즈</span>
-    </label>
-    <label>
-      <input type="radio" name="radio"/>
-      <span>배송</span>
-    </label>
-    <label>
-      <input type="radio" name="radio"/>
-      <span>재입고</span>
-    </label>
-     <label>
-      <input type="radio" name="radio"/>
-      <span>상품 상세 문의</span>
-    </label>
-     <label>
-      <input type="radio" name="radio"/>
-      <span>기타</span>
-    </label>
-</div>
---%>
 <h2 class="qna-title">
 			<strong>상품문의</strong>
 		</h2>
 <div id="qtable">
 <table id="qna" style='width: 900px; table-layout: fixed; word-break: break-all; height:800'>
 
-
-
-
-
 				<tr>
 				<td id="ill">
 						클레임(교환/환불/취소)관련 문의는 <a
-							href="<%=request.getContextPath()%>/myPage/myQnA"><strong
+							href="<%=request.getContextPath()%>/myQnA"><strong
 							id="mypage">마이페이지 > 1:1 문의</strong></a>에서 문의 바랍니다.
 				</td>
 				</tr>

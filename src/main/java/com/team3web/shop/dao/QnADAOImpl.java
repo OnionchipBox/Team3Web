@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.team3web.shop.vo.MyQnAVO;
 import com.team3web.shop.vo.PageVO;
 import com.team3web.shop.vo.QnAVO;
 
@@ -59,6 +60,26 @@ public class QnADAOImpl implements QnADAO {
 	public void delQnA(int qna_no) {
 		sqlSession.delete("qna_del",qna_no);
 	} // 게시판 삭제 
+
+	
+	//1:1 문의 저장 
+	@Override
+	public void insertMyQ(MyQnAVO q) {
+		this.sqlSession.insert("myQnA_in",q);
+	}
+
+	//1:1 문의 목록
+	@Override
+	public List<MyQnAVO> getMyQnAList() {
+		return this.sqlSession.selectList("myQnA_list");
+	}
+
+	@Override
+	public int getMyCount() {
+		return this.sqlSession.selectOne("selectMy");
+	}
+
+
 
 	
 	

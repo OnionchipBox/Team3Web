@@ -129,8 +129,7 @@ a {
 </style>
 </head>
 <body>
-	<jsp:include page="../header.jsp" />
-					
+<jsp:include page="../header.jsp" />					
 
 	<div id="container_q">
 		<div id="qwrap">	
@@ -183,7 +182,7 @@ a {
 		
 					<c:if test="${empty qlist}">
 						<tr>
-							<th colspan="5">자료실 목록이 없습니다.</th>
+							<th colspan="5">문의 내역이 없습니다.</th>
 						</tr>
 					</c:if>
 				</table>
@@ -242,15 +241,12 @@ a {
 						value="${find_name}" /> <input type="submit" id="qfindbtn" class="btn btn-dark" value="검색" />
 				</div>
 
-
-
 			</form>
 
 		</div>
 	</div>
 
-
-	<jsp:include page="../footer.jsp" />
+<jsp:include page="../footer.jsp" />
 	<!-- Bootstrap JS and Popper.js -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

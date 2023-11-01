@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.team3web.shop.dao.QnADAO;
+import com.team3web.shop.vo.MyQnAVO;
 import com.team3web.shop.vo.PageVO;
 import com.team3web.shop.vo.QnAVO;
 
@@ -56,6 +57,24 @@ public class QnAServiceImpl implements QnAService {
 	@Override
 	public void delQnA(int qna_no) {
 		this.qnaDao.delQnA(qna_no);
+	}
+
+	
+	// 1:1문의 저장
+	@Override
+	public void insertMyQ(MyQnAVO q) {
+		this.qnaDao.insertMyQ(q);
+	}
+	
+	//1:1문의 목록
+	@Override
+	public List<MyQnAVO> getMyQnAList() {
+		return this.qnaDao.getMyQnAList();
+	}
+
+	@Override
+	public int getRowCount() {
+		return this.qnaDao.getMyCount();
 	} 
 	
 }
