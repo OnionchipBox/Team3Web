@@ -185,9 +185,9 @@ select count(reno) from review01 where restep=0
 	update review01 set rename2=#{rename2}, retitle=#{retitle},recont=#{recont},refile=#{refile},thumbimg=#{thumbimg} where reno=#{reno}
 	</update>
 
-<!-- 리뷰 게시판 삭제 -->
+<!-- 리뷰 게시판 삭제 + 해당 글의 댓글도 같이 삭제 -->
 <delete id="review_del">
-	delete from review01 where reno=#{reno}
+	delete from review01 where reno=#{reno} or reref=#{reno}
 </delete>
 
 
