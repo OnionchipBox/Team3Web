@@ -70,9 +70,11 @@ public class QnAController { // qna게시판
 
 	// 글쓰기 저장 
 	@PostMapping("/qna_write_ok")
-	public String qna_write_ok(QnAVO q,HttpServletRequest request)
+	public String qna_write_ok(QnAVO q,HttpServletRequest request,HttpServletResponse response)
 			throws Exception{
-
+		response.setContentType("text/html;charset=UTF-8");
+		
+		
 		this.qnaService.insertQna(q);
 		return "redirect:/qna_list";
 

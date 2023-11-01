@@ -108,6 +108,10 @@
 <div id="qtable">
 <table id="qna" style='width: 900px; table-layout: fixed; word-break: break-all; height:800'>
 
+
+
+
+
 				<tr>
 				<td id="ill">
 						클레임(교환/환불/취소)관련 문의는 <a

@@ -10,10 +10,8 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/style.css">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-
 <script src="./resources/js/qna.js"></script>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
 #container_q {
 	 display: flex;
@@ -58,10 +56,10 @@
                value="문의 답변 드립니다." /></td>
             </tr>
             <tr>
-               <th>비밀번호</th>
-               <td><input type="password" name="qpw" id="qpw"
-                  size="14" /></td>
-            </tr>
+						<th>비밀번호</th>
+						<td><input type="password" name="qpw" id="qpw" size="14" /></td>
+					</tr>
+					
             <tr>
                <th>글내용</th>
                <td><textarea name="qcont" id="qcont" rows="8" cols="34" ></textarea></td>

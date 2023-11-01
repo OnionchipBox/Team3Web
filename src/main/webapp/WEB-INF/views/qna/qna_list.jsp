@@ -148,12 +148,12 @@ a {
 					style='width: 900px; table-layout: fixed; word-break: break-all; height:auto'>
 					<!-- 추후 비밀작성글 / 비밀글 제외 버튼 추가 보완 -->
 					<tr>
-						<th width="6%" height="26">번호</th>
+						<th width="15%" height="26">번호</th>
 						<!--   <th width="10%">구분</th> -->
 						<!-- 입력폼에서 넣어둔 radio 문의유형 추후 적용해보기 -->
 						<th width="50%">제목</th>
-						<th width="14%">작성자</th>
-						<th width="17%">등록일자</th>
+						<th width="15%">작성자</th>
+						<th width="20%">등록일자</th>
 					</tr>
 					<c:if test="${!empty qlist}">
 						<c:forEach var="q" items="${qlist}">

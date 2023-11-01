@@ -97,8 +97,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <!-- QnA게시판 삭제 -->
 	<delete id="qna_del">
-	delete from qna01 where qnano=#{qnano}
+	delete from qna01 where qnano=#{qnano} or qref=#{qnano} -- 해당 글과 관련된 댓글 삭제
 	</delete>
+
 
 <!--========================= review 게시판 부분========================== -->
 <!-- 리뷰 저장 -->
