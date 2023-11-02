@@ -6,29 +6,29 @@
 
 		<insert id="insertUser" parameterType="UserVO">
    		insert into shop_user
-      		(id, password, name, gender, phone, nickname, zipcode, address, birthday, joindate)
+      		(username, password, name, gender, phone, nickname, zipcode, address, birthday, joindate)
    		values 
-      		(#{id}, #{password}, #{name}, #{gender}, #{phone}, #{nickname}, #{zipcode}, #{address}, #{birthday}, to_char(sysdate, 'YYYYMMDD HH24:MI:SS'))
+      		(#{username}, #{password}, #{name}, #{gender}, #{phone}, #{nickname}, #{zipcode}, #{address}, #{birthday}, to_char(sysdate, 'YYYYMMDD HH24:MI:SS'))
 	</insert>
 
 	<select id="loginCheck" parameterType="UserVO" resultType="int">
 		SELECT COUNT(*) FROM shop_user
-		WHERE id = #{id} AND password = #{password}
+		WHERE username = #{username} AND password = #{password}
 	</select>
 
 	<select id="loadUserByUsername" parameterType="String" resultType="com.team3web.shop.vo.UserVO">
-    	SELECT id AS username, password, nickname, name, verify AS role
+    	SELECT username, password, nickname, name, verify AS role
     	FROM shop_user
-    	WHERE id = #{id}
+    	WHERE username = #{username}
 	</select>
 
 	<select id="loadUserRoleByUsername" parameterType="String" resultType="String">
-    	SELECT verify FROM shop_user WHERE id = #{id}
+    	SELECT verify FROM shop_user WHERE username = #{username}
 	</select>
 
 	<!-- 아이디 찾기 -->
 	<select id="idFind" parameterType="UserVO" resultType="String">
-		SELECT id
+		SELECT username
 		FROM shop_user
 		WHERE
         name=#{name} AND phone=#{phone}
@@ -39,50 +39,50 @@
 		SELECT password 
 		FROM shop_user
 		WHERE
-        id=#{id} AND name=#{name}
+        username=#{username} AND name=#{name}
 	</select>
 	
 	<!-- 회원 상세보기 -->
 	<select id="viewUser" resultType="UserVO" parameterType="String">
 		SELECT 
-			id, name 
+			username, name 
 		FROM shop_user 
 		WHERE 
-			id = #{id}
+			username = #{username}
 	</select>
 	
 	<!-- 회원 등급 상세보기 -->
 	<select id="viewUserRole" resultType="UserVO" parameterType="String">
 		SELECT 
-			id_count,id,role 
+			id_count,username,role 
 		FROM shop_user_role
 		WHERE 
-			id = #{id}
+			username = #{username}
 	</select>
 	
 	<!-- 사용자 아이디에 해당하는 비밀번호 조회 -->
     <select id="getPasswordById" parameterType="string" resultType="string">
         SELECT password
         FROM shop_user
-        WHERE id = #{id}
+        WHERE username = #{username}
     </select>
     
     <select id="getUserById" parameterType="string" resultType="UserVO">
     	SELECT *
     	FROM shop_user
-    	WHERE id = #{id}
+    	WHERE username = #{username}
 	</select>
 	
 	<select id="getUserName" resultType="string" parameterType="string">
     	SELECT name
     	FROM shop_user
-    	WHERE id = #{Id}
+    	WHERE username = #{username}
 	</select>
 	
 	<select id="getUserRole" parameterType="string" resultType="int">
     	SELECT VERIFY
     	FROM shop_user
-    	WHERE id = #{id}
+    	WHERE username = #{username}
 	</select>
 
 	<!-- 비밀번호 바꾸기 -->
@@ -91,7 +91,7 @@
 		SET
 			password=#{password}
 		WHERE
-			id=#{id}
+			username=#{username}
 	</update>
 	
 	<update id="updateUser" parameterType="UserVO">
@@ -104,6 +104,6 @@
 		address = #{address},
 		birthday = #{birthday ,jdbcType=DATE}
 		where
-		id=#{id}
+		username=#{username}
 	</update>
 </mapper>

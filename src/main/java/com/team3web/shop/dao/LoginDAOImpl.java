@@ -89,7 +89,7 @@ public class LoginDAOImpl implements LoginDAO {
 	public UserVO loadUserByUsername(String username) {
 	    try {
 	        Map<String, Object> parameters = new HashMap<>();
-	        parameters.put("id", username);
+	        parameters.put("username", username);
 	        
 	        return sqlSession.selectOne("com.team3web.shop.mapper.LoginMapper.loadUserByUsername", parameters);
 	    } catch (Exception e) {

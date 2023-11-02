@@ -58,12 +58,12 @@ public class CustomUserService implements UserDetailsService {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
         
-        userVO.setId(username);
+        userVO.setUsername(username);
         
         System.out.println("최종 인증 정보 -> \n 아이디: "+ username + "\nDB암호 : "
         + encodedPassword + "\n 입력 암호 : " + password + "\n사용자 등급 : " + authorities);
         System.out.println("닉네임 : "+userNickname+"\n 사용자 이름 : "+name);
-        System.out.println("\n null체크 : " + userVO.getId() + "\n" + encodedPassword + "\n" + authorities);
+        System.out.println("\n null체크 : " + userVO.getUsername() + "\n" + encodedPassword + "\n" + authorities);
         
         CustomUserDetails userDetails = new CustomUserDetails(
                 username,
@@ -76,7 +76,7 @@ public class CustomUserService implements UserDetailsService {
             );    
         
         return new CustomUserDetails(
-                userVO.getId(),
+                userVO.getUsername(),
                 encodedPassword,
                 authorities,
                 userDetails.getNickName(),

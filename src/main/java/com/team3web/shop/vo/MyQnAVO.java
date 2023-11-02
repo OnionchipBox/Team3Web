@@ -13,7 +13,6 @@ public class MyQnAVO {
 	private int qnano;  
 	private String qtitle; 
 	private String qcont;
-	private int ref;
 	private Date qdate;
 	
 }

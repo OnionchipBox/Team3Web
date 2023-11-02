@@ -31,9 +31,6 @@ ADD CONSTRAINT fk_user_seller FOREIGN KEY (ID) REFERENCES shop_seller (ID);
 
 -------------------------------------------------------------------------------- 
 
--- 10/30 테스트 
-insert into shop_user values('kim1234@naver.com', 'test123!A', '지현김', '여자', '01011113333', '지현', '03192', '서울시 종로구 돈화문로1*120동', '001230', sysdate, null, 'USER', 0, 0);
-
 select * from shop_user;
-delete from shop_user where NAME='지현김';
+
 COMMIT;

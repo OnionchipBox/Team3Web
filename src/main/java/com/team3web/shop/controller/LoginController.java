@@ -147,14 +147,14 @@ public class LoginController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(
-	        @RequestParam("id") String id,
+	        @RequestParam("username") String username,
 	        @RequestParam("password") String password,
 	        Model model, HttpSession session, HttpServletResponse response) throws IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out=response.getWriter();
 		
 	    try {  	
-	    	Authentication authentication = new UsernamePasswordAuthenticationToken(id, password);
+	    	Authentication authentication = new UsernamePasswordAuthenticationToken(username, password);
 	    	
 	        Authentication authenticatedUser = authenticationManager.authenticate(authentication);
 	        SecurityContextHolder.getContext().setAuthentication(authenticatedUser); // 세션에 사용자정보 저장
@@ -166,15 +166,15 @@ public class LoginController {
 	        session.setAttribute("loggedInUserPhone", customUserDetails.getPhone());
 	        
 	        if (authorities.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
-	        	session.setAttribute("loggedInUserId", id);
+	        	session.setAttribute("loggedInUserId", username);
 	            session.setAttribute("loggedInUserRole", "ROLE_USER");
 	            return "index";
 	        } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_SELLER"))) {
-	        	session.setAttribute("loggedInUserId", id);
+	        	session.setAttribute("loggedInUserId", username);
 	            session.setAttribute("loggedInUserRole", "ROLE_SELLER");
 	            return "index";
 	        } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
-	        	session.setAttribute("loggedInUserId", id);
+	        	session.setAttribute("loggedInUserId", username);
 	            session.setAttribute("loggedInUserRole", "ROLE_ADMIN");
 	        	return "index";
 	    	}else {
@@ -236,22 +236,22 @@ public class LoginController {
 	    response.setContentType("text/html;charset=UTF-8");
 	    PrintWriter out = response.getWriter();
 
-	    String id = (String) session.getAttribute("loggedInUserId");
+	    String username = (String) session.getAttribute("loggedInUserId");
 	    String password = (String) session.getAttribute("loggedInUserPassword");
-	    logger.info("C: 회원정보보기 GET의 아이디 " + id);
+	    logger.info("C: 회원정보보기 GET의 아이디 " + username);
 	    logger.info("C: 회원정보보기 GET의 비밀번호 " + password);
 
-	    if (id == null) {
+	    if (username == null) {
 	        out.println("<script>");
 	        out.println("alert('다시 로그인 하세요!');");
 	        out.println("</script>");
 	        out.flush();
 	    } else {
-	        UserVO user = loginService.getUserById(id);
+	        UserVO user = loginService.getUserById(username);
 	        String pw = loginService.getPasswordById(password);
 	        model.addAttribute("user", user);
 	        model.addAttribute("pw", pw);
-	        logger.info(" 회원정보보기 GET의 VO " + id);
+	        logger.info(" 회원정보보기 GET의 VO " + username);
 	        logger.info("vo pw:" + pw);
 	        return "/user/userUpdate";
 	    }
@@ -393,7 +393,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value = "/selectPassword", method = RequestMethod.POST)
-	public String selectPw(Model model, @ModelAttribute UserVO user, @RequestParam("id") String id,
+	public String selectPw(Model model, @ModelAttribute UserVO user, @RequestParam("username") String username,
 			HttpServletResponse response) throws IOException {
 		response.setContentType("text/html;charset=UTF-8");
 	    PrintWriter out = response.getWriter();
@@ -406,7 +406,7 @@ public class LoginController {
 	        	model.addAttribute("check", 1);
 	        } else {
 	        	model.addAttribute("check", 0);
-	        	user.setId(id);
+	        	user.setUsername(username);
 	        	return "user/updatePw";
 	        }
 	        

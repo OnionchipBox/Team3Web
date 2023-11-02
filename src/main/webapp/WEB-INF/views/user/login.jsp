@@ -228,8 +228,8 @@ input[type="submit"]{
 		 <form action="<%=request.getContextPath()%>/login" method="post" onsubmit="loginEvent();">
             <!-- 로그인 폼 내용 -->
                 <div class="input-group">
-                    <label for="id">아이디</label> 
-                    <input type="text" id="id" name="id" placeholder="예) nube@nube.com" required>
+                    <label for="username">아이디</label> 
+                    <input type="text" id="username" name="username" placeholder="예) nube@nube.com" required>
                 </div>
                 <div class="input-group">
                     <label for="pw">비밀번호</label> 

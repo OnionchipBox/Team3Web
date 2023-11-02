@@ -203,8 +203,8 @@ h1 {
             <h1 class="text-center">회원가입</h1>
             <form method="post" action="<%= request.getContextPath() %>/register">
                 <div class="form-group">
-                    <label for="id">아이디</label>
-                    <input type="text" id="id" name="id" class="form-control" placeholder="ex)Team3Web@Team3Web.co.kr" required>
+                    <label for="username">아이디</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="ex)Team3Web@Team3Web.co.kr" required>
                 </div>
                 <div class="form-group">
                     <label for="password">비밀번호</label>

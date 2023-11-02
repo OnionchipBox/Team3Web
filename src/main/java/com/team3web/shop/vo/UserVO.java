@@ -24,7 +24,7 @@ public class UserVO {
 	@NotNull
 	@Pattern(regexp = "[a-z0-9_+.-]+@([a-z0-9-]+\\.)+[a-z0-9]{2,4}",
 			message = "이메일이 올바른 형식이 아닙니다.")
-	private String id;
+	private String username;
 	
 	@NotNull
 	@Pattern(regexp = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\\W).{8,20}",
@@ -79,7 +79,7 @@ public class UserVO {
 	public UserVO() {}
 
 	public UserVO(UserVO user) {
-		this.id = user.getId();
+		this.username = user.getUsername();
 		this.password = user.getPassword();
 		this.name = user.getName();
 		this.gender = user.getGender();
@@ -106,7 +106,7 @@ public class UserVO {
 			String fldName = it.next();
 			
 			if(fldName.equals("submit_btn")) {
-				this.id = map.get("id")[0];
+				this.username = map.get("username")[0];
 				this.password = map.get("password")[0];
 				this.name = map.get("name")[0];
 				this.gender = map.get("gender")[0];

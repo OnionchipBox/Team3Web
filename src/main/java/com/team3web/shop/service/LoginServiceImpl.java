@@ -26,7 +26,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
 	public int loginCheck(UserVO user, HttpSession session) {
-		UserVO dbUser = LoginDAO.getUserById(user.getId());
+		UserVO dbUser = LoginDAO.getUserById(user.getUsername());
 
         if (dbUser != null) {
             if (passwordEncoder.matches(user.getPassword(), dbUser.getPassword())) {

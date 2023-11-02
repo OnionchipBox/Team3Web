@@ -40,8 +40,8 @@
 	<!-- 오라클  -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-    <!-- <property name="url" value="jdbc:oracle:thin:@13.209.108.23:1521:xe" /> 서버2-->
-    <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" /> <!-- 서버1 -->
+    <property name="url" value="jdbc:oracle:thin:@13.209.108.23:1521:xe" /> <!--서버2-->
+   <!-- <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />  서버1 -->
      
     
     <property name="username" value="night" />

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class UserResultVO {
 	
-    private String id;
+    private String username;
 	private String password;
     private String name;
     private String gender;
