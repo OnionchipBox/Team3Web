@@ -5,7 +5,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,12 +29,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.team3web.shop.service.ProductService;
+import com.team3web.shop.service.ReviewService;
+import com.team3web.shop.vo.PageVO;
 import com.team3web.shop.vo.ProductVO;
+import com.team3web.shop.vo.ReviewVO;
 
 // 제품 관련 컨트롤러
 @Controller
 public class ProductController {
     
+	
+	//11/03 리뷰 서비스 의존성 추가 
+	@Autowired
+	private ReviewService reviewser;
+	
+	
    @Autowired
    ProductService productService;
       private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
@@ -89,15 +101,71 @@ public class ProductController {
          return "/product";
          
       }
+      
       @RequestMapping(value = "/productItem", method = RequestMethod.GET)
-      public String productItem(@RequestParam("productId") int productId, Model model) {
+      public String productItem(@RequestParam("productId") int productId, Model model,HttpServletRequest request,PageVO p) {
           // productId를 사용하여 제품 정보를 데이터베이스에서 가져오는 코드
           // 가져온 정보를 모델에 추가하여 JSP 파일로 전달
           ProductVO product = productService.findById(productId);
           model.addAttribute("product", product);
           
+          
+        int page=1;
+  		int limit=10; //한 페이지에 보여지는 목록 개수를 10개로 함
+  		if(request.getParameter("page")!=null) {
+  			page=Integer.parseInt(request.getParameter("page"));
+  		}
+
+  		/* 검색과 관련된 부분 추가 */
+  		String find_name = request.getParameter("find_name"); //검색어
+  		String find_field = request.getParameter("find_field"); //검색 필드
+  		p.setFind_name("%"+find_name+"%");  //%는 SQL문에서 하나 이상의 임의의 모르는 문자와 매핑 대응
+  		p.setFind_field(find_field);
+
+  		int totalCount = this.reviewser.getRowCount(p); 
+  		System.out.println("레코드 개수 : "+totalCount);
+  		// 검색전 총 레코드 개수 , + 검색 후 레코드 개수
+
+  		p.setStartrow((page-1)*10+1); //시작행 번호
+  		p.setEndrow(p.getStartrow()+limit-1); //끝행 번호
+
+  		List<ReviewVO> rlist=this.reviewser.getReviewList(p); //검색전 목록
+  		System.out.println("목록 개수 : "+rlist.size());
+
+  		for(ReviewVO r:rlist) {
+  			//System.out.println("번호:"+r.getRe_no());
+  			//System.out.println("작성자:"+r.getRe_name());
+  		}
+  		//총 페이지수
+  		int maxpage=(int)((double)totalCount/limit+0.95);
+  		//시작페이지(1,11,21 ..)
+  		int startpage=(((int)((double)page/10+0.9))-1)*10+1;
+  		//현재 페이지에 보여질 마지막 페이지(10,20 ..)
+  		int endpage=maxpage;
+  		if(endpage>startpage+10-1) endpage=startpage+10-1;
+          
+        
+  	   // 이 부분에서 Model 객체를 사용하여 데이터를 전달
+  	    model.addAttribute("rlist", rlist);
+  	    model.addAttribute("page", page);
+  	    model.addAttribute("startpage", startpage);
+  	    model.addAttribute("endpage", endpage);
+  	    model.addAttribute("maxpage", maxpage);
+  	    model.addAttribute("listcount", totalCount);
+  	    model.addAttribute("find_field", find_field);
+  	    model.addAttribute("find_name", find_name);
+
+          
+          
           return "/productItem";
       }
+      
+      
+      
+      
+      
+      
+      
 //      @RequestMapping(value= "/productItem" ,method = RequestMethod.GET)
 //      @ResponseBody
 //      public ResponseEntity<Resource> productItem(@PathVariable("filename") String filename) throws Exception{

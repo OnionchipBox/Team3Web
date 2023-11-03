@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -71,7 +72,7 @@ public class ReviewController {
 
 	@RequestMapping(value = "/review_write_ok", method = RequestMethod.POST)
 	public String insertReview(@ModelAttribute ReviewVO review, @RequestParam("uploadFile") MultipartFile file, Model model,
-			HttpServletRequest request) throws IOException {
+			HttpServletRequest request,@RequestHeader(value = "Referer", required = false) final String referer) throws IOException {
 		// 파일 저장 경로 설정 : 실제 서비스되는 위치(프로젝트 외부에 저장)
 		String savedFileName = "";
 		String realPath = request.getRealPath("/resources/imgUpload/");
@@ -102,10 +103,20 @@ public class ReviewController {
 
 		reviewser.insertReview(review);
 
-		//model.addAttribute("originalFileName", originalFileName);
-		// logger.info("insertReview()" + review);
-		//model.addAttribute("review", review);
-		return "redirect:/review_list"; // 리뷰 목록 페이지로 리다이렉트
+		//return "redirect:/review_list"; // 리뷰 목록 페이지로 리다이렉트
+		
+		
+		//11/03 수정 ↓ 리뷰 저장하고 나면 전 페이지로 이동
+		
+		  // 이전 페이지 URL로 리다이렉트
+	    if (referer != null && !referer.isEmpty()) {
+	        return "redirect:" + referer;
+	    } else {
+	        // 이전 페이지 URL이 없을 경우 리뷰 목록 페이지로 리다이렉트
+	        return "redirect:/review_list";
+	    }	
+	
+		
 	}
 
 	// 페이징과 검색 기능이 되는 리뷰 목록 

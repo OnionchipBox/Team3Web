@@ -41,6 +41,10 @@
       <h2 class="re_t">Review</h2>
       <form method="post" action="review_write_ok"
          onsubmit="return write_check();" enctype="multipart/form-data">
+         
+          <!-- 이전 페이지 URL을 서버로 전달하는 hidden 필드 -->
+    <input type="hidden" name="referer" value="${pageReferer}" />
+         
 <div id="rtable">
 <table id="Rlist_t" style='height:auto'>
 	<tr>
@@ -73,12 +77,48 @@
 <div id="remenu">
          	   <input type="submit" class="btn btn-dark" value="취소" />
                <input type="reset" style="display:none;" onclick="$('#rename2').focus();" />
-               <button type="button" class="btn btn-dark" onclick="location='review_list?page=${page}';">목록</button>
-               <input type="submit" class="btn btn-dark" value="작성하기" />
+               <!--<button type="button" class="btn btn-dark" onclick="location='review_list?page=${page}';">목록</button>-->
+               <button type="button" class="btn btn-dark" onclick="goBack();">목록</button>               
+               <input type="submit" class="btn btn-dark"  onclick="saveReview();" value="작성하기" />
          </div>
 
 </form>
 </div>
+
+<script>
+function goBack() {
+    window.history.back(); // 이전 페이지로 이동
+}
+
+
+
+function saveReview() {
+    // 현재 페이지 URL을 가져옴
+    var currentPageURL = window.location.href;
+    localStorage.setItem('currentPageURL', currentPageURL);
+
+    // 리뷰 데이터 및 현재 페이지 URL을 서버로 전송
+    $.ajax({
+        url: '/review_write_ok', // 서버의 저장 엔드포인트 경로
+        type: 'POST',
+        data: {
+            reviewData: reviewData, // 리뷰 데이터를 여기에 추가
+            currentPageURL: currentPageURL, // 현재 페이지 URL을 전송
+        },
+        success: function(response) {
+            // 성공 시 처리
+            if (response.redirect) {
+                // 서버에서 리다이렉트 URL을 반환하면 해당 URL로 이동
+                window.location.href = response.redirect;
+            }
+        },
+        error: function(error) {
+            // 오류 시 처리
+        },
+    });
+}
+</script>
+
 <jsp:include page="../footer.jsp" />
 
 

@@ -177,7 +177,7 @@ a {
    
    
    
-   <!-- 리뷰 영역  추가  -->
+   <!-- 11/03 리뷰 영역  추가  -->
 
    <div id="container_r">
     
@@ -225,7 +225,6 @@ a {
                </tr>
             </c:forEach>
          </c:if>
-
          <c:if test="${empty rlist}">
             <tr>
                <th colspan="5">등록된 리뷰가 없습니다.</th>
