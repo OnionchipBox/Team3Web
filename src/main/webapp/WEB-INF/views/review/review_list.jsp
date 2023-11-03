@@ -201,7 +201,8 @@ a {
       <%--페이징(쪽나누기)--%>
       <div id="rList_paging" class="paging-section">
          <%--검색전 페이징 --%>
-         <c:if test="${(empty find_field)&&(empty find_name)}">
+         <c:if test="${(empty find_field) && (empty find_name) && !empty rlist}">
+      <%-- 여기서 rlist가 비어있지 않을 때만 페이징을 표시합니다. --%>
             <c:if test="${page <=1}">
    [이전]&nbsp;
    </c:if>

@@ -13,23 +13,32 @@ import lombok.Setter;
 @Setter
 public class SellerVO {
 	
-	private String username;
-	
-	@NotNull
-	private String seller_name;
-	
-	@NotNull
-	private String seller_registration_number;
+	  private String username;
+	   
+	   private String userId;
+	   private String verify;
+	   
+	   @NotNull
+	   private String sellerName;
+	   
+	   @NotNull
+	   private String sellerRegistrationNumber;
 
-	private String registration_date;
-	
-	public SellerVO() {}
+	   private String registrationDate;
+	   
+	   private int sellerCode;
+	   
+	   public SellerVO() {}
 
-	public SellerVO(SellerVO seller) {
-		this.username = seller.getUsername();
-		this.seller_name = seller.getSeller_name();
-		this.seller_registration_number = seller.getSeller_registration_number();
-		this.registration_date = seller.getRegistration_date();
-	}
+	   public SellerVO(SellerVO seller, UserVO user) {
+	      this.username = seller.getUsername();
+	      this.userId = user.getUsername();
+	      this.verify = user.getVerify();
+	      this.sellerName = seller.getSellerName();
+	      this.sellerRegistrationNumber = seller.getSellerRegistrationNumber();
+	      this.registrationDate = seller.getRegistrationDate();
+	      this.sellerCode = seller.getSellerCode();
+	   }
+
 	
 }

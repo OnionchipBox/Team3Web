@@ -81,7 +81,7 @@
 		 <form action="<%=request.getContextPath()%>/registration" method="post">
                 <div class="input-group">
                     <label for="username">사업자등록번호 : </label> 
-                    <input class="form-control" id="username" name="username" placeholder="ex) 012345-678910" required>
+                    <input class="form-control" id="sellerId" name="sellerId" placeholder="ex) 012345-678910" required>
                 </div>
                 <div class="input-group">
                     <label for="sellerName">업체명 : </label> 

@@ -38,7 +38,7 @@
 	display:flex;
 	justify-content: center;
 	align-items: center;
-	min-height: 80vh;
+	min-height: 60vh;
 }
 
 
@@ -61,6 +61,71 @@ a {
 	text-align: center;
 	margin-top: 10px;
 }
+
+
+#titleui {
+	margin-left: 10px;
+}
+
+#rfind, #rList_paging {
+	margin-top: 5px;
+	flex-direction: column; /* 세로 방향 가운데 정렬 */
+	align-items: center; /* 세로 방향 가운데 정렬 */
+	text-align: center;
+}
+
+
+#rList_paging {
+	padding: 10px;
+}
+
+#rbutton {
+	position: relative;
+	float: right;
+	right: 20px;
+	z-index: 2; /* qbutton을 qfind 위에 표시 */
+}
+
+#rfind {
+	position: relative;
+	z-index: 1; /* qfind를 다른 요소보다 위에 표시 */
+	left: 32px;
+}
+
+#rfindbtn{
+	position:relative;
+	bottom:3px;	
+}
+
+
+#rwrite {
+	flex-direction: column; /* 세로 방향 가운데 정렬 */
+}
+
+
+#Rlist_t {
+	border-style:2px solid #000;
+	overflow: auto; /* 내용이 넘칠 때 스크롤 표시 */
+	table-layout: fixed;
+    border-spacing: 0;
+	
+}
+
+
+#Rlist_t th {
+	border-bottom: 2px solid #9ca3a6; /* 가로 구분선 추가 및 회색 계열의 바탕색 설정 */
+	background-color: #fff;
+	padding: 15px; /* 셀 안의 내용과 내부 여백 설정 */
+	text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+
+#Rlist_t td {
+	padding: 15px;
+	text-align: center;
+}
+
+
 
 /* 리뷰 영역  끝 */
 </style>
@@ -113,13 +178,14 @@ a {
    
    
    <!-- 리뷰 영역  추가  -->
-   
-   <div id="container_r">
-<div id="rwrap">
 
+   <div id="container_r">
+    
+<div id="rwrap">
+  <hr>
 <form method="get" action="review_list">
 		<div id="qti">
-		<h2 class="title_q"><strong>Review</strong> (총 ${listcount}개)</h2>
+		<h2 class="title_q"><strong>Review</strong>(${listcount})</h2>
 					<h6 id="qq">
 						<strong>NUBE</strong> 리뷰 게시판입니다.
 					</h6>
@@ -162,7 +228,7 @@ a {
 
          <c:if test="${empty rlist}">
             <tr>
-               <th colspan="5">리뷰 목록이 없습니다.</th>
+               <th colspan="5">등록된 리뷰가 없습니다.</th>
             </tr>
          </c:if>
       </table>
@@ -172,7 +238,7 @@ a {
       <%--페이징(쪽나누기)--%>
       <div id="rList_paging" class="paging-section">
          <%--검색전 페이징 --%>
-         <c:if test="${(empty find_field)&&(empty find_name)}">
+         <c:if test="${(empty find_field)&&(empty find_name)&& !empty rlist}">
             <c:if test="${page <=1}">
    [이전]&nbsp;
    </c:if>
