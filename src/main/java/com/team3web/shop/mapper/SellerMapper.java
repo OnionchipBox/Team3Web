@@ -9,5 +9,5 @@ public interface SellerMapper {
 	
 	void updateSellerVerify(UserVO user);
 	
-	SellerVO checkSellerId(String id);
+	SellerVO checkSellerId(String username);
 }

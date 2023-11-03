@@ -1,11 +1,14 @@
 CREATE TABLE shop_seller
 (
-    ID VARCHAR2(50) PRIMARY KEY,
+    username VARCHAR2(50) PRIMARY KEY,
     seller_name VARCHAR2(20) NOT NULL,
     seller_registration_number VARCHAR2(50) NOT NULL,
     registration_date VARCHAR2(20),
     CONSTRAINT fk_shop_user
-    FOREIGN KEY (ID)
-    REFERENCES shop_user (ID)
+    FOREIGN KEY (username)
+    REFERENCES shop_user (username)
 );
 
+select * from shop_seller;
+
+commit;

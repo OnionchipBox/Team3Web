@@ -9,5 +9,5 @@ import com.team3web.shop.vo.UserVO;
 public interface SellerDAO {
 	void insertSeller(SellerVO seller);
 	void updateSellerVerify(UserVO user);
-	SellerVO checkSellerId(String id);
+	SellerVO checkSellerId(String username);
 }

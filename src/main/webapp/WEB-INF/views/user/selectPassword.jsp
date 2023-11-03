@@ -19,7 +19,7 @@
     <form action="/shop/selectPassword" method="post">
         <div>
             <label for="inputId">아이디:</label>
-            <input type="text" id="id" name="id" required>
+            <input type="text" id="username" name="username" required>
         </div>
         <div>
             <label for="inputName">이름:</label>
@@ -31,7 +31,7 @@
         
         <c:if test="${check == 1}">
 			<script>
-				opener.document.findform.id.value = "";
+				opener.document.findform.username.value = "";
 				opener.document.findform.name.value = "";
 			</script>
 			<label>일치하는 정보가 존재하지 않습니다.</label>

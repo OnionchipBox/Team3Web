@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 public class SellerVO {
 	
-	private String id;
+	private String username;
 	
 	@NotNull
 	private String seller_name;
@@ -26,7 +26,7 @@ public class SellerVO {
 	public SellerVO() {}
 
 	public SellerVO(SellerVO seller) {
-		this.id = seller.getId();
+		this.username = seller.getUsername();
 		this.seller_name = seller.getSeller_name();
 		this.seller_registration_number = seller.getSeller_registration_number();
 		this.registration_date = seller.getRegistration_date();

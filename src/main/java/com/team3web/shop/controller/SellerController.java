@@ -28,9 +28,9 @@ public class SellerController {
 		response.setContentType("text/html;charset=UTF-8");
 	    PrintWriter out = response.getWriter();
 		
-	    String id = (String) session.getAttribute("loggedInUserId");
+	    String username = (String) session.getAttribute("loggedInUserId");
 
-	    SellerVO existingSeller = sellerService.checkSellerId(id);
+	    SellerVO existingSeller = sellerService.checkSellerId(username);
 	    
 	    if (existingSeller != null) {
 	    	out.println("<script>");
@@ -45,21 +45,21 @@ public class SellerController {
 	    
 	 @RequestMapping(value = "/registration", method = RequestMethod.POST)
 	 public String PostRegistration(
-	     @RequestParam("sellerId") String sellerId,
+	     @RequestParam("username") String username,
 	     @RequestParam("sellerName") String sellerName,
 	     Model model, HttpSession session) {
 
 	     try {
 	         String id = (String) session.getAttribute("loggedInUserId");
 	         UserVO user = new UserVO();
-	         user.setId(id);
+	         user.setUsername(username);
 
 	         if (id != null) {
 	             sellerService.updateSellerVerify(user);
 	             SellerVO seller = new SellerVO();
-	             seller.setId(id);
+	             seller.setUsername(id);
 	             seller.setSeller_name(sellerName);
-	             seller.setSeller_registration_number(sellerId);
+	             seller.setSeller_registration_number(username);
 	             sellerService.insertSeller(seller);
 	             session.setAttribute("loggedInUserRole", "ROLE_SELLER");
 	         } else {

@@ -6,5 +6,5 @@ import com.team3web.shop.vo.UserVO;
 public interface SellerService {
 	public void insertSeller(SellerVO seller);
 	public void updateSellerVerify(UserVO user);
-	public SellerVO checkSellerId(String id);
+	public SellerVO checkSellerId(String username);
 }

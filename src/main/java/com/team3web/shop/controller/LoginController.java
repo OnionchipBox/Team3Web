@@ -168,17 +168,17 @@ public class LoginController {
 	        if (authorities.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
 	        	session.setAttribute("loggedInUserId", username);
 	            session.setAttribute("loggedInUserRole", "ROLE_USER");
-	            return "index";
+	            return "redirect:/";
 	        } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_SELLER"))) {
 	        	session.setAttribute("loggedInUserId", username);
 	            session.setAttribute("loggedInUserRole", "ROLE_SELLER");
-	            return "index";
+	            return "redirect:/";
 	        } else if (authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
 	        	session.setAttribute("loggedInUserId", username);
 	            session.setAttribute("loggedInUserRole", "ROLE_ADMIN");
-	        	return "index";
+	        	return "redirect:/";
 	    	}else {
-	            return "index";
+	            return "redirect:/";
 	        }
 	    } catch (AuthenticationException e) {
 	        System.out.println("로그인 실패: " + e.getMessage());

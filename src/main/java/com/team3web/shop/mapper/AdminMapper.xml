@@ -8,19 +8,19 @@
 	<update id="updateUserVerify" parameterType="UserVO">
     	UPDATE shop_user
     	SET VERIFY = 'USER'
-    	WHERE ID = #{id}
+    	WHERE username = #{username}
 	</update>
 	
 	<!-- 판매자 등록해제 -->
 	<delete id="forceDeleteSeller" parameterType="UserVO">
 		DELETE FROM shop_seller
-    	WHERE id = #{id}
+    	WHERE username = #{username}
 	</delete>
 	
 	<!-- 강제 회원탈퇴 -->
 	<delete id="forceDeleteUser" parameterType="UserVO">
 		DELETE FROM shop_user
-    	WHERE id = #{id}
+    	WHERE username = #{username}
 	</delete>
 	
 	<!-- 회원 목록 가져오기 (페이징) -->
@@ -69,7 +69,7 @@
             <if test="search != null and !search.isEmpty()">
                 AND (name LIKE '%' || #{search, jdbcType=VARCHAR} || '%' OR id LIKE '%' || #{search, jdbcType=VARCHAR})
             </if>
-            ORDER BY id
+            ORDER BY username
         ) A
         WHERE ROWNUM &lt;= #{end}
     )

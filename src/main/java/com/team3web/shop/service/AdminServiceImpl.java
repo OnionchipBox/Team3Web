@@ -25,13 +25,13 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public void forceDeleteUser(String id) {
-		adminDAO.forceDeleteUser(id);
+	public void forceDeleteUser(String username) {
+		adminDAO.forceDeleteUser(username);
 	}
 	
 	@Override
-	public void forceDeleteSeller(String id) {
-		adminDAO.forceDeleteSeller(id);
+	public void forceDeleteSeller(String username) {
+		adminDAO.forceDeleteSeller(username);
 	}
 
 	@Override

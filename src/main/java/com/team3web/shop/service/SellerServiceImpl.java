@@ -28,8 +28,8 @@ public class SellerServiceImpl implements SellerService {
 	}
 
 	@Override
-	public SellerVO checkSellerId(String id) {
-		return sellerDAO.checkSellerId(id);
+	public SellerVO checkSellerId(String username) {
+		return sellerDAO.checkSellerId(username);
 	}
 
 }

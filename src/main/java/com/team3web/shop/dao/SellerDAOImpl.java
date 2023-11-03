@@ -25,8 +25,8 @@ public class SellerDAOImpl implements SellerDAO {
 	}
 
 	@Override
-	public SellerVO checkSellerId(String id) {
-		return sqlSession.getMapper(SellerMapper.class).checkSellerId(id);
+	public SellerVO checkSellerId(String username) {
+		return sqlSession.getMapper(SellerMapper.class).checkSellerId(username);
 	}
 
 }

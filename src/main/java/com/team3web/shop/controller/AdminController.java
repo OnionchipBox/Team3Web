@@ -60,20 +60,20 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/userVerify", method = RequestMethod.POST)
-	public String PostUserList(@RequestParam("userId") String userId, 
+	public String PostUserList(@RequestParam("username") String username, 
 			@RequestParam("userVerify") String userVerify, 
 			HttpSession session, RedirectAttributes redirectAttributes) {
 		
 		 String loggedInUserId = (String) session.getAttribute("loggedInUserId");
 //		 redirectAttributes.addFlashAttribute("CancelMessage", "VerifyMessageCancel");
-		    if (loggedInUserId != null && userId != null) {
+		    if (loggedInUserId != null && username != null) {
 		        try {
 		            UserVO userVO = new UserVO();
-		            userVO.setId(userId);
+		            userVO.setUsername(username);
 		            userVO.setVerify(userVerify);
 		            
 		            adminService.updateUserVerify(userVO);
-		            adminService.forceDeleteSeller(userId);
+		            adminService.forceDeleteSeller(username);
 		            
 		            redirectAttributes.addFlashAttribute("successMessage", "VerifyMessageOK");
 		            return "redirect:/admin/userList";
@@ -89,18 +89,18 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/userDelete", method = RequestMethod.POST)
-	public String ForceUserDelete(@RequestParam("userId") String userId,
+	public String ForceUserDelete(@RequestParam("username") String username,
 			HttpSession session, RedirectAttributes redirectAttributes) {
 		
 		 String loggedInUserId = (String) session.getAttribute("loggedInUserId");
 		 
-		 if (loggedInUserId != null && userId != null) {
+		 if (loggedInUserId != null && username != null) {
 		        try {
 		            UserVO userVO = new UserVO();
-		            userVO.setId(userId);
+		            userVO.setUsername(username);
 
-		            adminDAO.forceDeleteUser(userId);
-		            adminDAO.forceDeleteSeller(userId);
+		            adminDAO.forceDeleteUser(username);
+		            adminDAO.forceDeleteSeller(username);
 
 		            redirectAttributes.addFlashAttribute("DeleteSuccessMessage", "탈퇴 처리 되었습니다");
 		            return "redirect:/admin/userList";

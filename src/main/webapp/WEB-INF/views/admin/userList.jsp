@@ -74,7 +74,7 @@ function ForceUserDelete() {
         <tbody>
             <c:forEach items="${userList}" var="user">
                 <tr>
-                    <td>${user.id}</td>
+                    <td>${user.username}</td>
                     <td>${user.name}</td>
                     <td>${user.nickname}</td>
                     <td>${user.gender}</td>
@@ -92,12 +92,12 @@ function ForceUserDelete() {
                             <option value="USER" ${user.verify == 'USER' ? 'selected' : ''}>USER</option>
                             <option value="SELLER" ${user.verify == 'SELLER' ? 'selected' : ''}>SELLER</option>
                         </select>
-                        <input type="hidden" name="userId" value="${user.id}" />
+                        <input type="hidden" name="username" value="${user.username}" />
                         <span class="custom-margin"></span>
                         <input type="submit" value="변경" class="btn-outline-dark" onclick="showConfirmation();" />
                     </form>
                     <form action="<%=request.getContextPath()%>/userDelete" method="post">
-                     <input type="hidden" name="userId" value="${user.id}" />
+                     <input type="hidden" name="username" value="${user.username}" />
                     <input type="submit" value="회원 탈퇴" class="btn btn-danger" onclick="ForceUserDelete();" />
                     </form>
                 </td>

@@ -7,23 +7,23 @@
 	<!-- 저장하기 : 판매자 등록 -->
 	<insert id="insertSeller" parameterType="SellerVO">
    	insert into shop_seller
-      	(ID, SELLER_NAME, SELLER_REGISTRATION_NUMBER, REGISTRATION_DATE)
+      	(username, SELLER_NAME, SELLER_REGISTRATION_NUMBER, REGISTRATION_DATE)
    	values 
-      	(#{id}, #{seller_name}, #{seller_registration_number}, to_char(sysdate, 'YYYYMMDD HH24:MI:SS'))
+      	(#{username}, #{seller_name}, #{seller_registration_number}, to_char(sysdate, 'YYYYMMDD HH24:MI:SS'))
 	</insert>
 	
 	<!-- 등급 변경(판매자) -->
 	<update id="updateSellerVerify" parameterType="UserVO">
     	UPDATE shop_user
     	SET VERIFY = 'SELLER'
-    	WHERE ID = #{id}
+    	WHERE username = #{username}
 	</update>
 	
 	<!-- 아이디 조회 -->
 	<select id="checkSellerId" parameterType="string" resultType="SellerVO">
     	SELECT *
     	FROM shop_seller
-    	WHERE id = #{id}
+    	WHERE username = #{username}
 	</select>
 
 </mapper>

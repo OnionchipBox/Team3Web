@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function() {
                  "FAQ": "<%=request.getContextPath()%>/FAQ",
                  "문의하기": "<%=request.getContextPath()%>/qna_list", 
                  "판매자 등록하기": "<%=request.getContextPath()%>/seller/registration"
-             }   // 제품 상세 페이지 아래에  qna게시판 넣기 전에 문의하기에 임시로 넣어둠 
+             }   
          };
     	
     	if (userRole === "ROLE_SELLER" || userRole === "ROLE_ADMIN") {

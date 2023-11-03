@@ -9,9 +9,9 @@ public interface AdminMapper {
 	
 	public void updateUserVerify(UserVO user);
 	
-	public void forceDeleteUser(String id);
+	public void forceDeleteUser(String username);
 	
-	public void forceDeleteSeller(String id);
+	public void forceDeleteSeller(String username);
 	
 	public List<UserVO> getUsersByPage(Map<String, Object> map);
 

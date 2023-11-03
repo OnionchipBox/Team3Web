@@ -23,13 +23,13 @@ public class AdminDAOImpl implements AdminDAO {
     }
 
     @Override
-    public void forceDeleteUser(String id) {
-        sqlSession.getMapper(AdminMapper.class).forceDeleteUser(id);
+    public void forceDeleteUser(String username) {
+        sqlSession.getMapper(AdminMapper.class).forceDeleteUser(username);
     }
     
     @Override
-	public void forceDeleteSeller(String id) {
-    	sqlSession.getMapper(AdminMapper.class).forceDeleteSeller(id);
+	public void forceDeleteSeller(String username) {
+    	sqlSession.getMapper(AdminMapper.class).forceDeleteSeller(username);
 	}
 
     @Override
