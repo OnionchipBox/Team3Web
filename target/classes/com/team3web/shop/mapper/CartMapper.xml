@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+   <mapper namespace="com.team3web.shop.mapper.CartMapper">
+   
+   
+   <insert id="addCart">
+    insert into shop_cart (cartId, Id, productId, cartSize, quantity)
+    values (cart_no_seq.nextval, #{Id}, #{productId}, #{cartSize}, #{quantity})
+</insert>
+
+
+<select id="getAllUsers" resultType="UserVO">
+    SELECT * FROM shop_user
+</select>
+
+<select id="getAllCartItems" resultType="com.team3web.shop.vo.CartVO">
+select * from shop_cart
+</select>
+
+<select id="getAllCartList" resultType="com.team3web.shop.dto.CartOrProduct">
+select c.cartsize, c.quantity, p.name, p.price, p.imageurl, p.productId 
+from cart c join products p on c.productId = p.productId 
+where c.id = #{Id}
+</select>
+
+<select id="deleteCart"  resultType="com.team3web.shop.vo.CartVO">
+DELETE FROM shop_cart WHERE  productId = #{productId}
+</select>
+
+<select id="duplicateProduct" resultType="com.team3web.shop.vo.CartVO">
+SELECT * FROM shop_cart WHERE Id = #{loggedInUserId} AND productId = #{productId}
+</select>
+
+<update id="updateCart" parameterType="int" >
+     UPDATE shop_cart
+  SET quantity = #{newQuantity}
+  WHERE productId = #{productId}
+
+</update>
+<update id="decreaseProductStock" parameterType="int">
+ update Products set stock = stock - #{quantity} where productId = #{productId}
+</update>
+</mapper>
