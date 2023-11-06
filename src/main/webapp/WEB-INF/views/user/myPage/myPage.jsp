@@ -78,7 +78,7 @@ a:hover {
 </head>
 <body>
 	<jsp:include page="../../header.jsp" />
-	
+	<form method="get" action="myPage">
 <div id="container_my">
 
 
@@ -98,7 +98,7 @@ a:hover {
  <!-- 내용이 여기에 동적으로 로드될 것입니다. -->
 <i class='bx bx-user'> <strong>${loggedInUserId}</strong>님은 일반 회원 등급입니다.</i> 
 <br>
-보유 포인트 ( ${userPoint} ) 점
+보유 포인트 ( ${point} ) 점
 
 </div> <!-- cont_my-->
 
@@ -107,7 +107,9 @@ a:hover {
 </div>	<!-- container_my-->
 	
 	
-	
+</form>
+
+
 <script>
 // JavaScript로 클릭 이벤트를 처리합니다.
 document.addEventListener('DOMContentLoaded', function () {

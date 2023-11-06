@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
                  "목걸이": "<%=request.getContextPath()%>/accessories/necklaces"
              },
              "고객센터": {
-                 "path": "<%=request.getContextPath()%>/help",
+                 "path": "<%=request.getContextPath()%>/notice",
                  "FAQ": "<%=request.getContextPath()%>/FAQ",
                  "문의하기": "<%=request.getContextPath()%>/qna_list", 
                  "판매자 등록하기": "<%=request.getContextPath()%>/seller/registration"

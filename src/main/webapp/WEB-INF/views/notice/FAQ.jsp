@@ -30,9 +30,7 @@ th,td{
       
       vertical-align: top;	/* 위 */
       vertical-align: bottom;   /* 아래 */
-      vertical-align: middle;   /* 가운데 */
-      
-      
+      vertical-align: middle;   /* 가운데 */   
 }
 
 

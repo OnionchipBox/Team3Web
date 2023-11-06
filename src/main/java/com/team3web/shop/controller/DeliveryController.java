@@ -13,11 +13,22 @@ public class DeliveryController {
 
 	@RequestMapping(value = "/delivery", method = RequestMethod.GET)
 	public String delivery() throws Exception {
-		logger.info("배송정보조회");
+		logger.info("주문정보조회");
 		return "/delivery/delivery";    
 
 	}
 
+	@RequestMapping(value = "/detailnaeyong", method = RequestMethod.GET)
+	public String deliverydetail() throws Exception {
+		logger.info("상세내역조회");
+		return "/delivery/detailnaeyong";    
+	}
+	
+	@RequestMapping(value = "/delivery_check", method = RequestMethod.GET)
+	public String delivery_check() throws Exception {
+		logger.info("배송조회");
+		return "/delivery/delivery_check";    
+	}
 
 
 }

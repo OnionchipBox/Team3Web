@@ -16,9 +16,6 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-
-
-
 <style>
 /* notice.jsp ui 상단 */
 /* 서브 메인 이미지 */
@@ -34,6 +31,7 @@
 
 #container {
 	display: flex;
+	justify-content: center;
 }
 
 #sub_img_center {
@@ -144,13 +142,18 @@ margin-left:auto 이거 쓰고 싶으면...jsp가서 이 부분 div에 너비를
 	color: black;
 	font-weight: bold;
 }
+
+
+
+
+
 </style>
 
 
 </head>
 <body>
 <jsp:include page="../header.jsp" />
-
+<div id="container_no">
 <%-- 고객 센터 서브 메인 이미지 --%>
 <div id="sub_img_center"></div>
 
@@ -285,6 +288,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 </div>
 
+</div>
 
 <jsp:include page="../footer.jsp" />
 </body>

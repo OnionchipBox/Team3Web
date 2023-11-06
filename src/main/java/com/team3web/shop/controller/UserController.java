@@ -164,17 +164,17 @@ public class UserController {
 	@RequestMapping(value ="/myPage",method= {RequestMethod.GET, RequestMethod.POST})
 	public String myPage(Model model) throws Exception{
 		
-		 // 현재 사용자 아이디 (예: "currentUser")
+		 // 현재 사용자 아이디
         String username = "user";
         
         // getUserPoint 메서드를 사용하여 포인트 가져오기
-        Integer userPoint = mapper.getUserPoint(username);
+        Integer point = mapper.getUserPoint(username);
         
         // 포인트를 모델에 추가
-        if (userPoint != null) {
-            model.addAttribute("userPoint", userPoint);
+        if (point != null) {
+            model.addAttribute("point", point);
         } else {
-            model.addAttribute("userPoint", 0); // null인 경우 기본값을 설정
+            model.addAttribute("point", 0); // null인 경우 기본값을 설정
         }
 		
 		return "/user/myPage/myPage";
