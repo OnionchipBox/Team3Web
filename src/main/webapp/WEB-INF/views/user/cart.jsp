@@ -282,7 +282,6 @@
 </script>
 </head>
 <body>
-	 <jsp:include page="../header.jsp" />
 	
 	<form name="orderform" id="orderform" method="post" class="orderform"
 		action="/Order">

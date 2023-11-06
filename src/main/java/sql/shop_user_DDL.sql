@@ -30,7 +30,7 @@ ADD CONSTRAINT fk_user_seller FOREIGN KEY (ID) REFERENCES shop_seller (ID);
 
 
 -------------------------------------------------------------------------------- 
-
+ALTER TABLE shop_user RENAME COLUMN ID TO username; 
 select * from shop_user;
 
 COMMIT;

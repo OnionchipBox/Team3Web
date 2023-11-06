@@ -4,6 +4,16 @@
 <head>
 <meta charset="UTF-8">
 <title>FAQ</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/resources/css/style.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 <style>
 
 
@@ -60,16 +70,23 @@ th,td{
 	margin-top:15px;
 	margin-bottom:15px;
 }
+
 #jull strong{
 	padding-right:7px;
 }
 
+#container_no{
+display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 65dvh;
+}
 </style>
 
 </head>
 <body>
-
-
+<jsp:include page="../header.jsp" />
+<div id="container_no">
 <div id="sub_main_cont">
 <h2>자주 묻는 질문</h2>
 <hr id="notice_hr">
@@ -102,6 +119,17 @@ th,td{
 
 
 </div>
+
+
+</div>
+<jsp:include page="../footer.jsp" />
+<!-- Bootstrap JS and Popper.js -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+	<script src="/shop/resources/js/script.js"></script>
+
 
 </body>
 </html>

@@ -99,6 +99,12 @@
 	</select>
 
 
+<!-- 11/06 포인트 정보 -->
+<select id="getUserPoint" resultType="int">
+  SELECT point FROM shop_user WHERE username = #{username}
+</select>
+
+
 	<!-- 사용여부 변경하기 -->
 	<update id="updateEnabled" parameterType="hashmap">
 		update shop_user set

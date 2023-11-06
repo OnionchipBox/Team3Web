@@ -73,7 +73,7 @@ function searchAddress() {
                <label for="inputPassword2" class="col-sm-2 control-label">Confirm Password</label>
                <div class="col-sm-10">
                   <input type="password" class="form-control" id="inputPassword2" value="" name="password2" >
-                  <button type="button" id="checkPasswordButton" class="btn btn-primary">비밀번호 확인</button>
+                  <button type="button" id="checkPasswordButton" class="btn btn-dark">비밀번호 확인</button>
                   <span id="passwordMatchStatus" style="color: blue;"></span>
                </div>
             </div>            
@@ -113,13 +113,14 @@ function searchAddress() {
             </div>            
             <div class="form-group">
                <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-default submit">회원정보 수정하기</button>
+                  <button type="submit" class="btn btn-dark">회원정보 수정하기</button>
                   
 
                </div>
             </div>
          </form>
-         <a href="/shop" class="btn btn-default"><button class="btn btn-default" id="back_to_myPage">마이페이지로 돌아가기</button></a>
+         <br>
+         <a href="/shop/myPage"><button class="btn btn-dark" id="back_to_myPage">마이페이지로 돌아가기</button></a>
       </div><!-- class=row -->
    </div><!-- class=container -->
    <br><br><br>

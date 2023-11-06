@@ -22,4 +22,6 @@ public interface UserService {
 	public List<UserVO> getAllUsers(); // 모든 사용자 조회
 	
 	int getUserRole(int verify); // 등급 조회
+
+
 }

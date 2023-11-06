@@ -51,7 +51,9 @@ table th{
      <c:if test="${empty myQnAList}">
      		<h4>문의 내역이 없습니다.</h4>
      </c:if>
+    
 </form>
+<input type="submit" class="btn btn-dark" onclick="location='myQnA';" value="문의하기" />
 </div>
 
 

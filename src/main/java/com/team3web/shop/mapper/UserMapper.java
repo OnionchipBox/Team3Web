@@ -32,5 +32,7 @@ public interface UserMapper {
     int getUserRole(int verify);
     
     UserVO getUserById(String id);
+    
+    Integer getUserPoint(String username);
 
 }

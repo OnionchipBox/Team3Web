@@ -61,4 +61,9 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.selectOne("UserMapper.getUserRole", verify);
 	}
 
+	@Override
+	public int getPoint() {
+		return sqlSession.selectOne("myPoint");
+	}
+
 }

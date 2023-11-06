@@ -383,7 +383,8 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 		
 		function linkMyinfo() {
-			window.location.href = "updateLogin";
+			<!--window.location.href = "updateLogin";-->
+			window.location.href="/shop/myPage";
 			
 		}
 		
