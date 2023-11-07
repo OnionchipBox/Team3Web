@@ -10,10 +10,8 @@ import com.team3web.shop.dao.ProductDAO;
 import com.team3web.shop.vo.ProductVO;
 @Service
 public class ProductServiceImpl implements ProductService {
-	
    @Inject
    ProductDAO productDao;
-   
    @Override
    public List<ProductVO> getAllProudct() {
       return productDao.getAllProudct();
@@ -36,6 +34,18 @@ public class ProductServiceImpl implements ProductService {
    public ProductVO findById(int productId) {
       
       return productDao.findById(productId);
+   }
+
+   @Override
+   public List<ProductVO> selectItemsByKeyword(String keyword) {
+      
+      return productDao.selectItemsByKeyword(keyword);
+   }
+
+   @Override
+   public List<ProductVO> getProductsByCategoryId(int categoryId) {
+      
+      return productDao.getProductsByCategoryId(categoryId);
    }
 
 }

@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -22,7 +21,7 @@
    transition: color 0.3s;
 }
 
- .footer a:hover {
+.footer a:hover {
    color: #555;
 }
 
@@ -425,7 +424,6 @@ KREAM은 해당 사안의 사실관계, 이전 사용이력, 거래행태 등을
                <div class="menu_box">
                   <strong class="menu_title">고객지원</strong>
                   <ul class="menu_list">
-                     <!-- <li class="menu_item"><a href="/shop/notice" class="menu_link">공지사항</a></li> -->
                      <li class="menu_item"><a href="/shop/notice" class="menu_link">공지사항</a></li>
                      <li class="menu_item"><a href="#" target="_blank"
                         class="menu_link">서비스 소개</a></li>
@@ -439,7 +437,7 @@ KREAM은 해당 사안의 사실관계, 이전 사용이력, 거래행태 등을
          </div>
          <div class="corporation_area">
             <ul class="term_list">
-               <li class="term_item"><a href="#" target="_blank"
+               <li class="term_item"><a href="/shop/introduce" target="_blank"
                   rel="noopener noreferrer" class="term_link">회사소개</a></li>
                <li class="term_item"><a href="#" target="_blank"
                   rel="noopener noreferrer" class="term_link">인재채용</a></li>
@@ -611,10 +609,10 @@ KREAM은 해당 사안의 사실관계, 이전 사용이력, 거래행태 등을
    </script>
    
    <script>
-     var selectedCell = null; // 현재 선택한 셀을 추적하기 위한 변수
+      var selectedCell = null; // 현재 선택한 셀을 추적하기 위한 변수
 
    // JavaScript로 각 테이블 셀에 클릭 이벤트 리스너 추가
-   var cells = document.querySelectorAll('.category-link');
+   var cells = document.querySelectorAll('table td');
 
    cells.forEach(function(cell) {
       cell.addEventListener('click', function() {
@@ -629,7 +627,7 @@ KREAM은 해당 사안의 사실관계, 이전 사용이력, 거래행태 등을
          // 현재 선택한 셀을 selectedCell로 설정
          selectedCell = cell;
       });
-   }); 
+   });
    </script>
 </body>
 </html>

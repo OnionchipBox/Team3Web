@@ -41,7 +41,6 @@
       <h2 class="re_t">Review</h2>
       <form method="post" action="review_write_ok"
          onsubmit="return write_check();" enctype="multipart/form-data">
-         
           <!-- 이전 페이지 URL을 서버로 전달하는 hidden 필드 -->
     <input type="hidden" name="referer" value="${pageReferer}" />
          
@@ -89,8 +88,6 @@
 function goBack() {
     window.history.back(); // 이전 페이지로 이동
 }
-
-
 
 function saveReview() {
     // 현재 페이지 URL을 가져옴

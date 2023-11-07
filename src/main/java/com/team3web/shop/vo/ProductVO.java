@@ -13,6 +13,6 @@ public class ProductVO {
     private String imageUrl;
     private String pcode;
     private String thumbimg;
-    private String category;
+    private int categoryId;
     private int seller_id ;
 }

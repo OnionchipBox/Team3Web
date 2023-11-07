@@ -194,5 +194,23 @@ public class UserController {
 	    return "/notice/FAQ";
 	}
 	
+	
+	@RequestMapping(value = "/TermsOfService", method = RequestMethod.GET)
+	   public String TermsOfService(Model model, HttpSession session) {
+	      return "/TermsOfService";
+	   }
+	   @RequestMapping(value = "/introduce", method = RequestMethod.GET)
+	   public String introduce(Model model, HttpSession session) {
+	      return "/introduce";
+	   }
+	   @RequestMapping(value = "/Inspection", method = RequestMethod.GET)
+	   public String Inspection(Model model, HttpSession session) {
+	      return "/Inspection";
+	   }
+	   @RequestMapping(value = "/PrivacyPolicy", method = RequestMethod.GET)
+	   public String PrivacyPolicy(Model model, HttpSession session) {
+	      return "/PrivacyPolicy";
+	   }
+	
 
 }

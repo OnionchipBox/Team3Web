@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+   <mapper namespace="com.team3web.shop.mapper.OrderMapper">
+   
+   
+   <insert id="saveOrder" parameterType="OrderVO">
+   insert into shop_order(orderId,username,merchant_uid,price,name,phone,address1,zipcode,req,odate)
+   values(order_no_seq.nextval,#{username},#{merchant_uid},#{price},#{name},#{phone},#{address1},#{zipcode},#{req},sysdate)
+   
+   </insert>
+<select id="createOrder" resultType="OrderVO">
+   select * from shop_user where username =#{username}   
+   </select>
+   
+   </mapper>
+   

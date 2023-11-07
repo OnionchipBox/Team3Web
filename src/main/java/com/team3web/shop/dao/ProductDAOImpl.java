@@ -9,13 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import com.team3web.shop.mapper.ProductMapper;
 import com.team3web.shop.vo.ProductVO;
-
 @Repository
 public class ProductDAOImpl implements ProductDAO {
 
    @Inject
    SqlSession sqlSession;
-   
    @Override
    public List<ProductVO> getAllProudct() {
       return sqlSession.getMapper(ProductMapper.class).getAllProduct();
@@ -37,6 +35,16 @@ public class ProductDAOImpl implements ProductDAO {
    public ProductVO findById(int productId) {
       
       return sqlSession.selectOne("findById", productId);
+   }
+   @Override
+   public List<ProductVO> selectItemsByKeyword(String keyword) {
+      
+      return sqlSession.getMapper(ProductMapper.class).selectItemsByKeyword(keyword);
+   }
+   @Override
+   public List<ProductVO> getProductsByCategoryId(int categoryId) {
+      
+      return sqlSession.getMapper(ProductMapper.class).getProductsByCategoryId(categoryId);
    }
 
    

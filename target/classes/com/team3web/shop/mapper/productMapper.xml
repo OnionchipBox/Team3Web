@@ -7,8 +7,8 @@
 
 
 <insert id="addProduct" parameterType="com.team3web.shop.vo.ProductVO">
-        INSERT INTO shop_products (productId,name, price, stock, imageUrl, pcode, thumbimg)
-        VALUES (product_no_seq.nextval,#{name}, #{price}, #{stock}, #{imageUrl}, #{pcode},#{thumbimg})
+        INSERT INTO shop_products (productId,name, price, stock, imageUrl, pcode, thumbimg,categoryId)
+        VALUES (product_no_seq.nextval,#{name}, #{price}, #{stock}, #{imageUrl}, #{pcode},#{thumbimg},#{categoryId})
     </insert>
 
 <select id ="getAllProduct" resultType ="com.team3web.shop.vo.ProductVO">
@@ -20,5 +20,14 @@
    select * from shop_products where productId=#{productId}
 </select>
 
+<select id="selectItemsByKeyword" resultType="com.team3web.shop.vo.ProductVO">
+    SELECT productId, name, price, stock, imageUrl, pcode, thumbimg, category, seller_id
+    FROM shop_products
+    WHERE name LIKE '%' || #{keyword} || '%'
+    ORDER BY productId DESC
+</select>
+<select id="getProductsByCategoryId" resultType ="ProductVO">
+SELECT * FROM shop_products WHERE categoryId = #{categoryId}
 
+</select>
 </mapper>

@@ -11,4 +11,8 @@ public interface ProductDAO {
  public void productModify(ProductVO vo) ;
  public void productDelete(int productId);
 public ProductVO findById(int productId);
+public List<ProductVO> selectItemsByKeyword(String keyword);
+public List<ProductVO> getProductsByCategoryId(int categoryId);
+
 }
+   

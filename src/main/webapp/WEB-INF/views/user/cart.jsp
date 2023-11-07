@@ -1,457 +1,282 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-	<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/css/cart.css">
+   href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+   rel="stylesheet">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/resources/css/style.css">
+   href="<%=request.getContextPath()%>/resources/css/cart.css">
+<link rel="stylesheet"
+   href="<%=request.getContextPath()%>/resources/css/style.css">
 
 <link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+   href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 <script type="text/javascript">
-	//이벤트 리스너 등록
-
-	document
-			.addEventListener(
-					'DOMContentLoaded',
-					function() {
-
-						// "선택 상품 삭제" 버튼 클릭
-
-						document.querySelector('.basketrowcmd a:first-child')
-								.addEventListener('click', function() {
-
-									basket.delCheckedItem();
-
-								});
-
-						// "장바구니 비우기" 버튼 클릭
-
-						document.querySelector('.basketrowcmd a:nth-child(2)')
-								.addEventListener('click', function() {
-
-									basket.delAllItem();
-
-								});
-
-						// 장바구니 행 "삭제" 버튼 클릭
-
-							document.querySelectorAll('.basketcmd a').forEach(
-	
-							function(item) {
-	
-								item.addEventListener('click', function() {
-	
-									basket.delItem();
-	
-								});
-	
-							}
-	
-							);
-						let basket = {
-
-							totalCount : 0, //전체 갯수 변수
-
-							totalPrice : 0, //전체 합계액 변수
-
-							//체크한 장바구니 상품 비우기
-
-							delCheckedItem : function() {
-
-								document
-										.querySelectorAll(
-												"input[name=buy]:checked")
-										.forEach(
-												function(item) {
-
-													item.parentElement.parentElement.parentElement
-															.remove();
-
-												});
-
-								//AJAX 서버 업데이트 전송
-
-								//전송 처리 결과가 성공이면
-
-								this.reCalc();
-
-								this.updateUI();
-
-							},
-
-							//장바구니 전체 비우기
-
-							delAllItem : function() {
-
-								document.querySelectorAll('.row.data').forEach(
-										function(item) {
-
-											item.remove();
-
-										});
-
-								//AJAX 서버 업데이트 전송
-
-								//전송 처리 결과가 성공이면
-
-								this.totalCount = 0;
-
-								this.totalPrice = 0;
-
-								this.reCalc();
-
-								this.updateUI();
-
-							},
-
-							//재계산
-
-							reCalc : function() {
-
-								this.totalCount = 0;
-
-								this.totalPrice = 0;
-
-								document
-										.querySelectorAll(".p_num")
-										.forEach(
-												function(item) {
-
-													var count = parseInt(item
-															.getAttribute('value'));
-													9999
-
-													this.totalCount += count;
-
-													var price = item.parentElement.parentElement.previousElementSibling.firstElementChild
-															.getAttribute('value');
-
-													this.totalPrice += count
-															* price;
-
-												}, this); // forEach 2번째 파라메터로 객체를 넘겨서 this 가 객체리터럴을 가리키도록 함. - thisArg
-
-							},
-
-							//화면 업데이트
-
-							updateUI : function() {
-
-								document.querySelector('#sum_p_num').textContent = '상품갯수: '
-										+ this.totalCount.formatNumber() + '개';
-
-								document.querySelector('#sum_p_price').textContent = '합계금액: '
-										+ this.totalPrice.formatNumber() + '원';
-
-							},
-
-							//개별 수량 변경
-
-							changePNum : function(pos, event) {
-
-								var item = document
-										.querySelector('input[name=p_num' + pos
-												+ ']');
-
-								var p_num = parseInt(item.getAttribute('value'));
-
-								var newval = event.target.classList
-										.contains('up') ? p_num + 1
-										: event.target.classList
-												.contains('down') ?
-
-										p_num - 1 : event.target.value;
-
-								if (parseInt(newval) < 1
-										|| parseInt(newval) > 99) {
-									return false;
-								}
-
-								item.setAttribute('value', newval);
-
-								item.value = newval;
-
-								var price = item.parentElement.parentElement.previousElementSibling.firstElementChild
-										.getAttribute('value');
-
-								item.parentElement.parentElement.nextElementSibling.textContent = (newval * price)
-										.formatNumber()
-										+ "원";
-
-								//AJAX 업데이트 전송
-
-								//전송 처리 결과가 성공이면    
-
-								this.reCalc();
-
-								this.updateUI();
-
-							},
-
-							//상품 삭제
-
-							delItem : function() {
-
-								event.target.parentElement.parentElement.parentElement
-										.remove();
-
-							}
-
-						}
-
-						// 수량변경 - 이벤트 델리게이션으로 이벤트 종류 구분해 처리
-
-						document
-								.querySelectorAll('.updown')
-								.forEach(
-
-										function(item, idx) {
-
-											//수량 입력 필드 값 변경
-
-											item
-													.querySelector('input')
-													.addEventListener(
-															'keyup',
-															function(event) {
-
-																basket
-																		.changePNum(idx + 1, event);
-
-															});
-
-											//수량 증가 화살표 클릭
-
-											item.children[1]
-													.addEventListener(
-															'click',
-															function(event) {
-
-																basket
-																		.changePNum(idx + 1,event);
-
-															});
-
-											//수량 감소 화살표 클릭
-
-											item.children[2]
-													.addEventListener(
-															'click',
-															function(event) {
-
-																basket
-																		.changePNum(idx + 1);
-
-															});
-
-										}
-
-								);
-
-						//앵커 # 대체해 스크롤 탑 차단
-
-						document.querySelectorAll('a[href="#"]').forEach(
-								function(item) {
-
-									item.setAttribute('href',
-											'javascript:void(0)');
-
-								});
-
-					});
-	// 숫자 3자리 콤마찍기
-
-	Number.prototype.formatNumber = function() {
-	    let value = Number(this);
-
-	    if (isNaN(value))
-	        return 0;
-
-	    let nstr = value.toLocaleString();
-		return nstr;
-	};
+   //이벤트 리스너 등록
+   
 </script>
+<style>
+/* CSS 스타일 */
+.total-price {
+    margin-top: 20px;
+    margin-right:50px;
+    text-align: right;
+    font-size: 18px;
+    font-weight: bold;
+}
+.total-box {
+    background-color: #e6e6e6; /* 배경색 설정 */
+    border: 1px solid #ccc; /* 테두리 설정 */
+    border-radius: 5px; /* 모서리를 둥글게 만듭니다. */
+    padding: 10px 20px; /* 안쪽 여백 설정 */
+    display: inline-block; /* 요소를 인라인 블록으로 표시합니다. */
+}
+.total-label {
+    margin-right: 20px;
+}
+
+.total-amount {
+    color: #e74c3c; /* 원하는 색상으로 변경 */
+}
+.order-button {
+    text-align: right; /* 오른쪽 정렬 */
+    margin-top: 20px; /* 상단 여백 조절 */
+    margin-right: 50px; /* 오른쪽 여백 조절 */
+}
+</style>
 </head>
 <body>
-	
-	<form name="orderform" id="orderform" method="post" class="orderform"
-		action="/Order">
 
-		<div class="basket" id="basket">
-
-			<!-- "장바구니 헤더" -->
-
-			<div class="row head">
-
-				<div class="check">선택</div>
-
-				<div class="img">이미지</div>
-
-				<div class="pname">상품명</div>
-
-				<div class="basketprice">가격</div>
-
-				<div class="num">수량</div>
-
-				<div class="sum">합계</div>
-
-				<div class="basketcmd">삭제</div>
-
-			</div>
-
-			<!-- "장바구니 상품 목록" -->
-
-			<div class="row data">
-
-				<div class="check">
-					<input type="checkbox" name="buy" value="260" checked="">&nbsp;
-				</div>
-
-				<div class="img">
-					<img
-						src="<%=request.getContextPath()%>/resources/img/product/sample_product_1.jpg"
-						width="60" height="60">
-				</div>
-
-				<div class="pname">
-
-					<span>새틴 립스틱(XJ-92214/1)</span>
-
-				</div>
-
-				<div class="basketprice">
-					<input type="hidden" name="p_price" id="p_price1" class="p_price"
-						value="32200">32,200원
-				</div>
-
-				<div class="num">
-					<!-- "장바구니 수량 변경" -->
-					<div class="updown">
-						<input type="text" name="p_num1" id="p_num1" size="2"
-							maxlength="4" class="p_num" value="1"> <span><i
-							class="bi bi-arrow-up-circle up"></i></span> <span><i
-							class="bi bi-arrow-down-circle down"></i></span>
-					</div>
-				</div>
-
-
-				<!-- "장바구니 상품 합계" -->
-
-				<div class="sum">32,200원</div>
-
-				<div class="basketcmd">
-					<a href="#" class="abutton">삭제</a>
-				</div>
-
-			</div>
-
-		</div>
-		<!-- "장바구니 상품 목록" -->
-		<div class="row data">
-			<div class="check">
-				<input type="checkbox" name="buy" value="270" checked="">&nbsp;
-			</div>
-			<div class="img">
-				<img
-					src="<%=request.getContextPath()%>/resources/img/product/sample_product_4.jpg"
-					width="100" height="60">
-			</div>
-			<div class="pname">
-				<span>운동화(ABC-12345)</span>
-			</div>
-			<div class="basketprice">
-				<input type="hidden" name="p_price" id="p_price2" class="p_price"
-					value="50000">50,000원
-			</div>
-			<div class="num">
-				<!-- "장바구니 수량 변경" -->
-				<div class="updown">
-					<input type="text" name="p_num2" id="p_num2" size="2" maxlength="4"
-						class="p_num" value="1"> <span><i
-						class="bi bi-arrow-up-circle up"></i></span> <span><i
-						class="bi bi-arrow-down-circle down"></i></span>
-				</div>
-			</div>
-			<!-- "장바구니 상품 합계" -->
-			<div class="sum">50,000원</div>
-			<div class="basketcmd">
-				<a href="#" class="abutton">삭제</a>
-			</div>
-		</div>
-
-		<div class="row data">
-			<div class="check">
-				<input type="checkbox" name="buy" value="290" checked="">&nbsp;
-			</div>
-			<div class="img">
-				<img
-					src="<%=request.getContextPath()%>/resources/img/product/sample_product_3.jpg"
-					width="100" height="60">
-			</div>
-			<div class="pname">
-				<span>우편물 스티커(DEF-54321)</span>
-			</div>
-			<div class="basketprice">
-				<input type="hidden" name="p_price" id="p_price4" class="p_price"
-					value="1500">1,500원
-			</div>
-			<div class="num">
-				<!-- "장바구니 수량 변경" -->
-				<div class="updown">
-					<input type="text" name="p_num4" id="p_num4" size="2" maxlength="4"
-						class="p_num" value="1"> <span><i
-						class="bi bi-arrow-up-circle up"></i></span> <span><i
-						class="bi bi-arrow-down-circle down"></i></span>
-				</div>
-			</div>
-			<!-- "장바구니 상품 합계" -->
-			<div class="sum">1,500원</div>
-			<div class="basketcmd">
-				<a href="#" class="abutton">삭제</a>
-			</div>
-		</div>
-
-
-		<!-- "장바구니 기능 버튼" -->
-
-		<div class="right-align basketrowcmd">
-
-			<a href="#" class="abutton_del">선택상품삭제</a> <a href="#"
-				class="abutton_del2">장바구니비우기</a>
-
-		</div>
-
-		<!-- "장바구니 전체 합계 정보" -->
-
-		<div class="bigtext right-align sumcount" id="sum_p_num">상품갯수:
-			3개</div>
-
-		<div class="bigtext right-align box blue summoney" id="sum_p_price">합계금액:
-			32,200원</div>
+   <jsp:include page="../header.jsp" />
+   <form name="cartForm" id="cartForm" method="post" class="cartForm"
+      action="/user/cart">
 
 
 
-		<div id="goorder" class="">
+      <!-- "장바구니 헤더" -->
 
-			<div class="clear"></div>
+      <div class="row head">
 
-			<div class="buttongroup center-align cmd">
+         <div class="check">선택</div>
 
-				<a href="#">선택한 상품 주문</a>
+         <div class="img">이미지</div>
 
-			</div>
+         <div class="pname">상품명</div>
 
-		</div>
+         <div class="basketprice" style="margin-left:580px;">가격</div>
 
-	</form>
+         <div class="num"style="margin-right:50px;">수량</div>
+
+         <div class="sum" style="margin-right:50px;">합계</div>
+
+         <div class="basketcmd">삭제</div>
+
+      </div>
+
+      <!-- "장바구니 상품 목록" -->
+      <div class="row data">
+      <c:set var="totalPrice" value="${0}" />
+         <c:forEach var="item" items="${list}">
+
+            <div class="check">
+               <input type="checkbox" name="buy" value="${item.productId}"
+                  checked="">&nbsp;
+            </div>
+            <div>
+               <a href="<%=request.getContextPath()%>/productItem?productId=${item.productId}"> <img
+                  src="<%=request.getContextPath()%>/images/${item.productId}"
+                  alt="Product Image ${item.productId}">
+               </a>
+               <!-- 이미지 표시 방법을 여기에 추가 -->
+            </div>
+            <div class="name" id="name" name="name">
+               <span>${item.name}</span>
+            </div>
+            <div class="basketprice">
+               <input type="hidden" name="p_price" id="formattedPrice_${item.productId}" class="p_price" data-price="${item.price}">
+   <script>
+        var price = ${item.price};
+        var formattedPrice = price.toLocaleString('ko-KR');
+        document.write(formattedPrice + "원");
+    </script>
+            </div>
+            <div class="num">
+               <!-- 수량 변경 -->
+               <div class="updown">
+                  <!-- name   ="p_num${cartOrProduct.productId}" -->
+                  <input type="text"id="p_num_${item.productId}" name="p_num" class="p_num" size="2"
+                     maxlength="4" class="p_num" value="${item.quantity}" data-product-id="${item.productId}"> <span><i
+                     class="bi bi-arrow-up-circle up" ></i></span> <span><i
+                     class="bi bi-arrow-down-circle down"></i></span>
+               </div>
+            </div>
+
+            <div class="sum">  
+               <span id="itemTotal_${item.productId}">   
+               <script>
+               // TODO totalPrice를 업데이트
+               
+        var totalPrice = ${item.price * item.quantity};
+        var total = totalPrice.toLocaleString('ko-KR');
+        document.write(total + "원");
+             </script>
+             </span> 
+          </div>
+              <c:set var="totalPrice" value="${totalPrice + (item.price * item.quantity)}" />
+        <!-- 총 토탈 가격에 각 상품의 합계를 더합니다 -->
+            <div class="basketcmd">
+               <a href="#" class="abutton" data-product-id="${item.productId}">삭제</a>
+            </div>
+         </c:forEach>
+      </div>
+<div class="total-price">
+    <div class="total-box">
+        <span class="total-label">총 금액:</span>
+        <span class="total-amount"> 
+  <script>
+   var totalPrice = ${totalPrice};
+   var total = totalPrice.toLocaleString('ko-KR');
+   document.write(total + "원");
+</script>
+       </span>
+    </div>
+</div>
+<div class="order-button">
+    <a href="<%=request.getContextPath()%>/order" class="btn btn-primary" >주문하기</a>
+    <script>
+    $(document).ready(function() {
+        var error = "${error}"; // 모델에서 받은 error 메시지
+   
+   
+        if (error) {
+            alert(error);
+        }
+    });
+</script>
+</div>
+
+   </form>
+               
+   <br>
+   <br>
+   <br>
+   <jsp:include page="../footer.jsp" />
+
+   <!-- Bootstrap JS and Popper.js -->
+   <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+   <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+   <script src="/shop/resources/js/script.js"></script>
+
+
 </body>
+<script>
+   $(".abutton").click(function(event) {
+      event.preventDefault();
+
+      var productId = $(this).data("product-id");
+      var confirmDelete = confirm("정말 삭제하시겠습니까?");
+
+      if (confirmDelete) {
+         $.ajax({
+            type : "POST",
+            url : "/shop/user/cart/" + productId,
+            success : function(data) {
+
+               alert("삭제 성공.");
+               location.href = "/shop/user/cart";
+            },
+            error : function() {
+               console.log("서버 요청 실패:", status, error);
+               alert("삭제 실패.");
+            }
+         });
+      }
+   });
+</script>
+<script>
+
+$(".up").click(function() {
+    var productId = $(this).closest(".updown").find(".p_num").attr("data-product-id");
+    var quantityField = $("#p_num_" + productId);
+    
+    var newQuantity = parseInt(quantityField.val());
+    newQuantity += 1;
+    quantityField.val(newQuantity);
+
+    // 증가한 수량을 서버로 보내기
+    sendUpdateRequest(productId, newQuantity);
+    console.log("productId::: newQuantity " +"제품 아이디:" +productId+ "수량 :"+ newQuantity);
+    updateProductTotalPrice(productId);
+});
+
+$(".down").click(function() {
+    var productId = $(this).closest(".updown").find(".p_num").attr("data-product-id");
+    var quantityField = $("#p_num_" + productId);
+    
+    var newQuantity = parseInt(quantityField.val());
+    if (newQuantity > 1) {
+        newQuantity -= 1;
+        quantityField.val(newQuantity);
+
+        // 감소한 수량을 서버로 보내기
+        sendUpdateRequest(productId, newQuantity);
+        console.log("productId::: newQuantity " +"제품 아이디:" +productId+ "수량 :"+ newQuantity);
+        updateProductTotalPrice(productId);
+    }
+});
+
+function sendUpdateRequest(productId, newQuantity) {
+   console.log("productId:"+ productId);
+   console.log("newQuantity:"+ newQuantity);
+   
+    // 서버로 업데이트 요청을 보냅니다.
+    $.ajax({
+        type: "PATCH",
+        url: "/shop/cart/update",
+        data: {
+            productId: productId,
+            newQuantity: newQuantity
+        },
+        success: function(data) {
+            // 성공 시, 수량 및 총 가격을 업데이트합니다.
+            
+        },
+        error: function(xhr, status, error) {
+            console.log("서버 요청 실패:", status, error);
+            alert("수량 업데이트 실패.");
+        }   
+    });
+}
+
+
+function updateProductTotalPrice(productId) {
+   console.log("productId: " + productId);
+    var quantityField = $("#p_num_" + productId);
+    var priceField = $("#formattedPrice_" + productId); // 수정된 부분: "formattedPrice_" + productId
+    console.log("priceField: " + priceField);
+    
+    var itemTotalField = $("#itemTotal_" + productId);
+    var newQuantity = parseInt(quantityField.val());
+    var price = parseFloat(priceField.attr('data-price'));
+    console.log("newQuantity: " + newQuantity);
+   console.log("price: " + price);
+
+    // 제품 가격 업데이트
+    var productPrice = newQuantity * price;
+    priceField.text(productPrice.toLocaleString('ko-KR') + "원");
+
+    // 각 제품의 합계 업데이트
+    var productTotal = newQuantity * price;
+    itemTotalField.text(productTotal.toLocaleString('ko-KR') + "원");
+}
+</script>
+
 </html>
