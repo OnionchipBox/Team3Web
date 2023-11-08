@@ -25,8 +25,6 @@ create table shop_gongji(
   alter sequence gongji_no_seq
   nocache; --nocache로 시퀀스 수정
   
-  commit;
-  
-  select * from (select gongji_no,gongji_title,gongji_date from gongji order by gongji_no desc) 	 where rownum<6;
+commit;
   
   

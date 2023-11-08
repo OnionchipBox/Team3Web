@@ -157,6 +157,7 @@ document.addEventListener("DOMContentLoaded", function() {
     				"회원 관리": "<%=request.getContextPath()%>/admin/userList",
     				"판매업체 관리": "<%=request.getContextPath()%>/admin/sellerList",
     				"제품 관리": "<%=request.getContextPath()%>/admin/productList",
+    				"공지사항 관리": "<%=request.getContextPath()%>/admin_gongji_list",
     		};
     	}
 

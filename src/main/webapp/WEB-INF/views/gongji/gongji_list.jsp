@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>사용자 공지목록</title>
+<title>NUBE공지사항</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -29,10 +29,13 @@
 	font-family: 'Noto Sans KR', sans-serif;
 }
 
-#container {
+#container{
 	display: flex;
 	justify-content: center;
+	align-items: center;
+	
 }
+
 
 #sub_img_center {
 	/*이미지 조절 추가 코드 */
@@ -151,6 +154,12 @@ a{
 	text-decoration: none;
 	color:inherit;
 }
+
+#headgong{
+	margin-top:20px;
+	position:relative;
+	right:120px;
+}
 </style>
 <body>
 	<jsp:include page="../header.jsp" />
@@ -158,6 +167,7 @@ a{
 
 
 	<div id="container_no">
+		<div id="nwrap">
 		<%-- 고객 센터 서브 메인 이미지 --%>
 		<div id="sub_img_center"></div>
 
@@ -182,7 +192,7 @@ a{
 		<%-- 서브 메인 본문 --%>
 		<div id="sub_main_cont">
 
-			<h2>공지사항</h2>
+			<h2 id="headgong">공지사항</h2>
 			<hr id="notice_hr">
 			<table id="notice">
 				<tr>
@@ -222,7 +232,9 @@ a{
 
 	</div>
 
-	</div>
+
+</div>
+</div>
 
 
 	<jsp:include page="../footer.jsp" />

@@ -35,7 +35,7 @@
 			</tr>
 		</table>
 		<div id="gCont_menu">
-			<input type="button" value="공지목록" onclick="location='gongji_list';" />
+			<input type="button" class="btn btn-dark" value="공지목록" onclick="location='gongji_list';" />
 		</div>
 	</div>
 <jsp:include page="../footer.jsp" />

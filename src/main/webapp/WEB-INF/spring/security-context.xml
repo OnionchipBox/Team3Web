@@ -32,6 +32,7 @@
         <intercept-url pattern="/products/**" access="permitAll" />
         <intercept-url pattern="/userUpdate/**" access="hasAnyRole('ROLE_USER','ROLE_SELLER','ROLE_ADMIN')" />
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+        <!--<intercept-url pattern="/admin_gongji_write" access="hasRole('ROLE_ADMIN')" />--> <!-- 11/08추가 -->
         <intercept-url pattern="/seller/registration" access="hasRole('ROLE_USER')" />
         <intercept-url pattern="/seller/**" access="hasAnyRole('ROLE_SELLER','ROLE_ADMIN')" />
         <intercept-url pattern="/**" access="permitAll" />
