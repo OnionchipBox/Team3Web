@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.team3web.shop.mapper.GongjiMapper">
+
+
+<!-- 사용자 메인 최신공지 목록 5개 보기 -->
+	<select id="gonglist" resultType="GongjiVO">
+		select * from (
+		select gno,gtitle,gdate
+		from shop_gongji order by gno desc)
+		where rownum &lt; 6
+	</select>
+
+
+	<!-- 공지 조회수 증가 -->
+	<update id="gonghit">
+		update shop_gongji set ghit=ghit+1
+		where gno=#{gno}
+	</update>
+
+	<!-- 공지내용보기 -->
+	<select id="gongcont" resultType="GongjiVO">
+		select * from shop_gongji where gno=#{gno}
+	</select>
+	
+	
+
+</mapper>

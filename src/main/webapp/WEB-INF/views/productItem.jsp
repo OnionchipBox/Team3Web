@@ -189,7 +189,7 @@ a {
                      </select>
                   <div class="d-flex align-items-center mb-3">
    
-                  <button class="addToCartButton" style="width:590px; height:60px; margin-top:20px; " type="button">
+                  <button class="addToCartButton" style="width:590px; height:60px; background-color:gray; margin-top:20px; " type="button">
                      <i class="bi-cart-fill me-1"></i> 장바구니
                   </button>
                   

@@ -15,6 +15,6 @@ public class GongjiVO{
 	private String gpwd;
 	private String gcont;
 	private int ghit;
-	private Date date;
+	private Date gdate;
 	
 }
