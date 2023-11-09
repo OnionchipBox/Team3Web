@@ -7,12 +7,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.team3web.shop.dao.LoginDAO;
 import com.team3web.shop.service.AdminGongjiService;
 import com.team3web.shop.vo.GongjiVO;
 import com.team3web.shop.vo.PageVO;
@@ -25,6 +27,9 @@ public class AdminGongjiController {
 	@Autowired
 	private AdminGongjiService adminGongjiser;
 
+	@Autowired
+	private LoginDAO loginDao;
+	
 	//11/08 수정중
 	// 관리자 공지사항 작성폼 매핑 
 	//@PreAuthorize("hasRole('ROLE_ADMIN')")	
@@ -34,14 +39,25 @@ public class AdminGongjiController {
 		response.setContentType("text/html;charset=UTF-8");
 
 		String loggedInUserId = (String) session.getAttribute("loggedInUserId");
-
+		UserVO userVO = loginDao.loadUserByUsername(loggedInUserId);
+		System.out.println("userVO:::"+ userVO);
+		
+		if(userVO== null) {
+			throw new UsernameNotFoundException("사용자를 찾을 수 없습니다:"+loggedInUserId);
+		}
+		String roleUser= loginDao.getUserRoleById(loggedInUserId);
+		System.out.println("roleUser::"+roleUser);
+		
+		
+		//int user1= loginService.getUserRole(loggedInUserId);
+		//System.out.println("user1:"+user1);
 		 //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
 		//PrintWriter out = response.getWriter();
 		//System.out.println("로그인한 유저 : "+loggedInUserId);
-		//if(loggedInUserId.equals("ROLE_ADMIN")) {
+		if(roleUser.equals("ADMIN")) {
 			
-		//if(loggedInUserId !=null && user.getVerify().equals("ADMIN")) {
+		//if(loggedInUserId !=null) {
 		int page=1;//쪽번호
 			//int limit=7;//한페이지에 보여지는 목록개수
 			if(request.getParameter("page") != null) {
@@ -53,7 +69,11 @@ public class AdminGongjiController {
 			wm.addObject("page", page); // 페이징 목록에서 책갈피 기능을 구현하기 위한 것
 			wm.setViewName("admin/admin_gongji_write");
 			return wm;
-		//} 
+		}
+		return null; 
+		
+		
+		
 		/*
 		 * else { return new ModelAndView("redirect:/"); }
 		 */
