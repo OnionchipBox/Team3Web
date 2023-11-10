@@ -123,22 +123,85 @@ function isPopupClosed() {
     <c:forEach var="i" begin="1" end="10">
         <div class="col-2 mb-2" style="margin-left: 25px; margin-top: 10px;">
             <!-- 5개의 열 중에서 각각을 1/5 너비로 설정 -->
-            <img src="<%=request.getContextPath()%>/resources/img/index/main${i}.png"
-                class="card-img-top" style="width: 200px; height: 100px;" alt="women Image ${i}">
+            <c:choose>
+            <c:when test="${i == 1}">
+                    <a href="<%=request.getContextPath()%>/#">
+                        <img src="<%=request.getContextPath()%>/resources/img/index/main${i}.png"
+                            class="card-img-top" style="width: 200px; height: 100px;" alt="women Image ${i}">
+                    </a>
+                </c:when>
+                <c:when test="${i == 2}">
+                    <a href="<%=request.getContextPath()%>/#">
+                        <img src="<%=request.getContextPath()%>/resources/img/index/main${i}.png"
+                            class="card-img-top" style="width: 200px; height: 100px;" alt="women Image ${i}">
+                    </a>
+                </c:when>
+                <c:when test="${i == 3}">
+                    <a href="<%=request.getContextPath()%>/notice">
+                        <img src="<%=request.getContextPath()%>/resources/img/index/main${i}.png"
+                            class="card-img-top" style="width: 200px; height: 100px;" alt="women Image ${i}">
+                    </a>
+                </c:when>
+                <c:when test="${i == 4}">
+                    <a href="<%=request.getContextPath()%>/#">
+                        <img src="<%=request.getContextPath()%>/resources/img/index/main${i}.png"
+                            class="card-img-top" style="width: 200px; height: 100px;" alt="women Image ${i}">
+                    </a>
+                </c:when>
+                <c:when test="${i == 5}">
+                    <a href="<%=request.getContextPath()%>/#">
+                        <img src="<%=request.getContextPath()%>/resources/img/index/main${i}.png"
+                            class="card-img-top" style="width: 200px; height: 100px;" alt="women Image ${i}">
+                    </a>
+                </c:when>
+                <c:when test="${i == 6}">
+                    <a href="<%=request.getContextPath()%>/#">
+                        <img src="<%=request.getContextPath()%>/resources/img/index/main${i}.png"
+                            class="card-img-top" style="width: 200px; height: 100px;" alt="women Image ${i}">
+                    </a>
+                </c:when>
+                <c:when test="${i == 7}">
+                    <a href="<%=request.getContextPath()%>/#">
+                        <img src="<%=request.getContextPath()%>/resources/img/index/main${i}.png"
+                            class="card-img-top" style="width: 200px; height: 100px;" alt="women Image ${i}">
+                    </a>
+                </c:when>
+                <c:when test="${i == 8}">
+                    <a href="<%=request.getContextPath()%>/mens/shirts">
+                        <img src="<%=request.getContextPath()%>/resources/img/index/main${i}.png"
+                            class="card-img-top" style="width: 200px; height: 100px;" alt="women Image ${i}">
+                    </a>
+                </c:when>
+                <c:when test="${i == 9}">
+                    <a href="<%=request.getContextPath()%>/#">
+                        <img src="<%=request.getContextPath()%>/resources/img/index/main${i}.png"
+                            class="card-img-top" style="width: 200px; height: 100px;" alt="women Image ${i}">
+                    </a>
+                </c:when>
+                <c:when test="${i == 10}">
+                    <a href="<%=request.getContextPath()%>/mens/shoes">
+                        <img src="<%=request.getContextPath()%>/resources/img/index/main${i}.png"
+                            class="card-img-top" style="width: 200px; height: 100px;" alt="women Image ${i}">
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    <img src="<%=request.getContextPath()%>/resources/img/index/main${i}.png"
+                        class="card-img-top" style="width: 200px; height: 100px;" alt="women Image ${i}">
+                </c:otherwise>
+            </c:choose>
             <!-- 제품 상세 페이지로 연결하는 링크 -->
             <div>
-            
-        </div>
+                <!-- 내용 추가 가능 -->
+            </div>
         </div>
     </c:forEach>
 </div>
+
 </div>
    <!-- Product Cards -->
    <div class="container mt-4">
       <div class="text-start ms-1 me-1">
-         <h5 class="text-dark ms-1" style="font-weight: bold;">Just
-            Dropped</h5>
-         <h6 class="text-muted ms-1">신상품</h6>
+         <h5 class="text-dark ms-1" style="font-weight: bold;">제품 목록</h5>
          <hr>
       </div>
 
@@ -172,14 +235,12 @@ function isPopupClosed() {
       
    <div class="text-center mt-0">
       <!-- Adjusted the margin-top to 2rem -->
-      <a class="btn btn-outline-secondary mb-3" id="load-more-button1">더보기</a>
+      <a href="<%=request.getContextPath()%>/products_list" class="btn btn-outline-secondary mb-3">더보기</a>
    </div>
    <!-- Product Cards -->
    <div class="container mt-4">
       <div class="text-start ms-1 me-1">
-         <h5 class="text-dark ms-1" style="font-weight: bold;">Just
-            Dropped</h5>
-         <h6 class="text-muted ms-1">신상품</h6>
+         <h5 class="text-dark ms-1" style="font-weight: bold;">신상품</h5>
          <hr>
       </div>
 
@@ -212,7 +273,7 @@ function isPopupClosed() {
    </div>
          <div class="text-center mt-0">
       <!-- Adjusted the margin-top to 2rem -->
-      <a class="btn btn-outline-secondary mb-3" id="load-more-button2">더보기</a>
+      <a href="<%=request.getContextPath()%>/products_list" class="btn btn-outline-secondary mb-3">더보기</a>
    </div>
 
    <jsp:include page="footer.jsp" />

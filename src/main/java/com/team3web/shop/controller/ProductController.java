@@ -55,6 +55,14 @@ public class ProductController {
    private SellerService sellerService;
    
    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
+   
+   @RequestMapping(value = "/products_list", method = RequestMethod.GET)
+   public String getProductsList() {
+	   
+	   
+	   
+	   return "/products_list";
+   }
 
    // 남성 카테고리
    @RequestMapping(value = "/mens", method = RequestMethod.GET)
