@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+
+
+<mapper namespace="com.team3web.shop.mapper.BoardMapper">
+<!--=============== QnA 게시판 부분============================ -->
+
+
+	<!-- 게시판 저장 -->
+	<insert id="qna_in" parameterType="QnAVO">
+		insert into
+		qna01(qnano,qid,qtitle,qpw,qcont,qref,qstep,qlevel,qdate)
+		values(qna_no_seq01.nextval,#{qid},#{qtitle},#{qpw},#{qcont},qna_no_seq01.nextval,0,0,sysdate)
+	</insert>
+
+	<!-- 시퀀스 번호값 구함 -->
+	<select id="qnaNoSeq_Find" resultType="int">
+		select
+		qna_no_seq01.nextval from dual
+	</select>
+
+	<!-- 검색전후 레코드 개수 -->
+	<select id="qna_count" resultType="int"> <!-- resultType은 반환타입 -->
+		select count(qnano) from qna01 <!-- count()는 레코드 개수를 구하는 오라클 함수 -->
+		<!-- 검색 조건 -->
+		<where>
+			<if test="find_field ==''"></if> <!-- 검색을 안 한 경우 - > 총 레코드 개수 -->
+			<if test="find_field =='qtitle'"> <!-- 글 제목으로 검색하는 경우 -->
+				qtitle like #{find_name}
+			</if>
+			<if test="find_field == 'qcont'"> <!--글 내용으로 검색 경우 -->
+				qcont like #{find_name}
+			</if>
+		</where>
+	</select>
+
+	<!-- 댓글일 때는 카운트 안 되고 원본 글 (qna문의 글!)일 때만 목록 페이지에서 카운트 되게 ! -->
+	<select id="qna_one" resultType="int">
+		select count(qnano) from qna01 where qstep=0		
+	</select>
+
+
+	<!-- 검색전후 목록 -->
+
+	<select id="qna_list" resultType="QnAVO">
+
+		select * from(
+		select rowNum rNum, qnano, qid, qtitle,
+		qref,qstep,qlevel,qdate from (select
+		* from qna01
+
+		<!-- 검색 조건 -->
+		<where>
+			<if test="find_field ==''"></if> <!-- 검색을 안 한 경우 - > 총 레코드 개수 -->
+			<if test="find_field =='qtitle'"> <!-- 글 제목으로 검색하는 경우 -->
+				qtitle like #{find_name}
+			</if>
+			<if test="find_field == 'qcont'"> <!--글 내용으로 검색 경우 -->
+				qcont like #{find_name}
+			</if>
+		</where>
+		
+		order by qref desc, qlevel asc)) where rNum &gt;=#{startrow}
+		and rNum
+		&lt;=#{endrow} <!-- &gt;은 >의미이고, &lt;는 <의 뜻임 -->
+	</select>
+
+
+	<!-- 내용 보기 -->
+	<select id="qna_cont" resultType="QnAVO">
+		select * from qna01 where
+		qnano=#{qnano}
+	</select>
+
+
+<!-- 답변 레벨 증가 -->
+	<update id="levelUp">
+	update qna01 set qlevel=qlevel+1 where qref=#{qref}
+	and qlevel > #{qlevel}
+	</update>
+	
+	<!-- 답변 저장 -->
+	<insert id="qna_re">
+	insert into qna01(qnano,qid,qtitle,qpw,qcont,qref,qstep,qlevel,qdate) values(qna_no_seq01.nextval,#{qid},#{qtitle},#{qpw},#{qcont},#{qref},#{qstep}+1,#{qlevel}+1,sysdate)
+	</insert>
+
+<!-- QnA게시판 수정 -->
+	<update id="qna_edit"> 
+	update qna01 set qid=#{qid},qtitle=#{qtitle},qcont=#{qcont} where qnano=#{qnano}
+	</update>
+
+<!-- QnA게시판 삭제 -->
+	<delete id="qna_del">
+	delete from qna01 where qnano=#{qnano} or qref=#{qnano} -- 해당 글과 관련된 댓글 삭제
+	</delete>
+
+
+<!--========================= review 게시판 부분========================== -->
+<!-- 리뷰 저장 -->
+	<insert id="review_in"
+		parameterType="com.team3web.shop.vo.ReviewVO">
+		insert into review01(reno,rename2,retitle,repwd,recont,refile,
+		rehit,reref,restep,relevel,redate,thumbimg)
+		values(re_no_seq01.nextval,#{rename2},#{retitle},
+		#{repwd},#{recont},#{refile},0,re_no_seq01.nextval,0,0,sysdate,#{thumbimg})
+	</insert>
+
+<!-- 시퀀스 번호값 구함 -->
+   <select id="review_no_seq_Find" resultType="int">
+     select re_no_seq01.nextval from dual
+   </select>
+
+<!-- 검색 전후 레코드 개수 -->
+<select id="review_count" resultType="int">
+	select count(reno) from review01 <!-- count()는 레코드 개수를 구하는 오라클 함수 -->
+	<!-- 검색 조건 -->
+	<where>
+		<if test="find_field ==''"></if> <!-- 검색을 안 한 경우 - > 총 레코드 개수 -->
+		<if test="find_field =='retitle'"> <!-- 글 제목으로 검색하는 경우 -->
+		retitle like #{find_name}
+		</if>
+		<if test="find_field == 'recont'"> <!--글 내용으로 검색 경우-->
+			recont like #{find_name}
+		</if>
+	</where>
+</select>
+
+<!-- 댓글 제외하고 리뷰글 카운트 -->
+<select id="review_count2" resultType="int">
+select count(reno) from review01 where restep=0
+</select>
+
+
+<!-- 검색 전후 목록  -->
+
+	<select id="review_list" parameterType="PageVO" resultType="com.team3web.shop.vo.ReviewVO">
+	select * from(
+	select rowNum rNum, reno, rename2, retitle, rehit,reref,restep,relevel,
+	redate from(select * from review01
+	<!-- 검색 조건 -->
+	<where>
+		<if test="find_field ==''"></if> <!-- 검색을 안 한 경우 - > 총 레코드 개수 -->
+		<if test="find_field =='retitle'"> <!-- 글 제목으로 검색하는 경우 -->
+		retitle like #{find_name}
+		</if>
+		<if test="find_field == 'recont'"> <!--글 내용으로 검색 경우-->
+			recont like #{find_name}
+		</if>
+	</where>
+	order by reref desc, relevel asc)) where rNum &gt;=#{startrow}
+	and rNum &lt;=#{endrow} <!-- &gt;은 >의미이고, &lt;는 <의 뜻임-->
+	</select>
+
+<!-- 조회수 증가 -->
+<update id="review_hit">
+	update review01 set rehit=rehit+1 where reno=#{reno}
+</update>
+
+<!-- 내용 보기 -->
+<select id="review_cont" resultType="com.team3web.shop.vo.ReviewVO">
+	select * from review01 where reno=#{reno}
+</select>
+
+	<!-- 답변 레벨 증가 -->
+	<update id="reply_up">
+	update review01 set relevel=relevel+1 where reref=#{reref}
+	and relevel > #{relevel}
+	</update>
+	
+<!-- 댓글 저장 -->
+	<insert id="review_re">
+	insert into review01(reno,rename2,retitle,repwd,recont,rehit,reref,
+	restep,relevel,redate) values(re_no_seq01.nextval, #{rename2},#{retitle},
+	#{repwd},#{recont},0,#{reref},#{restep}+1,#{relevel}+1,sysdate)
+	</insert>
+
+<!-- 리뷰게시판 수정 -->
+	<update id="review_update">
+	update review01 set rename2=#{rename2}, retitle=#{retitle},recont=#{recont},refile=#{refile},thumbimg=#{thumbimg} where reno=#{reno}
+	</update>
+
+<!-- 리뷰 게시판 삭제 + 해당 글의 댓글도 같이 삭제 -->
+<delete id="review_del">
+	delete from review01 where reno=#{reno} or reref=#{reno}
+</delete>
+
+
+
+<!-- 1:1 문의 폼 저장  -->
+
+<insert id="myQnA_in" parameterType="MyQnAVO">
+		insert into
+		myQ values(myQ_seq.nextval,#{qtitle},#{qcont},sysdate)
+	</insert>
+
+<!-- 1:1 문의 레코드 개수 -->	
+	<select id="selectMy" resultType="int">
+	select count(qnano) from myQ
+	</select>
+	
+<!-- 1:1 문의 목록 -->
+<select id="myQnA_list" resultType="MyQnAVO">
+  SELECT qnano, qtitle, qdate
+    FROM myQ
+</select>	
+	
+
+	
+</mapper>

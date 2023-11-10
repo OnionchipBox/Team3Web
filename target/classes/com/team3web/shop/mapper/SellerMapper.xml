@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	<mapper namespace="com.team3web.shop.mapper.SellerMapper">
+	
+	<!-- 저장하기 : 판매자 등록 -->
+	<insert id="insertSeller" parameterType="SellerVO">
+   	insert into shop_seller
+      	(username, SELLER_NAME, SELLER_REGISTRATION_NUMBER, REGISTRATION_DATE, SELLER_CODE)
+   	values 
+      	(#{username}, #{sellerName}, #{sellerRegistrationNumber}, to_char(sysdate, 'YYYYMMDD HH24:MI:SS'), seller_code_seq.NEXTVAL)
+	</insert>
+	
+	<!-- 등급 변경(판매자) -->
+	<update id="updateSellerVerify" parameterType="UserVO">
+    	UPDATE shop_user
+    	SET VERIFY = 'SELLER'
+    	WHERE username = #{username}
+	</update>
+	
+	<!-- 아이디 조회 -->
+	<select id="checkSellerId" parameterType="string" resultType="SellerVO">
+    	SELECT *
+    	FROM shop_seller
+    	WHERE username = #{username}
+	</select>
+	
+	<!-- 판매자 고유번호 조회 -->
+	<select id="checkSellerCode" parameterType="string" resultType="SellerVO">
+    	SELECT SELLER_CODE
+    	FROM shop_seller
+    	WHERE username = #{username}
+	</select>
+	
+	<!-- 제품 삭제 -->
+	<delete id="DeleteProduct" parameterType="ProductVO">
+		DELETE FROM shop_products
+		WHERE productId = #{productId}
+	</delete>
+	
+	<!-- 제품 목록 가져오기 (페이징) -->
+	<select id="SellerGetProductsByPage" parameterType="map" resultType="ProductVO">
+    SELECT *
+    FROM (
+        SELECT
+            ROWNUM AS RNUM,
+            A.*
+        FROM (
+            SELECT *
+            FROM shop_products
+            WHERE 1=1
+            <if test="search != null and !search.isEmpty()">
+                AND (name LIKE '%' || #{search, jdbcType=VARCHAR})
+            </if>
+            ORDER BY productId
+        ) A
+        WHERE ROWNUM &lt;= #{end}
+    )
+    WHERE RNUM &gt;= #{start}
+	</select>
+
+	<!-- 총 제품 수 가져오기 (검색 포함) -->
+	<select id="SellerGetTotalProducts" parameterType="map" resultType="int">
+    	SELECT COUNT(*)
+    	FROM shop_products
+    	<if test="search != null and !search.isEmpty()">
+        	WHERE (name LIKE '%' || #{search, jdbcType=VARCHAR})
+    	</if>
+	</select>
+	
+	<!-- 검색된 제품 목록 가져오기 (페이징) -->
+	<select id="SellerGetSearchedProductsByPage" parameterType="map" resultType="ProductVO">
+    SELECT *
+    FROM (
+        SELECT
+            ROWNUM AS RNUM,
+            A.*
+        FROM (
+            SELECT *
+            FROM shop_products
+            WHERE 1=1
+            <if test="search != null and !search.isEmpty()">
+                AND (name LIKE '%' || #{search, jdbcType=VARCHAR})
+            </if>
+            ORDER BY productId
+        ) A
+        WHERE ROWNUM &lt;= #{end}
+    )
+    WHERE RNUM &gt;= #{start}
+	</select>
+	
+	<!-- 총 검색된 제품 수 가져오기 -->
+	<select id="SellerGetTotalSearchedProducts" parameterType="map" resultType="int">
+    	SELECT COUNT(*)
+    	FROM shop_products
+    	WHERE 
+    	<if test="search != null and !search.isEmpty()">
+        	(name LIKE '%' || #{search, jdbcType=VARCHAR} || '%')
+    	</if>
+	</select>
+
+</mapper>
