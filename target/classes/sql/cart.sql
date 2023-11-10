@@ -48,6 +48,7 @@ nocycle;
 
 select * from shop_order;
 
+commit;
 
 create table shop_catrgory(
 categoryId number(38) primary key,
