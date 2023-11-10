@@ -29,7 +29,7 @@ import com.team3web.shop.vo.ProductVO;
 import com.team3web.shop.vo.SellerVO;
 import com.team3web.shop.vo.UserVO;
 
-@Controller
+@Controller // 다들 고생하셨습니다
 public class AdminController {
 	
 	@Autowired
