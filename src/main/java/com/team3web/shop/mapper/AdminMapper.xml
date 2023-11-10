@@ -226,36 +226,36 @@
 	<!-- 공지 관련 -->
 	
 	<!-- 사용자 메인 최신공지 목록 5개 보기 -->
-	<select id="gonglist" resultType="GongjiVO">
+	<select id="gonglist" resultType="NoticeVO">
 		select * from (
 		select gno,gtitle,gdate
-		from shop_gongji order by gno desc)
+		from shop_notice order by gno desc)
 		where rownum &lt; 6
 	</select>
 
 
 	<!-- 공지 조회수 증가 -->
 	<update id="gonghit">
-		update shop_gongji set ghit=ghit+1
+		update shop_notice set ghit=ghit+1
 		where gno=#{gno}
 	</update>
 
 	<!-- 공지내용보기 -->
-	<select id="gongcont" resultType="GongjiVO">
-		select * from shop_gongji where gno=#{gno}
+	<select id="gongcont" resultType="NoticeVO">
+		select * from shop_notice where gno=#{gno}
 	</select>
 	
 	<!-- 공지사항 저장 -->
-	<insert id="in_gongji" parameterType="GongjiVO">
+	<insert id="in_gongji" parameterType="NoticeVO">
 		insert into
-		shop_gongji(gno,gname,gtitle,gpwd,gcont,ghit,gdate)
-		values(gongji_no_seq.nextval,#{gname},#{gtitle},#{gpwd},#{gcont},0,sysdate)
+		shop_notice(gno,gname,gtitle,gpwd,gcont,ghit,gdate)
+		values(notice_no_seq.nextval,#{gname},#{gtitle},#{gpwd},#{gcont},0,sysdate)
 	</insert>
 
 
 	<!-- 검색 전후 레코드 개수 -->
 	<select id="gongji_count" resultType="int">
-		select count(gno) from shop_gongji
+		select count(gno) from shop_notice
 		<where>
 			<if test="find_field == ''">
 				<!-- 검색조건이 없어서 총레코드 개수 -->
@@ -272,12 +272,12 @@
 
 
 	<!-- 검색전후 공지목록 -->
-	<select id="gongji_list" resultType="GongjiVO">
+	<select id="gongji_list" resultType="NoticeVO">
 		select * from
 		(select rowNum
 		rNum,gno,gname,gtitle,ghit,gdate
 		from
-		(select * from shop_gongji
+		(select * from shop_notice
 		<where>
 			<if test="find_field == ''"> <!-- 검색조건이 없어서 총레코드 개수 -->
 			</if>
@@ -296,21 +296,21 @@
 
 
 	<!-- 관리자 공지 내용+수정폼 -->
-	<select id="gongji_cont" resultType="GongjiVO">
-		select * from shop_gongji where gno=#{no}
+	<select id="gongji_cont" resultType="NoticeVO">
+		select * from shop_notice where gno=#{no}
 	</select>
 
 
 	<!-- 관리자 공지 수정 -->
 	<update id="gongji_edit">
-		update shop_gongji set gname=#{gname},
+		update shop_notice set gname=#{gname},
 		gtitle=#{gtitle},gcont=#{gcont}
 		where gno=#{gno}
 	</update>
 
 	<!-- 관리자 공지삭제 -->
 	<delete id="gongji_del">
-		delete from shop_gongji where gno=#{no}
+		delete from shop_notice where gno=#{no}
 	</delete>
 
 </mapper>

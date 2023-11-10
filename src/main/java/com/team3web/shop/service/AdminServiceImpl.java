@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.team3web.shop.dao.AdminDAO;
-import com.team3web.shop.vo.GongjiVO;
+import com.team3web.shop.vo.NoticeVO;
 import com.team3web.shop.vo.PageVO;
 import com.team3web.shop.vo.ProductVO;
 import com.team3web.shop.vo.SellerVO;
@@ -115,7 +115,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public void insertGongji(GongjiVO g) {
+	public void insertGongji(NoticeVO g) {
 		this.adminDAO.insertGongji(g);
 		
 	}
@@ -126,18 +126,18 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<GongjiVO> getGongjiList(PageVO p) {
+	public List<NoticeVO> getGongjiList(PageVO p) {
 		return adminDAO.getGongjiList(p);
 	}
 
 	@Override
-	public GongjiVO getGongjiCont(int no) {
+	public NoticeVO getGongjiCont(int no) {
 		
 		return this.adminDAO.getGongjiCont(no);
 	}
 
 	@Override
-	public void editGongji(GongjiVO g) {
+	public void editGongji(NoticeVO g) {
 		 this.adminDAO.editGongji(g);
 	}
 
@@ -147,7 +147,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public List<GongjiVO> getList() {
+	public List<NoticeVO> getList() {
 		return adminDAO.getList();
 	}
 

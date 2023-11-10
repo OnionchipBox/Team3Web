@@ -106,7 +106,8 @@ public class LoginController {
 	    oauthToken = naverLoginBO.getAccessToken(session, code, state);
 	    apiResult = naverLoginBO.getUserProfile(oauthToken);
 	    System.out.println("null값 2차 체크(oauth토큰) : "+oauthToken+"\t"+apiResult);
-
+	    
+	    if (oauthToken != null) {
 	        JSONParser parser = new JSONParser();
 	        Object obj = parser.parse(apiResult);
 	        JSONObject jsonObj = (JSONObject) obj;
@@ -135,6 +136,8 @@ public class LoginController {
 	        user.setBirthday(birthday);
 	        
 	        model.addAttribute("user", user);
+	        return "/user/login";
+	    }
 	        return "/user/registerInput";
 	}
 	// 10/18 작성 끝

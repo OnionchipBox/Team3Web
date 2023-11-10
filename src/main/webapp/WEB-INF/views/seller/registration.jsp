@@ -15,10 +15,16 @@
 <script>
 document.getElementById('sellerOK').addEventListener('click', function() {
     var successMessage = '${successMessage}';
-    if (successMessage === 'MessageOK') {
-        alert("등록되었습니다\n다시 로그인하세요");
+    if (successMessage) {
+        alert(successMessage);
     }
 });
+
+var errorMessage = '${errorMessage}';
+var successMessage = '${successMessage}';
+if (errorMessage === 'ErrorMessage') {
+	alert("이미 등록된 판매자 입니다");
+}
 </script>
 <style>
     /* 입력칸 스타일 */

@@ -13,6 +13,41 @@
 <link rel="stylesheet"
    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
+<script>
+function handlePageLoad() {
+    if (document.cookie.indexOf('popupShown=1') === -1 || !isPopupClosed()) {
+        openPopup();
+    }
+}
+
+window.onload = handlePageLoad;
+
+function openPopup() {
+    var popupFeatures = 'width=1080,height=1920,scrollbars=yes';
+    var popupWindow = window.open('', '_blank', popupFeatures);
+    var imageUrl = '<%=request.getContextPath()%>/resources/img/index/mainPopup.png';
+
+    popupWindow.document.write('<img src="' + imageUrl + '" alt="Popup Image">');
+    popupWindow.document.title = '배송 공지';
+
+    popupWindow.document.write('<input type="checkbox" id="hidePopupCheckbox">');
+    popupWindow.document.write('<label for="hidePopupCheckbox">하루 동안 보지 않기</label>');
+
+    var hidePopupCheckbox = popupWindow.document.getElementById('hidePopupCheckbox');
+
+    if (!hidePopupCheckbox.checked) {
+        var expiryDate = new Date();
+        expiryDate.setDate(expiryDate.getDate() + 1);
+        document.cookie = 'popupShown=1; expires=' + expiryDate.toUTCString() + '; path=/shop';
+    }
+}
+
+function isPopupClosed() {
+    return document.cookie.indexOf('popupShown=1') !== -1;
+}
+</script>
+
+
 <style>
   /* Scroll To Top Button Styles */
   #scroll-btn {

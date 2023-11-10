@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.team3web.shop.mapper.AdminMapper;
-import com.team3web.shop.vo.GongjiVO;
+import com.team3web.shop.vo.NoticeVO;
 import com.team3web.shop.vo.PageVO;
 import com.team3web.shop.vo.ProductVO;
 import com.team3web.shop.vo.SellerVO;
@@ -136,7 +136,7 @@ public class AdminDAOImpl implements AdminDAO {
 	// 공지 관련
 	
 	@Override
-	public void insertGongji(GongjiVO g) {
+	public void insertGongji(NoticeVO g) {
 		this.sqlSession.insert("in_gongji",g);
 	}
 
@@ -146,17 +146,17 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 
 	@Override
-	public List<GongjiVO> getGongjiList(PageVO p) {
+	public List<NoticeVO> getGongjiList(PageVO p) {
 		return sqlSession.selectList("gongji_list",p);
 	}
 
 	@Override
-	public GongjiVO getGongjiCont(int no) {
+	public NoticeVO getGongjiCont(int no) {
 		return this.sqlSession.selectOne("gongji_cont",no);
 	}
 
 	@Override
-	public void editGongji(GongjiVO g) {
+	public void editGongji(NoticeVO g) {
 		this.sqlSession.update("gongji_edit",g);			
 	}
 
@@ -166,7 +166,7 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 	
 	@Override
-	public List<GongjiVO> getList() {
+	public List<NoticeVO> getList() {
 		return sqlSession.selectList("gonglist");
 	}
 	

@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.team3web.shop.dao.AdminDAO;
 import com.team3web.shop.dao.LoginDAO;
 import com.team3web.shop.service.AdminService;
-import com.team3web.shop.vo.GongjiVO;
+import com.team3web.shop.vo.NoticeVO;
 import com.team3web.shop.vo.PageVO;
 import com.team3web.shop.vo.ProductVO;
 import com.team3web.shop.vo.SellerVO;
@@ -334,7 +334,7 @@ public class AdminController {
 
 		//관리자 공지 저장
 		@RequestMapping("/admin_gongji_write_ok")
-		public ModelAndView admin_gongji_write_ok(GongjiVO g,HttpSession session,
+		public ModelAndView admin_gongji_write_ok(NoticeVO g,HttpSession session,
 				HttpServletResponse response) throws Exception{
 			/* 네임 피라미터 이름과 빈클래스 변수명이 같으면 GongjiVO g에서 g객체에 이름,공지제목,비번,공지내용까지 
 			 * 저장되어 있다.
@@ -376,7 +376,7 @@ public class AdminController {
 			p.setStartrow((page-1)*7+1);//시작행번호
 			p.setEndrow(p.getStartrow()+limit-1);//끝행번호
 
-			List<GongjiVO> glist=this.adminService.getGongjiList(p);
+			List<NoticeVO> glist=this.adminService.getGongjiList(p);
 			//관리자 공지 검색 전후 목록
 
 			System.out.println("\n===>공지목록 개수: "+glist.size());
@@ -422,7 +422,7 @@ public class AdminController {
 
 			}
 
-			GongjiVO g=this.adminService.getGongjiCont(no);
+			NoticeVO g=this.adminService.getGongjiCont(no);
 			String g_cont=g.getGcont().replace("\n","<br/>");
 			//textarea영역에서 엔터키 친 부분을 다음줄로 줄바꿈
 
@@ -443,7 +443,7 @@ public class AdminController {
 
 		//관리자 공지 수정완료
 		@RequestMapping("/admin_gongji_edit_ok")
-		public ModelAndView admin_gongji_edit_ok(GongjiVO g,
+		public ModelAndView admin_gongji_edit_ok(NoticeVO g,
 				HttpServletRequest request,
 				HttpServletResponse response,HttpSession session)
 						throws Exception{

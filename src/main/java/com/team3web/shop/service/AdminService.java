@@ -3,7 +3,7 @@ package com.team3web.shop.service;
 import java.util.List;
 import java.util.Map;
 
-import com.team3web.shop.vo.GongjiVO;
+import com.team3web.shop.vo.NoticeVO;
 import com.team3web.shop.vo.PageVO;
 import com.team3web.shop.vo.ProductVO;
 import com.team3web.shop.vo.SellerVO;
@@ -53,19 +53,19 @@ public interface AdminService {
 	
 	// 공지 관련
 	
-	public void insertGongji(GongjiVO g);
+	public void insertGongji(NoticeVO g);
 
 	public int getListCount(PageVO p);
 
-	public List<GongjiVO> getGongjiList(PageVO p);
+	public List<NoticeVO> getGongjiList(PageVO p);
 
-	public GongjiVO getGongjiCont(int no);
+	public NoticeVO getGongjiCont(int no);
 
-	public void editGongji(GongjiVO g);
+	public void editGongji(NoticeVO g);
 
 	public void delGongji(int no);
 	
-	public List<GongjiVO> getList();
+	public List<NoticeVO> getList();
 
 //	public GongjiVO getGongjiCont(int gno);
 

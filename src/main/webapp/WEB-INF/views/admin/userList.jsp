@@ -91,6 +91,7 @@ function ForceUserDelete() {
                     <td>${user.verify}</td>
                     <td>
                     <!-- 회원 등급 수정 폼 -->
+                    <form action="<%=request.getContextPath()%>/userVerify" method="post" class="d-flex align-items-center">
                         <select name="userVerify">
                             <option value="USER" ${user.verify == 'USER' ? 'selected' : ''}>USER</option>
                             <option value="SELLER" ${user.verify == 'SELLER' ? 'selected' : ''}>SELLER</option>
@@ -98,8 +99,11 @@ function ForceUserDelete() {
                         <input type="hidden" name="userId" value="${user.username}" />
                         <span class="custom-margin"></span>
                         <input type="submit" value="변경" class="btn-outline-dark" onclick="showConfirmation();" />
+                        </form>
+                    <form action="<%=request.getContextPath()%>/userDelete" method="post">
                     <input type="hidden" name="userId" value="${user.username}" />
                     <input type="submit" value="회원 탈퇴" class="btn btn-danger" onclick="ForceUserDelete();" />
+                    </form>
                 </td>
                 </tr>
             </c:forEach>

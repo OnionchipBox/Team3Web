@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,19 +30,14 @@ public class SellerController {
 	private SellerService sellerService;
 	
 	@RequestMapping(value = "/seller/registration", method = RequestMethod.GET)
-	public String sellerRegistration(HttpSession session, HttpServletResponse response) throws IOException {
-		response.setContentType("text/html;charset=UTF-8");
-	    PrintWriter out = response.getWriter();
+	public String sellerRegistration(HttpSession session, RedirectAttributes redirectAttributes) throws IOException {
 		
 	    String id = (String) session.getAttribute("loggedInUserId");
 
 	    SellerVO existingSeller = sellerService.checkSellerId(id);
 	    
 	    if (existingSeller != null) {
-	    	out.println("<script>");
-            out.println("alert('이미 등록된 사용자 입니다');");
-            out.println("</script>");
-            out.flush();
+	    	redirectAttributes.addFlashAttribute("errorMessage", "ErrorMessage");
 	        return "redirect:/";
 	    }
 	    return "/seller/registration";
@@ -67,9 +63,11 @@ public class SellerController {
 	             seller.setSellerName(sellerName);
 	             seller.setSellerRegistrationNumber(sellerId);
 	             sellerService.insertSeller(seller);
-	             session.setAttribute("loggedInUserRole", "ROLE_SELLER");
 	             
-	             redirectAttributes.addFlashAttribute("successMessage", "MessageOK");
+	             SecurityContextHolder.clearContext();
+	 	    	 session.invalidate();
+	             
+	             redirectAttributes.addFlashAttribute("successMessage", "등록되었습니다, 다시 로그인해주세요");
 	             return "redirect:/";
 	         } else {
 	             System.out.println("id가 null입니다.");

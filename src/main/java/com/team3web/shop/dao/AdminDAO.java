@@ -3,7 +3,7 @@ package com.team3web.shop.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.team3web.shop.vo.GongjiVO;
+import com.team3web.shop.vo.NoticeVO;
 import com.team3web.shop.vo.PageVO;
 import com.team3web.shop.vo.ProductVO;
 import com.team3web.shop.vo.SellerVO;
@@ -53,19 +53,19 @@ public interface AdminDAO {
 	
 	// 공지 관련
 	
-	void insertGongji(GongjiVO g);
+	void insertGongji(NoticeVO g);
 
 	int getListCount(PageVO p);
 
-	List<GongjiVO> getGongjiList(PageVO p);
+	List<NoticeVO> getGongjiList(PageVO p);
 
-	GongjiVO getGongjiCont(int no);
+	NoticeVO getGongjiCont(int no);
 
-	void editGongji(GongjiVO g);
+	void editGongji(NoticeVO g);
 
 	void delGongji(int no);
 	
-	List<GongjiVO> getList();
+	List<NoticeVO> getList();
 
 	void updateHit(int gno);
 	

@@ -62,10 +62,12 @@ if (successMessage === 'VerifyMessageOK') {
                     <td>${seller.sellerCode}</td>
                     <td>
 					<!-- 판매자 관리 폼 -->
+					<form action="<%=request.getContextPath()%>/sellerDelete" method="post">
                      <input type="hidden" name="sellerId" value="${seller.username}" />
                      <input type="hidden" name="userVerify" value="${seller.verify}" />
                      <input type="hidden" name="sellerCode" value="${seller.sellerCode}" />
                     <input type="submit" value="업체 등록 해제" class="btn btn-danger" onclick="ForceSellerDelete();" />
+                    </form>
                 </td>
                 </tr>
             </c:forEach>

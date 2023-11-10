@@ -53,7 +53,7 @@
       </ol>
       <div class="carousel-inner">
          <div class="carousel-item active">
-            <img src="<%=request.getContextPath()%>/resources/img/accessory/display1.png"
+            <img src="<%=request.getContextPath()%>/Team3Web2/resources/img/accessory/display1.png"
                class="d-block w-100" alt="slider_image_1">
          </div>
          <div class="carousel-item">

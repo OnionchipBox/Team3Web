@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GongjiVO {
+public class NoticeVO {
 	
 	private int gno;
 	private String gname;
