@@ -23,23 +23,44 @@ function handlePageLoad() {
 window.onload = handlePageLoad;
 
 function openPopup() {
-    var popupFeatures = 'width=1080,height=1920,scrollbars=yes';
+	// 11/21 팝업창수정	
+	  var popupW = 600;
+	  var popupH = 500;
+	  var left = Math.ceil((window.screen.width - popupW)/2);
+	  var top = Math.ceil((window.screen.height - popupH)/2);
+	
+    //var popupFeatures = 'width=1080,height=1920,scrollbars=yes';
+    var popupFeatures = 'width='+popupW+',height='+popupH+',left='+left+',top='+top+',scrollbars=yes';
     var popupWindow = window.open('', '_blank', popupFeatures);
     var imageUrl = '<%=request.getContextPath()%>/resources/img/index/mainPopup.png';
-
-    popupWindow.document.write('<img src="' + imageUrl + '" alt="Popup Image">');
-    popupWindow.document.title = '배송 공지';
 
     popupWindow.document.write('<input type="checkbox" id="hidePopupCheckbox">');
     popupWindow.document.write('<label for="hidePopupCheckbox">하루 동안 보지 않기</label>');
 
+    
+    popupWindow.document.write('<img src="' + imageUrl + '" alt="Popup Image" style="width: 100%; height: auto; opacity: 0.7;">');
+    popupWindow.document.title = '배송 공지';
+
+    
     var hidePopupCheckbox = popupWindow.document.getElementById('hidePopupCheckbox');
 
-    if (!hidePopupCheckbox.checked) {
+   /*  if (!hidePopupCheckbox.checked) {
         var expiryDate = new Date();
         expiryDate.setDate(expiryDate.getDate() + 1);
         document.cookie = 'popupShown=1; expires=' + expiryDate.toUTCString() + '; path=/shop';
-    }
+    } */
+    
+ // 11/21 체크 여부에 따라 쿠키 저장하게 설정 
+    popupWindow.onbeforeunload = function () {
+        var hidePopupCheckbox = popupWindow.document.getElementById('hidePopupCheckbox');
+        if (hidePopupCheckbox.checked) {
+            var expiryDate = new Date();
+            expiryDate.setDate(expiryDate.getDate() + 1);
+            document.cookie = 'popupShown=1; expires=' + expiryDate.toUTCString() + '; path=/';
+        }
+    }; 
+    
+    
 }
 
 function isPopupClosed() {

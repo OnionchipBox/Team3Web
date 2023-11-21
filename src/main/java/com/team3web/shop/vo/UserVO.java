@@ -13,6 +13,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Repository;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -125,4 +126,13 @@ public class UserVO {
 			}
 		}
 	}
+	
+	
+	//====================setter/getter
+		
+	
+	
+	
+	
+	
 }
